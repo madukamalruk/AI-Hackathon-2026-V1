@@ -1,0 +1,419 @@
+AI Hackathon 2026
+30 more project ideas for a Jac + Jaseci build (graphs, walkers, by llm)
+How to read this
+These ideas are a second batch, chosen to avoid the most common hackathon picks (government-services navigator, study planner, farm advisor, disaster alert, shop chatbot). Every idea is shaped around the three things Jac does best: data as a graph, walkers that move through it, and by llm for reasoning and writing.
+Build effort and novelty are my own estimates, not measured. Market demand has not been verified.
+Rules to keep in mind (from the event documents)
+At least 80% of the code must be Jac.
+All coding happens during hacking hours; brainstorming beforehand is fine and repos are checked.
+Demo video and submission are due strictly by 5:30 PM; late entries cannot win.
+If you use mock or synthetic data, say so clearly. Misrepresenting a project means disqualification.
+Scoring: technical execution, use of Jac and Jaseci, creativity, depth of agentic behaviour, impact and novelty, and the demo video.
+What a strong idea needs
+A real graph, where relationships matter more than rows.
+A walker that makes visible decisions as it moves, ideally with a retry or self-check loop.
+A demo that changes on screen within 30 seconds.
+Scope that fits roughly 6.5 hours of real coding by three people.
+Quick comparison
+#
+Idea
+One-line pitch
+Effort
+Novelty
+1
+TransformerTwin
+Predictive maintenance agent for distribution transformers
+Med
+High
+2
+SolarSizer
+Rooftop solar and net-metering planner for households
+Low
+Med
+3
+PowerQualityTracer
+Finds the source of voltage sags and harmonics inside a factory
+Med
+High
+4
+NetlistDoctor
+Circuit and PCB netlist reviewer
+Med
+High
+5
+MigrationMapper
+Database schema change impact analyser
+Low
+Med
+6
+APIDriftWatch
+Detects breaking API changes and who they hurt
+Low
+Med
+7
+OnboardBuddy
+Turns any repo into a personalised learning path
+Med
+Med
+8
+TestGapHunter
+Finds untested critical code paths and writes the tests
+High
+Med
+9
+CloudCostCrawler
+Finds wasted cloud resources and explains why
+Low
+Med
+10
+InvoiceChaser
+Late-payment recovery agent for freelancers and SMEs
+Low
+Med
+11
+SupplierRiskMap
+Hidden single-point-of-failure finder for SME supply chains
+Med
+High
+12
+SkillMatch
+Explainable CV-to-role matching
+Low
+Med
+13
+MenuMath
+Menu engineering and ingredient-price-shock agent for restaurants
+Low
+Med
+14
+FreelanceScope
+Scope-creep detector for freelancers
+Low
+Med
+15
+MedInteract
+Household medicine interaction and schedule checker
+Med
+Med
+16
+AllergenGuard
+Allergy-safe substitution for canteens and restaurants
+Low
+Med
+17
+WorkSafeTrace
+Incident-to-root-cause agent for factories and construction sites
+Low
+High
+18
+BloodLink
+Blood donor and hospital matching
+Med
+Med
+19
+LabFault
+Fault-tree tutor for electronics lab circuits
+Low
+Med
+20
+ConceptBridge
+Cross-module concept connector for university courses
+Low
+Med
+21
+GradeAssist
+Rubric-based marking assistant for lecturers
+Med
+Med
+22
+CampusFlow
+Timetable and room clash resolver
+Med
+Med
+23
+PolicyDiff
+Plain-language impact tracker for new regulations
+Low
+Med
+24
+DonationRouter
+Matches donated goods to verified needs
+Med
+Med
+25
+VillageWater
+Rural water scheme fault and maintenance tracker
+Low
+High
+26
+CharityVerify
+Claim checker for fundraising appeals
+Med
+Med
+27
+RecipeRescue
+Cooks with whatever is left in your fridge
+Low
+Low
+28
+StoryWeaver
+Children's story generator with consistent characters
+Med
+Med
+29
+DebateCoach
+Argument-graph sparring partner
+Med
+Med
+30
+BalanceBot
+Game balance tester using simulated players
+Med
+High
+A. Electrical & Hardware
+1. TransformerTwin
+Predictive maintenance agent for distribution transformers
+Gap: Utilities lose transformers to overload and nobody sees the pattern until it fails.
+Graph: Substation → feeders → transformers → customers, with load history on each node.
+Agents and walkers: LoadWalker traces how an overload propagates downstream; DiagnosisAgent (by llm) reads sensor trends and explains the likely failure mode; PlannerAgent schedules inspections by risk.
+Demo: Replay a simulated heatwave day; transformers turn amber then red, and the agent ranks which to inspect first.
+Watch out: Use synthetic load profiles and say so.
+Effort / novelty: Med / High
+2. SolarSizer
+Rooftop solar and net-metering planner for households
+Gap: Households cannot tell what system size, battery and payback actually fit them.
+Graph: Appliances → daily load profile → roof area → panel/inverter options → tariff tiers.
+Agents and walkers: LoadWalker builds the household profile from a typed appliance list; SizingAgent compares options; ROIAgent explains payback in plain Sinhala/English.
+Demo: Type 'AC, fridge, 4 fans, water pump' and get 3 sizing options with a graph showing which appliances drive cost.
+Watch out: Tariff numbers must be labelled as assumptions.
+Effort / novelty: Low / Med
+3. PowerQualityTracer
+Finds the source of voltage sags and harmonics inside a factory
+Gap: Plants see equipment trip but cannot tell which machine caused the disturbance.
+Graph: Incomer → panels → motors/drives/loads, with event timestamps per node.
+Agents and walkers: TraceWalker walks upstream from the affected load matching event times; HypothesisAgent proposes causes (motor start, VFD harmonics, capacitor switching).
+Demo: Inject a sag at one drive; the walker lights the path back to the culprit.
+Watch out: Synthetic waveforms are fine; keep the maths simple.
+Effort / novelty: Med / High
+4. NetlistDoctor
+Circuit and PCB netlist reviewer
+Gap: Students and small hardware startups ship designs with floating pins, missing decoupling and wrong pull-ups.
+Graph: Components → pins → nets, parsed from a SPICE or KiCad netlist.
+Agents and walkers: ParserWalker builds the graph; ReviewWalker applies checks along nets; FixAgent (by llm) proposes a corrected connection with reasoning.
+Demo: Upload a flawed netlist; offending nets flash red with a suggested fix.
+Watch out: Restrict to one netlist format.
+Effort / novelty: Med / High
+B. Developer Tools
+5. MigrationMapper
+Database schema change impact analyser
+Gap: Changing a column breaks queries, reports and services nobody remembered.
+Graph: Tables → columns → queries/services that read them.
+Agents and walkers: ImpactWalker follows every reader of a changed column; RiskAgent scores each; MigrationAgent drafts a safe step-by-step migration.
+Demo: Rename a column in a sample schema and watch affected services light up.
+Watch out: Works on a sample schema; real data not needed.
+Effort / novelty: Low / Med
+6. APIDriftWatch
+Detects breaking API changes and who they hurt
+Gap: Teams publish an API change and find out which consumers broke from angry messages.
+Graph: Endpoints → versions → consumer apps → fields used.
+Agents and walkers: DiffWalker compares two OpenAPI specs; ConsumerWalker finds affected consumers; NoticeAgent writes a migration notice per consumer.
+Demo: Paste two spec versions, get a red map of broken consumers and tailored emails.
+Watch out: OpenAPI parsing is well-defined, so build risk is low.
+Effort / novelty: Low / Med
+7. OnboardBuddy
+Turns any repo into a personalised learning path
+Gap: New developers spend weeks learning which files matter.
+Graph: Repo files/functions → call and import edges → concepts.
+Agents and walkers: GuideWalker picks the shortest path to the part you must change; ExplainAgent explains each stop at your level.
+Demo: Point it at the Jac repo; ask 'how do walkers run?' and it walks you through files in order.
+Watch out: Pre-clone repos before the demo; avoid doing this during hacking hours without checking rules.
+Effort / novelty: Med / Med
+8. TestGapHunter
+Finds untested critical code paths and writes the tests
+Gap: Coverage numbers hide that the riskiest functions are never exercised.
+Graph: Functions → call edges → test coverage markers → change frequency.
+Agents and walkers: RiskWalker ranks critical untested nodes; TestAgent generates tests; ValidatorAgent runs them and retries on failure.
+Demo: A coverage heatmap graph turns green as the agent adds tests.
+Watch out: The run-and-retry loop is a strong agentic-depth demo.
+Effort / novelty: High / Med
+9. CloudCostCrawler
+Finds wasted cloud resources and explains why
+Gap: Startups pay for forgotten instances, orphaned volumes and idle databases.
+Graph: Resources → owners → dependencies → usage metrics.
+Agents and walkers: WasteWalker finds nodes with no inbound dependencies and low usage; SafetyAgent checks what would break if removed; SavingsAgent reports monthly savings.
+Demo: Sample cloud account shows dead nodes greyed out with a 'safe to delete' verdict.
+Watch out: Use a mock inventory and label it clearly.
+Effort / novelty: Low / Med
+C. Business & SME
+10. InvoiceChaser
+Late-payment recovery agent for freelancers and SMEs
+Gap: Small businesses lose cash because chasing payments is awkward and manual.
+Graph: Customers → invoices → payment history → relationship notes.
+Agents and walkers: RiskWalker predicts who will pay late; ToneAgent drafts a reminder that fits the relationship; EscalationAgent decides when to step up.
+Demo: Three late invoices get three very different messages.
+Watch out: Messages should be drafts a human sends.
+Effort / novelty: Low / Med
+11. SupplierRiskMap
+Hidden single-point-of-failure finder for SME supply chains
+Gap: A shop or small factory does not realise two suppliers depend on the same port or vendor.
+Graph: Products → ingredients/parts → suppliers → shipping routes.
+Agents and walkers: DependencyWalker finds shared upstream nodes; ScenarioAgent simulates a disruption; AlternativeAgent proposes backups.
+Demo: Trigger 'port delay' and watch affected products turn red.
+Watch out: Synthetic supply data is acceptable.
+Effort / novelty: Med / High
+12. SkillMatch
+Explainable CV-to-role matching
+Gap: Hiring tools return a score but cannot explain it, and small firms cannot read 200 CVs.
+Graph: Skills → related skills → roles → evidence in CV.
+Agents and walkers: ExtractorAgent pulls skills with evidence; MatchWalker traverses related-skill edges to credit near-matches; ExplainAgent justifies every score.
+Demo: Upload a CV; the graph shows why 'ROS' counts partly towards an embedded role.
+Watch out: Flag fairness limits; never auto-reject.
+Effort / novelty: Low / Med
+13. MenuMath
+Menu engineering and ingredient-price-shock agent for restaurants
+Gap: When rice or coconut prices spike, owners do not know which dishes still make money.
+Graph: Ingredients → dishes → cost → margin → popularity.
+Agents and walkers: PriceWalker propagates a price change through every dish; MenuAgent suggests substitutions, portion changes or price moves.
+Demo: Raise coconut price 40% and see which dishes lose margin.
+Watch out: Prices are inputs the user types, so no scraping needed.
+Effort / novelty: Low / Med
+14. FreelanceScope
+Scope-creep detector for freelancers
+Gap: Clients keep adding work that was never in the agreement.
+Graph: Contract deliverables → client requests → hours spent.
+Agents and walkers: ScopeWalker checks each new request against the agreed deliverables; QuoteAgent drafts a polite change-order with a price.
+Demo: Paste a chat with a client; out-of-scope requests are flagged with a drafted reply.
+Watch out: Related to contract-risk ideas, so differentiate on the live chat angle.
+Effort / novelty: Low / Med
+D. Health & Safety
+15. MedInteract
+Household medicine interaction and schedule checker
+Gap: Elderly people on several prescriptions get conflicting advice from different clinics.
+Graph: Medicines → active ingredients → interactions → timing rules.
+Agents and walkers: InteractionWalker finds conflicting pairs; ScheduleAgent builds a daily timetable; ExplainAgent writes simple warnings.
+Demo: Enter five medicines and see a conflict edge highlighted.
+Watch out: Strong disclaimer needed; it informs, never prescribes. Use a small verified interaction set.
+Effort / novelty: Med / Med
+16. AllergenGuard
+Allergy-safe substitution for canteens and restaurants
+Gap: Kitchens struggle to tell which dishes are safe for a given allergy and what to swap.
+Graph: Dishes → ingredients → allergens → substitutes.
+Agents and walkers: AllergenWalker traces hidden allergens through sub-recipes; SubstituteAgent proposes safe swaps that keep the taste.
+Demo: Select 'no nuts' and the whole menu recolours.
+Watch out: Use a small curated recipe set.
+Effort / novelty: Low / Med
+17. WorkSafeTrace
+Incident-to-root-cause agent for factories and construction sites
+Gap: Safety reports are filed but nobody links near-misses across sites.
+Graph: Incidents → equipment → locations → shifts → causes.
+Agents and walkers: PatternWalker links similar incidents; RootCauseAgent proposes a cause; ActionAgent drafts corrective actions.
+Demo: Five scattered near-misses reveal one faulty guard.
+Watch out: Synthetic reports only.
+Effort / novelty: Low / High
+18. BloodLink
+Blood donor and hospital matching
+Gap: Urgent blood requests spread over social media with no verification or compatibility check.
+Graph: Donors → blood types → compatibility → hospitals → last-donation dates.
+Agents and walkers: MatchWalker finds eligible nearby donors; OutreachAgent drafts personalised requests in Sinhala/Tamil; FollowUpAgent tracks replies.
+Demo: Request O-negative at a hospital and eligible donors appear on the graph.
+Watch out: Use fictional donors; do not store real personal data.
+Effort / novelty: Med / Med
+E. Education & Campus
+19. LabFault
+Fault-tree tutor for electronics lab circuits
+Gap: Students cannot debug a breadboard circuit that does not work.
+Graph: Symptoms → possible faults → measurements to take → conclusions.
+Agents and walkers: DiagnoseWalker asks the student to measure a node and moves to the next likeliest fault; HintAgent explains why.
+Demo: 'LED not lighting' leads to a guided path ending in a reversed diode.
+Watch out: Good fit for the venue; keep to a few circuits.
+Effort / novelty: Low / Med
+20. ConceptBridge
+Cross-module concept connector for university courses
+Gap: Students do not see that Fourier in signals, control and communications is the same idea.
+Graph: Concepts → modules → prerequisites → worked examples.
+Agents and walkers: BridgeWalker finds where a concept reappears; ExplainAgent builds an analogy between modules.
+Demo: Click 'convolution' and see it linked across four modules.
+Watch out: Education space is crowded, so lead with the cross-module angle.
+Effort / novelty: Low / Med
+21. GradeAssist
+Rubric-based marking assistant for lecturers
+Gap: Marking engineering assignments is slow and inconsistent.
+Graph: Rubric criteria → student answer sections → evidence.
+Agents and walkers: EvidenceWalker maps each rubric item to a passage; GraderAgent scores and justifies; ConsistencyAgent flags outliers.
+Demo: Mark three sample answers with explanations.
+Watch out: Lecturer approves final marks; keep humans in the loop.
+Effort / novelty: Med / Med
+22. CampusFlow
+Timetable and room clash resolver
+Gap: Universities juggle rooms, lecturers and exams by hand.
+Graph: Courses → lecturers → rooms → time slots → constraints.
+Agents and walkers: ConflictWalker finds clashes; NegotiatorAgent proposes the smallest change set; ExplainAgent tells affected people.
+Demo: Drag one lecture and watch the system repair the clash.
+Watch out: Classic constraint problem; keep to a small dataset.
+Effort / novelty: Med / Med
+F. Civic & Social
+23. PolicyDiff
+Plain-language impact tracker for new regulations
+Gap: People hear a new rule exists but not who it affects or what changes.
+Graph: Regulation clauses → affected groups → previous version → obligations.
+Agents and walkers: DiffWalker compares versions; ImpactAgent explains the effect per group (e.g. a small shop owner).
+Demo: Paste two versions of a rule and see who is affected.
+Watch out: Use public documents; present as summary, not legal advice.
+Effort / novelty: Low / Med
+24. DonationRouter
+Matches donated goods to verified needs
+Gap: After disasters, donations pile up in the wrong places.
+Graph: Donors → items → shelters/needs → routes → stock.
+Agents and walkers: NeedWalker finds the biggest unmet gaps; RouteAgent assigns pickups; UpdateAgent notifies donors.
+Demo: Add a donation of blankets and see it routed to the shelter that needs them.
+Watch out: Synthetic shelter data, labelled.
+Effort / novelty: Med / Med
+25. VillageWater
+Rural water scheme fault and maintenance tracker
+Gap: Community water schemes break down and nobody knows which part failed.
+Graph: Source → pump → tank → pipelines → households.
+Agents and walkers: FaultWalker traces which households lose water; MaintenanceAgent schedules repairs and drafts notices.
+Demo: Break a pump and see downstream households go dark.
+Watch out: Closely related to the feeder idea; good if the team likes network topology.
+Effort / novelty: Low / High
+26. CharityVerify
+Claim checker for fundraising appeals
+Gap: Donors cannot tell genuine appeals from scams.
+Graph: Charity → claims → documents → registrations → past campaigns.
+Agents and walkers: VerifyWalker cross-checks each claim; SkepticAgent flags inconsistencies; ReportAgent writes a trust summary.
+Demo: Paste an appeal and get a claim-by-claim check.
+Watch out: Use fictional organisations; avoid accusing real ones.
+Effort / novelty: Med / Med
+G. Consumer & Creative
+27. RecipeRescue
+Cooks with whatever is left in your fridge
+Gap: Food gets wasted because people cannot see what to make from random leftovers.
+Graph: Ingredients → recipes → substitutions → expiry dates.
+Agents and walkers: PantryWalker finds recipes using soon-to-expire items; SubstituteAgent fills gaps; PlannerAgent sequences meals.
+Demo: Enter five leftovers, get a three-day plan.
+Watch out: Fun, visual and low risk.
+Effort / novelty: Low / Low
+28. StoryWeaver
+Children's story generator with consistent characters
+Gap: Generated stories forget characters and contradict themselves.
+Graph: Characters → traits → relationships → plot events.
+Agents and walkers: ContinuityWalker checks every new paragraph against the story graph; WriterAgent drafts; CriticAgent rejects contradictions and retries.
+Demo: Story in Sinhala where a character's change in mood carries across chapters.
+Watch out: Test Sinhala quality tonight.
+Effort / novelty: Med / Med
+29. DebateCoach
+Argument-graph sparring partner
+Gap: Students cannot see where their argument is weak.
+Graph: Claims → evidence → rebuttals → assumptions.
+Agents and walkers: ArgumentWalker finds unsupported premises; OpponentAgent attacks the weakest node; CoachAgent suggests repairs.
+Demo: Paste an essay, watch weak nodes turn red, then debate it.
+Watch out: Strong demo of agents interacting.
+Effort / novelty: Med / Med
+30. BalanceBot
+Game balance tester using simulated players
+Gap: Indie game developers cannot afford playtesters to find overpowered items.
+Graph: Items → abilities → counters → win-rate edges.
+Agents and walkers: PlayerAgents play thousands of simulated matches; BalanceWalker finds dominant nodes; DesignAgent proposes nerfs.
+Demo: A rock-paper-scissors-style game gets rebalanced live.
+Watch out: Pure simulation, no data issues; keep the game tiny.
+Effort / novelty: Med / High

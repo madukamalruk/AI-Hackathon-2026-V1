@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.env.local
+
+# Jac
+.jac/
+__jac_gen__/
+*.jir
+*.jbc
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
