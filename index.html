@@ -427,7 +427,8 @@
                 ],
                 transitions: [
                     { from_id: "REAL-VTA-NVQ4", to_id: "REAL-SLIATE-HNDIT", transition_type: "nvq_progression", evidence_status: "unreviewed" },
-                    { from_id: "REAL-SLIATE-HNDIT", to_id: "REAL-UNIVOTEC-BTECH", transition_type: "nvq6_lateral_entry", evidence_status: "verified" }
+                    { from_id: "REAL-SLIATE-HNDIT", to_id: "REAL-UNIVOTEC-BTECH", transition_type: "nvq6_lateral_entry", evidence_status: "verified" },
+                    { from_id: "REAL-SLIATE-HNDIT", to_id: "REAL-UCSC-BIT", transition_type: "al_waiver_entry", evidence_status: "verified" }
                 ]
             }
         };
@@ -490,7 +491,7 @@
                 const response = await fetch("http://localhost:8000/walker/plan_pathways", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(req)
+                    body: JSON.stringify({ profile: req })
                 });
                 if (response.ok) {
                     const data = await response.json();

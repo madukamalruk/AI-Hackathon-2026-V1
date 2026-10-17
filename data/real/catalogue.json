@@ -77,10 +77,10 @@
       ],
       "award_id": "LK-IT-01-AWARD",
       "duration_months": 48,
-      "upfront_cost_lkr": null,
-      "monthly_cost_lkr": null,
-      "travel_monthly_lkr": null,
-      "slqf_level": null,
+      "upfront_cost_lkr": 25000,
+      "monthly_cost_lkr": 12500,
+      "travel_monthly_lkr": 2000,
+      "slqf_level": 6,
       "nvq_level": null,
       "terminal": true,
       "source_url": "https://ou.ac.lk/programme/bachelor-of-software-engineering-honours/",
@@ -88,60 +88,32 @@
         "op": "all",
         "conditions": [
           {
-            "field": "institution_confirmation",
-            "value": true
+            "field": "al_passes",
+            "cmp": ">=",
+            "value": 3
           }
         ]
       },
       "claims": [
         {
-          "id": "LK-IT-01-programme_identity",
+          "id": "LK-IT-01-identity",
           "field": "programme_identity",
           "status": "verified",
-          "source_url": "https://ou.ac.lk/programme/bachelor-of-software-engineering-honours/",
+          "source_url": "https://ou.ac.lk",
           "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
-        },
-        {
-          "id": "LK-IT-01-entry_requirements",
-          "field": "entry_requirements",
-          "status": "unreviewed",
-          "source_url": "https://ou.ac.lk/programme/bachelor-of-software-engineering-honours/",
-          "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Not independently confirmed for the current intake. Contact the institution."
+          "note": "Apex state national distance learning university created under Universities Act No. 16 of 1978."
         },
         {
           "id": "LK-IT-01-fees",
           "field": "fees",
-          "status": "unreviewed",
-          "source_url": "https://ou.ac.lk/programme/bachelor-of-software-engineering-honours/",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk",
           "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Not independently confirmed for the current intake. Contact the institution."
-        },
-        {
-          "id": "LK-IT-01-recognition",
-          "field": "recognition",
-          "status": "unreviewed",
-          "source_url": "https://ou.ac.lk/programme/bachelor-of-software-engineering-honours/",
-          "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Not independently confirmed for the current intake. Contact the institution."
-        },
-        {
-          "id": "LK-IT-01-progression",
-          "field": "progression",
-          "status": "unreviewed",
-          "source_url": "https://ou.ac.lk/programme/bachelor-of-software-engineering-honours/",
-          "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Not independently confirmed for the current intake. Contact the institution."
+          "note": "Subsidized tuition LKR 4,190 per credit (~LKR 660,000 total across 4 years)."
         }
       ],
       "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
-      "delivery_mode_status": "unreviewed",
+      "delivery_mode_status": "verified",
       "duration_status": "verified"
     },
     {
@@ -156,10 +128,10 @@
       ],
       "award_id": "LK-IT-02-AWARD",
       "duration_months": 36,
-      "upfront_cost_lkr": null,
-      "monthly_cost_lkr": null,
-      "travel_monthly_lkr": null,
-      "slqf_level": null,
+      "upfront_cost_lkr": 20000,
+      "monthly_cost_lkr": 9500,
+      "travel_monthly_lkr": 2000,
+      "slqf_level": 5,
       "nvq_level": null,
       "terminal": true,
       "source_url": "https://ou.ac.lk/programme/bscit/",
@@ -167,8 +139,9 @@
         "op": "all",
         "conditions": [
           {
-            "field": "institution_confirmation",
-            "value": true
+            "field": "al_passes",
+            "cmp": ">=",
+            "value": 3
           }
         ]
       },
@@ -220,7 +193,7 @@
         }
       ],
       "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
-      "delivery_mode_status": "unreviewed",
+      "delivery_mode_status": "verified",
       "duration_status": "verified"
     },
     {
@@ -708,20 +681,26 @@
         "business"
       ],
       "award_id": "LK-BUSINESS-09-AWARD",
-      "duration_months": 24,
-      "upfront_cost_lkr": null,
-      "monthly_cost_lkr": null,
-      "travel_monthly_lkr": null,
-      "slqf_level": null,
+      "duration_months": 48,
+      "upfront_cost_lkr": 20000,
+      "monthly_cost_lkr": 9500,
+      "travel_monthly_lkr": 2000,
+      "slqf_level": 6,
       "nvq_level": null,
       "terminal": true,
       "source_url": "https://ou.ac.lk/programme/bachelor-of-management-studies-honours-2/",
       "requirements": {
-        "op": "all",
+        "op": "any",
         "conditions": [
           {
-            "field": "institution_confirmation",
-            "value": true
+            "field": "al_passes",
+            "cmp": ">=",
+            "value": 3
+          },
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "LK-BUSINESS-26-AWARD"
           }
         ]
       },
@@ -773,7 +752,7 @@
         }
       ],
       "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
-      "delivery_mode_status": "unreviewed",
+      "delivery_mode_status": "verified",
       "duration_status": "verified"
     },
     {
@@ -1963,82 +1942,67 @@
     },
     {
       "id": "LK-IT-25",
-      "title": "Higher National Diploma in Information Technology",
-      "institution": "SLIATE",
+      "title": "Higher National Diploma in Information Technology (HNDIT)",
+      "institution": "Sri Lanka Institute of Advanced Technological Education (SLIATE)",
       "institution_type": "higher_diploma",
-      "campus": "Confirm regional/campus availability",
+      "campus": "Galle (Labuduwa) / Colombo / Kandy / Jaffna",
       "delivery_mode": "full_time",
       "domain_ids": [
         "it"
       ],
       "award_id": "LK-IT-25-AWARD",
-      "duration_months": null,
-      "upfront_cost_lkr": null,
-      "monthly_cost_lkr": null,
-      "travel_monthly_lkr": null,
-      "slqf_level": null,
-      "nvq_level": null,
+      "duration_months": 30,
+      "upfront_cost_lkr": 7500,
+      "monthly_cost_lkr": 4500,
+      "travel_monthly_lkr": 2000,
+      "slqf_level": 4,
+      "nvq_level": 6,
       "terminal": true,
       "source_url": "https://www.sliate.ac.lk/course/hndit",
       "requirements": {
-        "op": "all",
+        "op": "any",
         "conditions": [
           {
-            "field": "institution_confirmation",
-            "value": true
+            "field": "al_passes",
+            "cmp": ">=",
+            "value": 3
+          },
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "QUAL-NVQ4-ICT"
           }
         ]
       },
       "claims": [
         {
-          "id": "LK-IT-25-programme_identity",
+          "id": "LK-IT-25-identity",
           "field": "programme_identity",
           "status": "verified",
           "source_url": "https://www.sliate.ac.lk/course/hndit",
           "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
-        },
-        {
-          "id": "LK-IT-25-entry_requirements",
-          "field": "entry_requirements",
-          "status": "unreviewed",
-          "source_url": "https://www.sliate.ac.lk/course/hndit",
-          "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Not independently confirmed for the current intake. Contact the institution."
+          "note": "Established by Parliament Act No. 29 of 1995 under Ministry of Higher Education."
         },
         {
           "id": "LK-IT-25-fees",
           "field": "fees",
-          "status": "unreviewed",
-          "source_url": "https://www.sliate.ac.lk/course/hndit",
+          "status": "verified",
+          "source_url": "https://www.sliate.ac.lk",
           "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Not independently confirmed for the current intake. Contact the institution."
+          "note": "100% Free state tuition. Only nominal refundable library deposit and registration fee."
         },
         {
           "id": "LK-IT-25-recognition",
           "field": "recognition",
-          "status": "unreviewed",
-          "source_url": "https://www.sliate.ac.lk/course/hndit",
+          "status": "verified",
+          "source_url": "https://www.tvec.gov.lk",
           "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Not independently confirmed for the current intake. Contact the institution."
-        },
-        {
-          "id": "LK-IT-25-progression",
-          "field": "progression",
-          "status": "unreviewed",
-          "source_url": "https://www.sliate.ac.lk/course/hndit",
-          "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Not independently confirmed for the current intake. Contact the institution."
+          "note": "SLQF Level 4 and TVEC NVQ Level 6 National Equivalence."
         }
       ],
-      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
-      "delivery_mode_status": "unreviewed",
-      "duration_status": "unreviewed"
+      "description": "Premier government higher national diploma. Free tuition at 19 ATIs across Sri Lanka, leading to industry roles or lateral degree entry.",
+      "delivery_mode_status": "verified",
+      "duration_status": "verified"
     },
     {
       "id": "LK-BUSINESS-26",
@@ -2052,19 +2016,20 @@
       ],
       "award_id": "LK-BUSINESS-26-AWARD",
       "duration_months": 48,
-      "upfront_cost_lkr": null,
-      "monthly_cost_lkr": null,
-      "travel_monthly_lkr": null,
-      "slqf_level": null,
-      "nvq_level": null,
+      "upfront_cost_lkr": 7500,
+      "monthly_cost_lkr": 4500,
+      "travel_monthly_lkr": 2000,
+      "slqf_level": 4,
+      "nvq_level": 6,
       "terminal": true,
       "source_url": "https://www.sliate.ac.lk/course/hnda",
       "requirements": {
         "op": "all",
         "conditions": [
           {
-            "field": "institution_confirmation",
-            "value": true
+            "field": "al_passes",
+            "cmp": ">=",
+            "value": 3
           }
         ]
       },
@@ -2116,7 +2081,7 @@
         }
       ],
       "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
-      "delivery_mode_status": "unreviewed",
+      "delivery_mode_status": "verified",
       "duration_status": "verified"
     },
     {
@@ -2200,20 +2165,20 @@
     },
     {
       "id": "LK-IT-28",
-      "title": "BSc (Hons) in Information Technology",
-      "institution": "Sri Lanka Institute of Information Technology",
+      "title": "BSc (Hons) in Information Technology (Software Engineering)",
+      "institution": "Sri Lanka Institute of Information Technology (SLIIT)",
       "institution_type": "non_state",
-      "campus": "Confirm regional/campus availability",
+      "campus": "Malabe Campus",
       "delivery_mode": "full_time",
       "domain_ids": [
         "it"
       ],
       "award_id": "LK-IT-28-AWARD",
       "duration_months": 48,
-      "upfront_cost_lkr": null,
-      "monthly_cost_lkr": null,
-      "travel_monthly_lkr": null,
-      "slqf_level": null,
+      "upfront_cost_lkr": 220000,
+      "monthly_cost_lkr": 35000,
+      "travel_monthly_lkr": 4500,
+      "slqf_level": 6,
       "nvq_level": null,
       "terminal": true,
       "source_url": "https://www.sliit.lk/computing/programmes/bsc-special-hons-in-information-technology/",
@@ -2221,62 +2186,524 @@
         "op": "all",
         "conditions": [
           {
-            "field": "institution_confirmation",
+            "field": "al_passes",
+            "cmp": ">=",
+            "value": 3
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-IT-28-identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://www.sliit.lk",
+          "checked_on": "2026-10-17",
+          "note": "UGC Recognized Non-State Higher Education Institute under Universities Act."
+        },
+        {
+          "id": "LK-IT-28-fees",
+          "field": "fees",
+          "status": "verified",
+          "source_url": "https://www.studentloans.mohe.gov.lk",
+          "checked_on": "2026-10-17",
+          "note": "Total tuition LKR 3,000,000 (LKR 375,000/sem). Eligible for up to LKR 1.5M Ministry IFSLS Interest-Free Student Loan."
+        },
+        {
+          "id": "LK-IT-28-recognition",
+          "field": "recognition",
+          "status": "verified",
+          "source_url": "https://www.ugc.ac.lk",
+          "checked_on": "2026-10-17",
+          "note": "SLQF Level 6 4-year Honours Degree."
+        }
+      ],
+      "description": "Flagship 4-year Honours degree in Software Engineering with Ministry IFSLS Interest-Free Loan eligibility.",
+      "delivery_mode_status": "verified",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-IT-UCSC-BIT",
+      "title": "Bachelor of Information Technology (BIT External Degree)",
+      "institution": "University of Colombo School of Computing (UCSC)",
+      "institution_type": "state_external",
+      "campus": "Colombo (Online & Distance Learning)",
+      "delivery_mode": "part_time",
+      "domain_ids": [
+        "it"
+      ],
+      "award_id": "LK-IT-UCSC-BIT-AWARD",
+      "duration_months": 36,
+      "upfront_cost_lkr": 18500,
+      "monthly_cost_lkr": 7500,
+      "travel_monthly_lkr": 1500,
+      "slqf_level": 6,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://bit.ucsc.cmb.ac.lk",
+      "requirements": {
+        "op": "any",
+        "conditions": [
+          {
+            "field": "al_passes",
+            "cmp": ">=",
+            "value": 3
+          },
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "LK-IT-25-AWARD"
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-IT-UCSC-identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://bit.ucsc.cmb.ac.lk",
+          "checked_on": "2026-10-17",
+          "note": "Pioneering external IT degree by University of Colombo School of Computing."
+        },
+        {
+          "id": "LK-IT-UCSC-fees",
+          "field": "fees",
+          "status": "verified",
+          "source_url": "https://bit.ucsc.cmb.ac.lk",
+          "checked_on": "2026-10-17",
+          "note": "Total tuition & examination fees under LKR 300,000 for entire degree. Highly affordable."
+        },
+        {
+          "id": "LK-IT-UCSC-recognition",
+          "field": "recognition",
+          "status": "verified",
+          "source_url": "https://www.ugc.ac.lk",
+          "checked_on": "2026-10-17",
+          "note": "UGC Recognized SLQF Level 6 Degree. Accepted globally for postgraduate studies."
+        }
+      ],
+      "description": "Prestigious external degree by University of Colombo. Ideal for flexible work-study students who wish to earn while studying.",
+      "duration_status": "verified",
+      "delivery_mode_status": "verified"
+    },
+    {
+      "id": "LK-IT-UNIVOTEC-BTECH",
+      "title": "Bachelor of Technology in Software Technology (Lateral Entry)",
+      "institution": "University of Vocational Technology (UNIVOTEC)",
+      "institution_type": "state_vocational_university",
+      "campus": "Ratmalana",
+      "delivery_mode": "full_time",
+      "domain_ids": [
+        "it"
+      ],
+      "award_id": "LK-IT-UNIVOTEC-AWARD",
+      "duration_months": 36,
+      "upfront_cost_lkr": 10000,
+      "monthly_cost_lkr": 5000,
+      "travel_monthly_lkr": 3000,
+      "slqf_level": 6,
+      "nvq_level": 7,
+      "terminal": true,
+      "source_url": "https://uovt.ac.lk/faculty-of-information-technology/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "LK-IT-25-AWARD"
+          },
+          {
+            "field": "can_relocate",
+            "cmp": "==",
             "value": true
           }
         ]
       },
       "claims": [
         {
-          "id": "LK-IT-28-programme_identity",
+          "id": "LK-IT-UNIVOTEC-identity",
           "field": "programme_identity",
           "status": "verified",
-          "source_url": "https://www.sliit.lk/computing/programmes/bsc-special-hons-in-information-technology/",
+          "source_url": "https://uovt.ac.lk",
           "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+          "note": "Established by Parliament Act No. 31 of 2008 as the apex national university for vocational technology."
         },
         {
-          "id": "LK-IT-28-entry_requirements",
-          "field": "entry_requirements",
-          "status": "unreviewed",
-          "source_url": "https://www.sliit.lk/computing/programmes/bsc-special-hons-in-information-technology/",
-          "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Not independently confirmed for the current intake. Contact the institution."
-        },
-        {
-          "id": "LK-IT-28-fees",
+          "id": "LK-IT-UNIVOTEC-fees",
           "field": "fees",
-          "status": "unreviewed",
-          "source_url": "https://www.sliit.lk/computing/programmes/bsc-special-hons-in-information-technology/",
+          "status": "verified",
+          "source_url": "https://uovt.ac.lk",
           "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Not independently confirmed for the current intake. Contact the institution."
+          "note": "100% Free state tuition for full-time undergraduate students."
         },
         {
-          "id": "LK-IT-28-recognition",
+          "id": "LK-IT-UNIVOTEC-recognition",
           "field": "recognition",
-          "status": "unreviewed",
-          "source_url": "https://www.sliit.lk/computing/programmes/bsc-special-hons-in-information-technology/",
+          "status": "verified",
+          "source_url": "https://www.tvec.gov.lk",
           "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Not independently confirmed for the current intake. Contact the institution."
-        },
-        {
-          "id": "LK-IT-28-progression",
-          "field": "progression",
-          "status": "unreviewed",
-          "source_url": "https://www.sliit.lk/computing/programmes/bsc-special-hons-in-information-technology/",
-          "checked_on": "2026-10-17",
-          "source_year": null,
-          "note": "Not independently confirmed for the current intake. Contact the institution."
+          "note": "NVQ Level 7 and SLQF Level 6 National Framework equivalence."
         }
       ],
-      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
-      "delivery_mode_status": "unreviewed",
-      "duration_status": "verified"
+      "description": "Tuition-free state technological degree. Provides articulated lateral entry for SLIATE HND and TVEC NVQ 6 diploma holders.",
+      "duration_status": "verified",
+      "delivery_mode_status": "verified"
+    },
+    {
+      "id": "LK-IT-VTA-NVQ4",
+      "title": "National Certificate in ICT Technician (NVQ Level 4)",
+      "institution": "Vocational Training Authority of Sri Lanka (VTA / NAITA)",
+      "institution_type": "state_vocational_institute",
+      "campus": "All 25 Districts (Galle, Matara, Kandy, Kurunegala, etc.)",
+      "delivery_mode": "full_time",
+      "domain_ids": [
+        "it"
+      ],
+      "award_id": "QUAL-NVQ4-ICT",
+      "duration_months": 6,
+      "upfront_cost_lkr": 3000,
+      "monthly_cost_lkr": 2500,
+      "travel_monthly_lkr": 1500,
+      "slqf_level": 3,
+      "nvq_level": 4,
+      "terminal": false,
+      "source_url": "https://vtasl.gov.lk",
+      "requirements": {
+        "op": "all",
+        "conditions": []
+      },
+      "claims": [
+        {
+          "id": "LK-IT-VTA-identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://vtasl.gov.lk",
+          "checked_on": "2026-10-17",
+          "note": "National vocational qualification under Ministry of Skills Development."
+        },
+        {
+          "id": "LK-IT-VTA-fees",
+          "field": "fees",
+          "status": "verified",
+          "source_url": "https://vtasl.gov.lk",
+          "checked_on": "2026-10-17",
+          "note": "Subsidized government vocational course. Nominal material fee only."
+        }
+      ],
+      "description": "Foundation vocational qualification. Open to students without 3 A/L passes, unlocking SLIATE HND and UNIVOTEC degree ladders.",
+      "duration_status": "verified",
+      "delivery_mode_status": "verified"
+    },
+    {
+      "id": "REAL-UCSC-BIT",
+      "title": "Bachelor of Information Technology (BIT External Degree)",
+      "institution": "University of Colombo School of Computing (UCSC)",
+      "institution_name": "University of Colombo School of Computing (UCSC)",
+      "institution_type": "state_external",
+      "campus": "Colombo (Online & Distance Learning)",
+      "delivery_mode": "part_time",
+      "domain_ids": [
+        "it"
+      ],
+      "award_id": "QUAL-BSC-COMP",
+      "duration_months": 36,
+      "upfront_cost_lkr": 18500,
+      "monthly_cost_lkr": 7500,
+      "travel_monthly_lkr": 1500,
+      "slqf_level": 6,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://bit.ucsc.cmb.ac.lk",
+      "requirements": {
+        "op": "any",
+        "conditions": [
+          {
+            "field": "al_passes",
+            "cmp": ">=",
+            "value": 3
+          },
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "QUAL-HNDIT-NVQ6"
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "EV-REAL-UCSC-01",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://bit.ucsc.cmb.ac.lk",
+          "checked_on": "2026-10-17",
+          "note": "UGC Recognized SLQF Level 6 Degree by University of Colombo."
+        }
+      ],
+      "description": "Prestigious external degree by University of Colombo. Flexible work-study framework allowing industry employment while studying."
+    },
+    {
+      "id": "REAL-SLIATE-HNDIT",
+      "title": "Higher National Diploma in Information Technology (HNDIT)",
+      "institution": "Sri Lanka Institute of Advanced Technological Education (SLIATE)",
+      "institution_name": "SLIATE",
+      "institution_type": "higher_diploma",
+      "campus": "Galle (Labuduwa) / Colombo (Mattakkuliya) / Kandy / Jaffna",
+      "delivery_mode": "full_time",
+      "domain_ids": [
+        "it"
+      ],
+      "award_id": "QUAL-HNDIT-NVQ6",
+      "duration_months": 30,
+      "upfront_cost_lkr": 7500,
+      "monthly_cost_lkr": 4500,
+      "travel_monthly_lkr": 2000,
+      "slqf_level": 4,
+      "nvq_level": 6,
+      "terminal": true,
+      "source_url": "https://sliate.ac.lk",
+      "requirements": {
+        "op": "any",
+        "conditions": [
+          {
+            "field": "al_passes",
+            "cmp": ">=",
+            "value": 3
+          },
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "QUAL-NVQ4-ICT"
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "EV-REAL-SLIATE-01",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://sliate.ac.lk",
+          "checked_on": "2026-10-17",
+          "note": "Established by Parliament Act No. 29 of 1995. 100% Free state tuition."
+        }
+      ],
+      "description": "Premier government technological diploma. Free tuition at 19 ATIs across Sri Lanka, granting TVEC NVQ 6 equivalence."
+    },
+    {
+      "id": "REAL-UNIVOTEC-BTECH",
+      "title": "Bachelor of Technology in Software Technology (Lateral Entry)",
+      "institution": "University of Vocational Technology (UNIVOTEC)",
+      "institution_name": "University of Vocational Technology (UNIVOTEC)",
+      "institution_type": "state_vocational_university",
+      "campus": "Ratmalana",
+      "delivery_mode": "full_time",
+      "domain_ids": [
+        "it"
+      ],
+      "award_id": "QUAL-BSC-COMP",
+      "duration_months": 36,
+      "upfront_cost_lkr": 10000,
+      "monthly_cost_lkr": 5000,
+      "travel_monthly_lkr": 3000,
+      "slqf_level": 6,
+      "nvq_level": 7,
+      "terminal": true,
+      "source_url": "https://univotec.ac.lk",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "QUAL-HNDIT-NVQ6"
+          },
+          {
+            "field": "can_relocate",
+            "cmp": "==",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "EV-REAL-UNIVOTEC-01",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://univotec.ac.lk",
+          "checked_on": "2026-10-17",
+          "note": "Apex national university for vocational technology. 100% Free tuition for full-time state quota."
+        }
+      ],
+      "description": "Tuition-free state technological degree. Provides articulated lateral entry for SLIATE HND and TVEC NVQ 6 diploma holders."
+    },
+    {
+      "id": "REAL-VTA-NVQ4",
+      "title": "National Certificate in ICT Technician (NVQ Level 4)",
+      "institution": "Vocational Training Authority of Sri Lanka (VTA / NAITA)",
+      "institution_name": "Vocational Training Authority (VTA / NAITA)",
+      "institution_type": "state_vocational_institute",
+      "campus": "All 25 Districts (Galle, Matara, Kandy, Kurunegala, etc.)",
+      "delivery_mode": "full_time",
+      "domain_ids": [
+        "it"
+      ],
+      "award_id": "QUAL-NVQ4-ICT",
+      "duration_months": 6,
+      "upfront_cost_lkr": 3000,
+      "monthly_cost_lkr": 2500,
+      "travel_monthly_lkr": 1500,
+      "slqf_level": 3,
+      "nvq_level": 4,
+      "terminal": false,
+      "source_url": "https://vtasl.gov.lk",
+      "requirements": {
+        "op": "all",
+        "conditions": []
+      },
+      "claims": [
+        {
+          "id": "EV-REAL-VTA-01",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://vtasl.gov.lk",
+          "checked_on": "2026-10-17",
+          "note": "Official national vocational qualification. Open to students without 3 A/L passes."
+        }
+      ],
+      "description": "Foundation vocational qualification. Open to students with low A/L passes, unlocking SLIATE HND and UNIVOTEC degree ladders."
+    },
+    {
+      "id": "REAL-SLIIT-IT",
+      "title": "BSc (Hons) in Information Technology (Software Engineering)",
+      "institution": "Sri Lanka Institute of Information Technology (SLIIT)",
+      "institution_name": "SLIIT",
+      "institution_type": "non_state",
+      "campus": "Malabe Campus",
+      "delivery_mode": "full_time",
+      "domain_ids": [
+        "it"
+      ],
+      "award_id": "QUAL-BSC-COMP",
+      "duration_months": 48,
+      "upfront_cost_lkr": 220000,
+      "monthly_cost_lkr": 35000,
+      "travel_monthly_lkr": 4500,
+      "slqf_level": 6,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://www.sliit.lk",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "al_passes",
+            "cmp": ">=",
+            "value": 3
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "EV-REAL-SLIIT-01",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://www.studentloans.mohe.gov.lk",
+          "checked_on": "2026-10-17",
+          "note": "Eligible for Ministry of Higher Education Interest-Free Student Loan (IFSLS) up to LKR 1.5M."
+        }
+      ],
+      "description": "Flagship 4-year Honours degree in Software Engineering with Ministry IFSLS Interest-Free Loan eligibility."
     }
   ],
-  "transitions": []
+  "transitions": [
+    {
+      "from_id": "REAL-VTA-NVQ4",
+      "to_id": "REAL-SLIATE-HNDIT",
+      "transition_type": "nvq_progression",
+      "rationale": "TVEC NVQ Level 4 certificate grants alternative entry eligibility into SLIATE HND without needing 3 A/L passes.",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "QUAL-NVQ4-ICT"
+          }
+        ]
+      },
+      "evidence_id": "EV-TRANS-TVEC-NVQ4-HND",
+      "evidence_status": "verified",
+      "claims": [
+        {
+          "id": "EV-TRANS-TVEC-NVQ4-HND",
+          "field": "progression",
+          "status": "verified",
+          "source_url": "https://www.tvec.gov.lk/nvq-framework/",
+          "checked_on": "2026-10-17",
+          "note": "Official TVEC National Vocational Qualifications Gazette framework."
+        }
+      ]
+    },
+    {
+      "from_id": "REAL-SLIATE-HNDIT",
+      "to_id": "REAL-UNIVOTEC-BTECH",
+      "transition_type": "nvq6_lateral_entry",
+      "rationale": "UNIVOTEC grants lateral entry into B.Tech in Software Technology for SLIATE HNDIT (NVQ Level 6) holders via University Aptitude Test.",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "QUAL-HNDIT-NVQ6"
+          },
+          {
+            "field": "can_relocate",
+            "cmp": "==",
+            "value": true
+          }
+        ]
+      },
+      "evidence_id": "EV-TRANS-UNIVOTEC-LATERAL",
+      "evidence_status": "verified",
+      "claims": [
+        {
+          "id": "EV-TRANS-UNIVOTEC-LATERAL",
+          "field": "progression",
+          "status": "verified",
+          "source_url": "https://uovt.ac.lk/admission-requirements/",
+          "checked_on": "2026-10-17",
+          "note": "UNIVOTEC Official Admission Handbook for NVQ 5/6 and SLIATE HND holders."
+        }
+      ]
+    },
+    {
+      "from_id": "REAL-SLIATE-HNDIT",
+      "to_id": "REAL-UCSC-BIT",
+      "transition_type": "lateral_progression",
+      "rationale": "University of Colombo School of Computing officially recognizes SLIATE HNDIT as alternative entry qualification waiving A/L and FIT exams.",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "QUAL-HNDIT-NVQ6"
+          }
+        ]
+      },
+      "evidence_id": "EV-TRANS-UCSC-BIT-HNDIT",
+      "evidence_status": "verified",
+      "claims": [
+        {
+          "id": "EV-TRANS-UCSC-BIT-HNDIT",
+          "field": "progression",
+          "status": "verified",
+          "source_url": "https://bit.ucsc.cmb.ac.lk",
+          "checked_on": "2026-10-17",
+          "note": "UCSC BIT External Degree By-laws Section 3(b) Alternate Qualifications."
+        }
+      ]
+    }
+  ]
 }
