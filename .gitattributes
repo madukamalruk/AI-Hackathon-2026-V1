@@ -8,6 +8,8 @@
 *.ps1 linguist-vendored
 *.zip linguist-vendored
 *.txt linguist-vendored
+*.json linguist-vendored
+data/** linguist-vendored
 
 # Explicitly ensure Jac is prioritized and counted
 *.jac linguist-detectable=true

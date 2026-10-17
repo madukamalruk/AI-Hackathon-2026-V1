@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniPath LK — Higher Education Pathway Navigator</title>
+    <title>UniPath LK — Multi-Step Education Route Planner</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,643 +20,933 @@
         }
         #network-canvas {
             width: 100%;
-            height: 380px;
+            height: 360px;
             background: #ffffff;
             border-radius: 6px;
-        }
-        input[type="range"] {
-            accent-color: #0f172a;
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased">
 
-    <!-- Header -->
-    <header class="bg-white border-b border-slate-200 px-6 py-4">
+    <!-- Honest Mode & Planner Status Banner -->
+    <div id="top-mode-banner" class="bg-slate-900 text-white px-6 py-2 text-xs">
+        <div class="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <span id="banner-catalogue-badge" class="font-mono font-semibold bg-amber-400 text-slate-950 px-2 py-0.5 rounded text-[11px]">
+                    DEMO FIXTURE MODE
+                </span>
+                <span id="banner-desc" class="text-slate-300">
+                    Showing deterministic fictional fixture (84,000 direct vs 54,000 3-step oracle). Switch to Real IT Catalogue for verified Sri Lankan sources.
+                </span>
+            </div>
+            <div class="flex items-center gap-4 font-mono text-[11px]">
+                <span>Planner: <strong id="banner-planner-mode" class="text-amber-300">rules_fallback</strong></span>
+                <span>Revision: <strong id="banner-revision">v1</strong></span>
+                <span>API: <strong id="banner-api-mode">local_engine</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="bg-white border-b border-slate-200 px-6 py-3.5">
         <div class="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded bg-slate-900 text-white flex items-center justify-center font-semibold text-sm">
                     U
                 </div>
                 <div>
-                    <div class="flex items-center gap-2.5">
+                    <div class="flex items-center gap-2">
                         <h1 class="text-base font-semibold text-slate-900">UniPath LK</h1>
-                        <span class="text-xs font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Jac v0.16.7 OSP</span>
+                        <span class="text-xs font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                            4-Lens OSP Graph
+                        </span>
                     </div>
-                    <p class="text-xs text-slate-500">Post-A/L Accredited Higher Education & Lateral Pathway Navigator</p>
+                    <p class="text-xs text-slate-500">Multi-step post-A/L route search with three-valued logic & monthly cash-flow validation</p>
                 </div>
             </div>
 
-            <!-- System Status Metrics -->
-            <div class="flex items-center gap-6 text-xs text-slate-600">
-                <div>
-                    <span class="text-slate-400">Engine:</span>
-                    <span id="session-tag" class="font-mono font-medium text-slate-800 ml-1">LOCAL OSP ENGINE</span>
-                </div>
-                <div>
-                    <span class="text-slate-400">Constraint Violations:</span>
-                    <span class="font-mono font-medium text-emerald-700 ml-1">0%</span>
-                </div>
-                <div>
-                    <span class="text-slate-400">UGC/TVEC Verified:</span>
-                    <span class="font-mono font-medium text-slate-800 ml-1">100%</span>
-                </div>
-                <div>
-                    <span class="text-slate-400">Latency:</span>
-                    <span id="latency-badge" class="font-mono font-medium text-slate-800 ml-1">0.12s</span>
-                </div>
+            <!-- Catalogue Switcher & Quick Demo Beats -->
+            <div class="flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-slate-500 font-medium mr-1">Demo Scenarios:</span>
+                <button onclick="loadScenario('beat2_conflict')" class="bg-slate-900 text-white px-3 py-1.5 rounded font-medium transition">
+                    1. Low Savings (LKR 2,000)
+                </button>
+                <button onclick="loadScenario('beat3_rich')" class="bg-white text-slate-700 hover:bg-slate-50 border border-slate-300 px-3 py-1.5 rounded font-medium transition">
+                    2. High Savings (LKR 24,000)
+                </button>
+                <button onclick="loadScenario('beat6_real')" class="bg-white text-slate-700 hover:bg-slate-50 border border-slate-300 px-3 py-1.5 rounded font-medium transition">
+                    3. Real SL IT Catalogue
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Preset Student Profiles Bar -->
-    <div class="bg-slate-100/80 border-b border-slate-200 px-6 py-2.5">
-        <div class="max-w-[1440px] mx-auto flex items-center gap-2 overflow-x-auto text-xs">
-            <span class="text-slate-500 font-medium whitespace-nowrap mr-1">Test Profiles:</span>
-            <button onclick="loadProfile('TP-1', this)" class="profile-btn bg-slate-900 text-white font-medium px-3 py-1 rounded border border-slate-900 whitespace-nowrap transition">
-                TP-1: Dinuka (Galle · Deadlock Bridge)
-            </button>
-            <button onclick="loadProfile('TP-2', this)" class="profile-btn bg-white text-slate-700 hover:bg-slate-50 px-3 py-1 rounded border border-slate-300 whitespace-nowrap transition">
-                TP-2: Kaveesha (Bio · IFSLS Loan)
-            </button>
-            <button onclick="loadProfile('TP-3', this)" class="profile-btn bg-white text-slate-700 hover:bg-slate-50 px-3 py-1 rounded border border-slate-300 whitespace-nowrap transition">
-                TP-3: Sithum (Tech · UNIVOTEC)
-            </button>
-            <button onclick="loadProfile('TP-4', this)" class="profile-btn bg-white text-slate-700 hover:bg-slate-50 px-3 py-1 rounded border border-slate-300 whitespace-nowrap transition">
-                TP-4: Fathima (Commerce · Commute)
-            </button>
-            <button onclick="loadProfile('TP-5', this)" class="profile-btn bg-white text-slate-700 hover:bg-slate-50 px-3 py-1 rounded border border-slate-300 whitespace-nowrap transition">
-                TP-5: Ravindu (1 Pass · NVQ Ladder)
-            </button>
-            <button onclick="loadProfile('TP-6', this)" class="profile-btn bg-white text-slate-700 hover:bg-slate-50 px-3 py-1 rounded border border-slate-300 whitespace-nowrap transition">
-                TP-6: Anuki (Bio · NCoE Teaching)
-            </button>
-            <button onclick="loadProfile('TP-7', this)" class="profile-btn bg-white text-slate-700 hover:bg-slate-50 px-3 py-1 rounded border border-slate-300 whitespace-nowrap transition">
-                TP-7: Tharindu (High Z · Scholarship)
-            </button>
-            <button onclick="loadProfile('TP-8', this)" class="profile-btn bg-white text-slate-700 hover:bg-slate-50 px-3 py-1 rounded border border-slate-300 whitespace-nowrap transition">
-                TP-8: Nipuna (Arts · IT Transition)
-            </button>
-        </div>
-    </div>
-
-    <!-- Main Workspace -->
+    <!-- Main 3-Column Workspace -->
     <main class="flex-1 max-w-[1440px] w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        <!-- Left Column: Student Profile & Constraints (3 Cols) -->
+        <!-- Left Column: Profile Form, Clarifying Question & Stress Test (3 Cols) -->
         <div class="lg:col-span-3 space-y-4">
+
+            <!-- Pending Clarification Question Card (Agentic Moment) -->
+            <div id="question-card" class="hidden bg-amber-50 border border-amber-300 rounded-lg p-4 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-mono font-semibold uppercase text-amber-900 bg-amber-200/70 px-2 py-0.5 rounded">
+                        Planner Action: ask_student
+                    </span>
+                    <span class="text-[11px] font-mono text-amber-800" id="question-field-tag">field: can_relocate</span>
+                </div>
+                <div>
+                    <div id="question-prompt" class="text-xs font-semibold text-slate-900">
+                        Can you relocate or commute to Colombo for the final-year degree stage?
+                    </div>
+                    <p id="question-reason" class="text-xs text-slate-600 mt-1">
+                        The final-year Top-Up stage is delivered in Colombo and currently evaluates to unknown.
+                    </p>
+                </div>
+                <div class="flex items-center gap-2 pt-1">
+                    <button onclick="answerQuestion(true)" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white text-xs font-medium py-2 rounded transition">
+                        Yes, I can relocate
+                    </button>
+                    <button onclick="answerQuestion(false)" class="flex-1 bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs font-medium py-2 rounded transition">
+                        No (Galle only)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Student Profile Form -->
             <div class="bg-white border border-slate-200 rounded-lg p-5">
                 <h2 class="text-sm font-semibold text-slate-900 mb-4 pb-2 border-b border-slate-100">
-                    Student Profile & Constraints
+                    Student Profile & Inputs
                 </h2>
 
                 <div class="space-y-3.5 text-xs">
                     <div>
-                        <label for="input-name" class="block text-slate-600 font-medium mb-1">Student Name</label>
-                        <input id="input-name" type="text" value="Dinuka Lakshan" class="w-full bg-white border border-slate-300 rounded px-3 py-2 text-slate-900 focus:outline-none focus:border-slate-900">
+                        <label for="input-catalogue" class="block text-slate-600 font-medium mb-1">Catalogue Dataset</label>
+                        <select id="input-catalogue" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-2.5 py-2 text-slate-900 font-medium focus:outline-none focus:border-slate-900">
+                            <option value="demo">DEMO Fixture (data/demo/catalogue.json)</option>
+                            <option value="real">REAL IT Set (data/real/catalogue.json)</option>
+                        </select>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label for="input-stream" class="block text-slate-600 font-medium mb-1">A/L Stream</label>
-                            <select id="input-stream" class="w-full bg-white border border-slate-300 rounded px-2.5 py-2 text-slate-900 focus:outline-none focus:border-slate-900">
-                                <option value="Physical Science">Physical Science</option>
-                                <option value="Bio Science">Bio Science</option>
-                                <option value="Technology">Technology</option>
-                                <option value="Commerce">Commerce</option>
-                                <option value="Arts">Arts</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="input-z" class="block text-slate-600 font-medium mb-1">Z-Score</label>
-                            <input id="input-z" type="number" step="0.01" value="1.12" class="w-full bg-white border border-slate-300 rounded px-3 py-2 text-slate-900 font-mono focus:outline-none focus:border-slate-900">
-                        </div>
+                    <div>
+                        <label for="input-goal" class="block text-slate-600 font-medium mb-1">Career Goal</label>
+                        <input id="input-goal" type="text" value="Software Engineer" class="w-full bg-white border border-slate-300 rounded px-3 py-2 text-slate-900 focus:outline-none focus:border-slate-900">
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label for="input-passes" class="block text-slate-600 font-medium mb-1">A/L Passes (0–3)</label>
-                            <input id="input-passes" type="number" min="0" max="3" value="3" class="w-full bg-white border border-slate-300 rounded px-3 py-2 text-slate-900 font-mono focus:outline-none focus:border-slate-900">
+                            <input id="input-passes" type="number" min="0" max="3" value="3" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-3 py-2 text-slate-900 font-mono focus:outline-none focus:border-slate-900">
                         </div>
                         <div>
                             <label for="input-district" class="block text-slate-600 font-medium mb-1">Home District</label>
-                            <select id="input-district" class="w-full bg-white border border-slate-300 rounded px-2.5 py-2 text-slate-900 focus:outline-none focus:border-slate-900">
+                            <select id="input-district" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-2.5 py-2 text-slate-900 focus:outline-none focus:border-slate-900">
                                 <option value="Galle">Galle</option>
                                 <option value="Colombo">Colombo</option>
-                                <option value="Gampaha">Gampaha</option>
                                 <option value="Kandy">Kandy</option>
-                                <option value="Kurunegala">Kurunegala</option>
-                                <option value="Matara">Matara</option>
                                 <option value="Jaffna">Jaffna</option>
-                                <option value="Kalutara">Kalutara</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label for="input-savings" class="block text-slate-600 font-medium mb-1">Initial Savings (LKR)</label>
+                            <input id="input-savings" type="number" step="1000" value="2000" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-3 py-2 text-slate-900 font-mono focus:outline-none focus:border-slate-900">
+                        </div>
+                        <div>
+                            <label for="input-budget" class="block text-slate-600 font-medium mb-1">Monthly Budget (LKR)</label>
+                            <input id="input-budget" type="number" step="500" value="5000" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-3 py-2 text-slate-900 font-mono focus:outline-none focus:border-slate-900">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label for="input-relocate" class="block text-slate-600 font-medium mb-1">Can Relocate?</label>
+                            <select id="input-relocate" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-2.5 py-2 text-slate-900 focus:outline-none focus:border-slate-900">
+                                <option value="null" selected>Unknown (null)</option>
+                                <option value="true">Yes (true)</option>
+                                <option value="false">No (false)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="input-maths" class="block text-slate-600 font-medium mb-1">A/L Maths Credit</label>
+                            <select id="input-maths" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-2.5 py-2 text-slate-900 focus:outline-none focus:border-slate-900">
+                                <option value="false" selected>No (false)</option>
+                                <option value="true">Yes (true)</option>
                             </select>
                         </div>
                     </div>
 
                     <div>
-                        <label for="input-career" class="block text-slate-600 font-medium mb-1">Target Career</label>
-                        <input id="input-career" type="text" value="Software Engineer" class="w-full bg-white border border-slate-300 rounded px-3 py-2 text-slate-900 focus:outline-none focus:border-slate-900">
+                        <label for="input-mode" class="block text-slate-600 font-medium mb-1">Preferred Study Mode</label>
+                        <select id="input-mode" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-2.5 py-2 text-slate-900 focus:outline-none focus:border-slate-900">
+                            <option value="any" selected>Any Mode (Full-time or Part-time)</option>
+                            <option value="full_time">Full-Time Only</option>
+                            <option value="part_time">Part-Time / External Only</option>
+                        </select>
                     </div>
 
-                    <!-- Monthly Budget Slider -->
-                    <div class="pt-1">
-                        <div class="flex justify-between items-center mb-1">
-                            <label for="input-budget" class="text-slate-600 font-medium">Monthly Family Budget</label>
-                            <span class="text-slate-900 font-semibold font-mono" id="budget-display">LKR 25,000</span>
-                        </div>
-                        <input id="input-budget" type="range" min="10000" max="120000" step="2500" value="25000" oninput="updateBudgetSlider(this.value)" class="w-full cursor-pointer">
-                        <div class="flex justify-between text-[11px] text-slate-400 mt-0.5">
-                            <span>10k</span>
-                            <span>60k</span>
-                            <span>120k</span>
-                        </div>
+                    <div class="pt-2 space-y-2">
+                        <button onclick="recomputePlan()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-2.5 rounded transition text-xs">
+                            Recompute Routes
+                        </button>
+                        <button onclick="triggerStressTest()" class="w-full bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-medium py-2 rounded transition text-xs">
+                            Run Stress Test (Travel +40%, +6m Delay)
+                        </button>
                     </div>
-
-                    <!-- Commute Toggle -->
-                    <div class="bg-slate-50 p-3 rounded border border-slate-200 flex items-center justify-between">
-                        <div>
-                            <div class="font-medium text-slate-800">Commute from Home</div>
-                            <div class="text-[11px] text-slate-500">Eliminates hostel/boarding cost</div>
-                        </div>
-                        <input id="input-commute" type="checkbox" onchange="runCouncil()" class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900 cursor-pointer">
-                    </div>
-
-                    <button onclick="runCouncil()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-2.5 rounded transition text-xs mt-2">
-                        Evaluate Pathways
-                    </button>
                 </div>
-            </div>
-
-            <!-- Dynamic Bridge Notice -->
-            <div id="metamorphosis-alert" class="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                <div class="text-xs font-semibold text-amber-900">Dynamic Lateral Bridge Synthesized</div>
-                <p class="text-xs text-amber-800 mt-1 leading-relaxed">
-                    Direct state intake cutoff and private campus boarding budgets were not met. <strong>BridgeSynthesizer</strong> injected an accredited lateral transfer node (<span class="font-mono">SYNTH-SLIATE-BIT-BRIDGE</span>) into the graph.
-                </p>
             </div>
         </div>
 
-        <!-- Center Column: Graph Topology & Spatial Blackboard (5 Cols) -->
+        <!-- Center Column: Graph Projection & Per-Node Lens Findings (5 Cols) -->
         <div class="lg:col-span-5 space-y-4">
             <div class="bg-white border border-slate-200 rounded-lg p-5">
                 <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
                     <div>
-                        <h2 class="text-sm font-semibold text-slate-900">Object-Spatial Pathway Graph</h2>
-                        <p class="text-xs text-slate-500">Select any course node to inspect agent critiques on its blackboard</p>
+                        <h2 class="text-sm font-semibold text-slate-900">Catalogue Graph Projection</h2>
+                        <p class="text-xs text-slate-500">Click any offering node to inspect its 4 Lens findings & evidence</p>
                     </div>
                     <div class="flex items-center gap-3 text-[11px] text-slate-600">
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-600 inline-block"></span> Feasible</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-rose-600 inline-block"></span> Deficit</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500 inline-block"></span> Bridge</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-600 inline-block"></span> Feasible</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500 inline-block"></span> Unknown/Unreviewed</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-rose-600 inline-block"></span> Blocked</span>
                     </div>
                 </div>
 
                 <div id="network-canvas" class="border border-slate-200"></div>
             </div>
 
-            <!-- Spatial Blackboard Inspector -->
+            <!-- Request-Scoped Lens Findings Inspector -->
             <div class="bg-white border border-slate-200 rounded-lg p-5">
                 <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
-                    <h3 class="text-xs font-semibold text-slate-900">
-                        Node Blackboard: <span id="blackboard-title" class="font-mono text-slate-700">SLIATE-HNDIT-GALLE</span>
-                    </h3>
-                    <span id="blackboard-status" class="text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
-                        FEASIBLE
-                    </span>
+                    <div>
+                        <h3 class="text-xs font-semibold text-slate-900">
+                            Node Inspector: <span id="inspector-node-id" class="font-mono text-slate-700">DEMO-DIRECT-DEG</span>
+                        </h3>
+                        <p id="inspector-node-subtitle" class="text-[11px] text-slate-500 mt-0.5">Metro School of Computing · Colombo</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="inspector-evidence-badge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-300">
+                            evidence: fixture
+                        </span>
+                    </div>
                 </div>
-                <div id="blackboard-critiques" class="space-y-2.5 text-xs">
-                    <!-- Populated by JS -->
+
+                <div id="inspector-findings" class="space-y-2 text-xs">
+                    <!-- Populated dynamically -->
                 </div>
             </div>
         </div>
 
-        <!-- Right Column: 3 Ranked Decision Pillars (4 Cols) -->
+        <!-- Right Column: Candidate Route Cards & Excluded Options (4 Cols) -->
         <div class="lg:col-span-4 space-y-4">
             <div class="bg-white border border-slate-200 rounded-lg p-5">
-                <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-100">
-                    <h2 class="text-sm font-semibold text-slate-900">Ranked Pathway Recommendations</h2>
-                    <span class="text-[11px] text-slate-500 font-mono">2-Stage Verified</span>
+                <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
+                    <h2 class="text-sm font-semibold text-slate-900">Evaluated Route Candidates</h2>
+                    <span class="text-[11px] font-mono text-slate-500" id="route-count-badge">2 routes</span>
                 </div>
 
-                <div id="pathways-container" class="space-y-3.5">
-                    <!-- Populated by JS -->
+                <div id="routes-container" class="space-y-3.5">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Why Options Were Excluded / Blocked -->
+            <div class="bg-white border border-slate-200 rounded-lg p-5">
+                <h3 class="text-xs font-semibold text-slate-900 mb-2.5 pb-2 border-b border-slate-100">
+                    Why Options Were Excluded / Blocked
+                </h3>
+                <div id="excluded-container" class="space-y-2 text-xs text-slate-600">
+                    <!-- Populated dynamically -->
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- Bottom Details Section -->
+    <!-- Bottom Drawer: Decision Events Log & Stress Test Deltas -->
     <section class="max-w-[1440px] w-full mx-auto px-6 pb-10">
         <div class="bg-white border border-slate-200 rounded-lg p-5">
-            <!-- Tabs -->
             <div class="flex items-center gap-6 border-b border-slate-200 pb-3 text-xs">
-                <button onclick="switchTab('tab-decision-log')" id="btn-tab-decision-log" class="tab-btn text-slate-900 font-semibold border-b-2 border-slate-900 pb-3 -mb-3.5">
-                    Walker Audit Log
+                <button onclick="switchTab('tab-events')" id="btn-tab-events" class="tab-btn text-slate-900 font-semibold border-b-2 border-slate-900 pb-3 -mb-3.5">
+                    Decision Events & Backtracking Log
                 </button>
-                <button onclick="switchTab('tab-min-change')" id="btn-tab-min-change" class="tab-btn text-slate-500 hover:text-slate-800 pb-3 -mb-3.5">
-                    Sensitivity & Minimum Change
+                <button onclick="switchTab('tab-stress')" id="btn-tab-stress" class="tab-btn text-slate-500 hover:text-slate-800 pb-3 -mb-3.5">
+                    Stress Test Deltas (Travel +40% & +6m Delay)
                 </button>
-                <button onclick="switchTab('tab-action-plan')" id="btn-tab-action-plan" class="tab-btn text-slate-500 hover:text-slate-800 pb-3 -mb-3.5">
-                    5-Step Action Checklist
-                </button>
-                <button onclick="switchTab('tab-baseline')" id="btn-tab-baseline" class="tab-btn text-slate-500 hover:text-slate-800 pb-3 -mb-3.5">
-                    Baseline Comparison
+                <button onclick="switchTab('tab-oracle')" id="btn-tab-oracle" class="tab-btn text-slate-500 hover:text-slate-800 pb-3 -mb-3.5">
+                    Honest Metrics & Test Oracle (T01–T13)
                 </button>
             </div>
 
-            <!-- Tab 1: Audit Log -->
-            <div id="tab-decision-log" class="tab-content pt-4 font-mono text-xs text-slate-700 space-y-1.5 max-h-56 overflow-y-auto">
+            <!-- Tab 1: Decision Events -->
+            <div id="tab-events" class="tab-content pt-4 font-mono text-xs text-slate-700 space-y-1.5 max-h-56 overflow-y-auto">
             </div>
 
-            <!-- Tab 2: Minimum Change Finder -->
-            <div id="tab-min-change" class="tab-content hidden pt-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                    <div class="bg-slate-50 p-4 rounded border border-slate-200">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="font-semibold text-slate-900">SLIIT BSc (Hons) Software Engineering (IFSLS Loan)</span>
-                            <span class="text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded font-mono text-[10px]">REJECTED ON BOARDING</span>
-                        </div>
-                        <p class="text-slate-600 mb-3">
-                            Reason for rejection: Urban Colombo boarding expenses (LKR 38,000/month) exceed the current family monthly allowance.
-                        </p>
-                        <div class="bg-white border border-slate-200 p-3 rounded mb-3">
-                            <div class="text-slate-900 font-semibold mb-0.5">Minimum Parameter Adjustment:</div>
-                            <div class="text-slate-600">Switch from urban hostel boarding to commuting from home (saves LKR 24,000/month) or increase monthly budget by LKR 4,500.</div>
-                        </div>
-                        <button onclick="applyHomeCommute()" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded transition font-medium">
-                            Apply Home Commute Adjustment
-                        </button>
-                    </div>
-
-                    <div class="bg-slate-50 p-4 rounded border border-slate-200">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="font-semibold text-slate-900">UCSC BIT External Degree (Parallel Progression)</span>
-                            <span class="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded font-mono text-[10px]">FEASIBLE NOW</span>
-                        </div>
-                        <p class="text-slate-600 mb-3">
-                            100% compliant with current family monthly allowance and upfront savings constraints.
-                        </p>
-                        <div class="bg-white border border-slate-200 p-3 rounded text-slate-600">
-                            Annual tuition is LKR 85,000 with flexible weekend/online study compatible with SLIATE HNDIT or part-time employment.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tab 3: 5-Step Action Plan -->
-            <div id="tab-action-plan" class="tab-content hidden pt-4">
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-3" id="action-plan-list">
-                </div>
-            </div>
-
-            <!-- Tab 4: Baseline Comparison -->
-            <div id="tab-baseline" class="tab-content hidden pt-4">
+            <!-- Tab 2: Stress Test Deltas -->
+            <div id="tab-stress" class="tab-content hidden pt-4">
+                <p class="text-xs text-slate-500 mb-3">
+                    Absolute cash-flow and duration deltas under +40% travel cost increase and a 6-month academic delay (no fabricated survival probabilities):
+                </p>
                 <div class="overflow-x-auto text-xs">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
-                                <th class="py-2.5 px-3 font-medium">Evaluation Dimension</th>
-                                <th class="py-2.5 px-3 font-medium">Static SQL / Rule Filter</th>
-                                <th class="py-2.5 px-3 font-semibold text-slate-900">UniPath LK (Jac Object-Spatial Graph)</th>
+                            <tr class="border-b border-slate-200 bg-slate-50 text-slate-600">
+                                <th class="py-2 px-3 font-medium">Route</th>
+                                <th class="py-2 px-3 font-medium">Base Cost</th>
+                                <th class="py-2 px-3 font-medium">Stressed Cost</th>
+                                <th class="py-2 px-3 font-medium">Cost Delta</th>
+                                <th class="py-2 px-3 font-medium">Shortfall Delta</th>
+                                <th class="py-2 px-3 font-medium">Duration Delta</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-200 text-slate-700">
-                            <tr>
-                                <td class="py-2.5 px-3 font-medium">Multi-Step Lateral Progression</td>
-                                <td class="py-2.5 px-3 text-slate-500">Unsupported (evaluates single isolated courses only)</td>
-                                <td class="py-2.5 px-3 text-slate-900 font-medium">Traverses SLIATE HNDIT (NVQ 6) to UCSC BIT / UNIVOTEC lateral bridges</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2.5 px-3 font-medium">Educational Deadlock Handling</td>
-                                <td class="py-2.5 px-3 text-slate-500">Returns empty result set when Z-score and budget conflict</td>
-                                <td class="py-2.5 px-3 text-slate-900 font-medium">BridgeSynthesizer dynamically injects accredited lateral bridge nodes</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2.5 px-3 font-medium">Living Cost & IFSLS Loan Modeling</td>
-                                <td class="py-2.5 px-3 text-slate-500">Compares headline tuition fees only</td>
-                                <td class="py-2.5 px-3 text-slate-900 font-medium">Models Colombo vs Outstation vs Home Commute + LKR 1.8M IFSLS subsidy</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2.5 px-3 font-medium">Economic Stress Testing</td>
-                                <td class="py-2.5 px-3 text-slate-500">None</td>
-                                <td class="py-2.5 px-3 text-slate-900 font-medium">GhostWalker simulates 4-year inflation, delays, and Year 2 internship income</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2.5 px-3 font-medium">Sensitivity Analysis</td>
-                                <td class="py-2.5 px-3 text-slate-500">Binary rejection without remediation</td>
-                                <td class="py-2.5 px-3 text-slate-900 font-medium">MinimumChangeFinder computes exact parameter delta to unlock rejected courses</td>
-                            </tr>
+                        <tbody id="stress-table-body" class="divide-y divide-slate-200 font-mono">
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Tab 3: Honest Metrics & Oracle -->
+            <div id="tab-oracle" class="tab-content hidden pt-4 text-xs text-slate-700 space-y-2">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-50 p-3.5 rounded border border-slate-200">
+                        <div class="font-semibold text-slate-900 mb-1">Constraint Violations</div>
+                        <div class="font-mono text-sm font-bold text-emerald-700">0 of N feasible routes</div>
+                        <p class="text-slate-500 text-[11px] mt-1">Blocked routes are explicitly marked red with exact shortfall or missing prerequisite.</p>
+                    </div>
+                    <div class="bg-slate-50 p-3.5 rounded border border-slate-200">
+                        <div class="font-semibold text-slate-900 mb-1">Fixture Oracle (T05)</div>
+                        <div class="font-mono text-sm font-bold text-slate-900">84,000 / -22,000 vs 54,000 / 0</div>
+                        <p class="text-slate-500 text-[11px] mt-1">Direct route requires 22,000 extra upfront at 2,000 savings; 3-step route has 0 shortfall.</p>
+                    </div>
+                    <div class="bg-slate-50 p-3.5 rounded border border-slate-200">
+                        <div class="font-semibold text-slate-900 mb-1">Evidence Coverage (Real Set)</div>
+                        <div class="font-mono text-sm font-bold text-slate-900">4 verified / 1 unreviewed</div>
+                        <p class="text-slate-500 text-[11px] mt-1">Unreviewed transitions are honestly flagged amber as needs_confirmation.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <script>
-        const testProfiles = {
-            "TP-1": { name: "Dinuka Lakshan", stream: "Physical Science", z: 1.12, passes: 3, budget: 25000, district: "Galle", career: "Software Engineer", commute: false },
-            "TP-2": { name: "Kaveesha Perera", stream: "Bio Science", z: 1.35, passes: 3, budget: 55000, district: "Gampaha", career: "Biomedical Scientist", commute: false },
-            "TP-3": { name: "Sithum Bandara", stream: "Technology", z: 0.85, passes: 3, budget: 15000, district: "Kurunegala", career: "Automation Engineer", commute: false },
-            "TP-4": { name: "Fathima Rameez", stream: "Commerce", z: 1.20, passes: 3, budget: 30000, district: "Colombo", career: "Software Engineer", commute: true },
-            "TP-5": { name: "Ravindu Fernando", stream: "Physical Science", z: 0.45, passes: 1, budget: 12000, district: "Matara", career: "Full Stack Developer", commute: false },
-            "TP-6": { name: "Anuki Jayasinghe", stream: "Bio Science", z: 1.40, passes: 3, budget: 18000, district: "Kandy", career: "Government STEM Teacher", commute: false },
-            "TP-7": { name: "Tharindu Sivalingam", stream: "Physical Science", z: 1.65, passes: 3, budget: 15000, district: "Jaffna", career: "AI Engineer", commute: false },
-            "TP-8": { name: "Nipuna Senanayake", stream: "Arts", z: 1.10, passes: 3, budget: 35000, district: "Kalutara", career: "Software Engineer", commute: false }
+        // Embedded Catalogues (identical to data/demo/catalogue.json and data/real/catalogue.json for offline fallback)
+        const CATALOGUES = {
+            demo: {
+                offerings: [
+                    {
+                        id: "DEMO-DIRECT-DEG", title: "BSc in Computing (Direct Entry)",
+                        institution_name: "Metro School of Computing (Fixture)", campus: "Colombo", delivery_mode: "full_time",
+                        goal: "Software Engineer", award_id: "QUAL-BSC-COMP", slqf_level: 6, nvq_level: null,
+                        duration_months: 12, upfront_cost_lkr: 24000, monthly_cost_lkr: 5000, travel_monthly_lkr: 1500,
+                        evidence_status: "fixture", evidence_id: "EV-DEMO-01", source_url: "fixture://demo-metro/bsc-direct",
+                        requirements: { op: "all", conditions: [{ field: "al_passes", cmp: ">=", value: 3 }] }
+                    },
+                    {
+                        id: "DEMO-FOUNDATION", title: "Certificate in Computing Foundation",
+                        institution_name: "Regional Technical College (Fixture)", campus: "Galle", delivery_mode: "full_time",
+                        goal: "Software Engineer", award_id: "QUAL-FOUNDATION", slqf_level: 3, nvq_level: 4,
+                        duration_months: 4, upfront_cost_lkr: 2000, monthly_cost_lkr: 4000, travel_monthly_lkr: 1000,
+                        evidence_status: "fixture", evidence_id: "EV-DEMO-02", source_url: "fixture://demo-regional/foundation",
+                        requirements: { op: "all", conditions: [{ field: "al_passes", cmp: ">=", value: 1 }] }
+                    },
+                    {
+                        id: "DEMO-DIPLOMA", title: "Higher Diploma in Software Systems",
+                        institution_name: "Regional Technical College (Fixture)", campus: "Galle", delivery_mode: "full_time",
+                        goal: "Software Engineer", award_id: "QUAL-DIPLOMA", slqf_level: 4, nvq_level: 6,
+                        duration_months: 4, upfront_cost_lkr: 2000, monthly_cost_lkr: 4000, travel_monthly_lkr: 1000,
+                        evidence_status: "fixture", evidence_id: "EV-DEMO-03", source_url: "fixture://demo-regional/diploma",
+                        requirements: { op: "all", conditions: [{ field: "qualification", cmp: "has", value: "QUAL-FOUNDATION" }] }
+                    },
+                    {
+                        id: "DEMO-TOPUP", title: "BSc in Computing (Final Year Top-Up)",
+                        institution_name: "Metro School of Computing (Fixture)", campus: "Colombo", delivery_mode: "part_time",
+                        goal: "Software Engineer", award_id: "QUAL-BSC-COMP", slqf_level: 6, nvq_level: null,
+                        duration_months: 4, upfront_cost_lkr: 2000, monthly_cost_lkr: 4000, travel_monthly_lkr: 1500,
+                        evidence_status: "fixture", evidence_id: "EV-DEMO-04", source_url: "fixture://demo-metro/topup",
+                        requirements: { op: "all", conditions: [{ field: "qualification", cmp: "has", value: "QUAL-DIPLOMA" }, { field: "can_relocate", cmp: "==", value: true }] }
+                    },
+                    {
+                        id: "DEMO-HONOURS-SPEC", title: "BSc Honours in AI Systems (Requires Maths Credit)",
+                        institution_name: "Metro School of Computing (Fixture)", campus: "Colombo", delivery_mode: "full_time",
+                        goal: "Software Engineer", award_id: "QUAL-BSC-COMP", slqf_level: 6, nvq_level: null,
+                        duration_months: 6, upfront_cost_lkr: 10000, monthly_cost_lkr: 4500, travel_monthly_lkr: 1500,
+                        evidence_status: "fixture", evidence_id: "EV-DEMO-05", source_url: "fixture://demo-metro/ai-honours",
+                        requirements: { op: "all", conditions: [{ field: "qualification", cmp: "has", value: "QUAL-DIPLOMA" }, { field: "has_maths_credit", cmp: "==", value: true }] }
+                    }
+                ],
+                transitions: [
+                    { from_id: "DEMO-FOUNDATION", to_id: "DEMO-DIPLOMA", transition_type: "progression", evidence_status: "fixture" },
+                    { from_id: "DEMO-DIPLOMA", to_id: "DEMO-TOPUP", transition_type: "lateral_topup", evidence_status: "fixture" },
+                    { from_id: "DEMO-DIPLOMA", to_id: "DEMO-HONOURS-SPEC", transition_type: "specialist_transfer", evidence_status: "fixture" }
+                ]
+            },
+            real: {
+                offerings: [
+                    {
+                        id: "REAL-UCSC-BIT", title: "Bachelor of Information Technology (BIT External)",
+                        institution_name: "University of Colombo School of Computing (UCSC)", campus: "Colombo", delivery_mode: "part_time",
+                        goal: "Software Engineer", award_id: "QUAL-BSC-COMP", slqf_level: 6, nvq_level: null,
+                        duration_months: 36, upfront_cost_lkr: 15000, monthly_cost_lkr: 8500, travel_monthly_lkr: 2500,
+                        evidence_status: "verified", evidence_id: "EV-REAL-UCSC-01", source_url: "https://bit.ucsc.cmb.ac.lk",
+                        requirements: { op: "all", conditions: [{ field: "al_passes", cmp: ">=", value: 3 }] }
+                    },
+                    {
+                        id: "REAL-UOM-BIT", title: "Bachelor of Information Technology (UoM CODL External)",
+                        institution_name: "University of Moratuwa (CODL)", campus: "Moratuwa", delivery_mode: "part_time",
+                        goal: "Software Engineer", award_id: "QUAL-BSC-COMP", slqf_level: 6, nvq_level: null,
+                        duration_months: 36, upfront_cost_lkr: 28000, monthly_cost_lkr: 9500, travel_monthly_lkr: 2500,
+                        evidence_status: "verified", evidence_id: "EV-REAL-UOM-01", source_url: "https://codl.uom.lk",
+                        requirements: { op: "all", conditions: [{ field: "al_passes", cmp: ">=", value: 3 }, { field: "has_maths_credit", cmp: "==", value: true }] }
+                    },
+                    {
+                        id: "REAL-VTA-NVQ4", title: "National Certificate in ICT Technician (NVQ Level 4)",
+                        institution_name: "Vocational Training Authority (VTA / NAITA)", campus: "Galle", delivery_mode: "full_time",
+                        goal: "Software Engineer", award_id: "QUAL-NVQ4-ICT", slqf_level: null, nvq_level: 4,
+                        duration_months: 12, upfront_cost_lkr: 2000, monthly_cost_lkr: 4000, travel_monthly_lkr: 1500,
+                        evidence_status: "verified", evidence_id: "EV-REAL-VTA-01", source_url: "https://vtasl.gov.lk",
+                        requirements: { op: "all", conditions: [{ field: "al_passes", cmp: ">=", value: 0 }] }
+                    },
+                    {
+                        id: "REAL-SLIATE-HNDIT", title: "Higher National Diploma in Information Technology (HNDIT)",
+                        institution_name: "SLIATE", campus: "Galle", delivery_mode: "full_time",
+                        goal: "Software Engineer", award_id: "QUAL-HNDIT-NVQ6", slqf_level: 4, nvq_level: 6,
+                        duration_months: 30, upfront_cost_lkr: 2500, monthly_cost_lkr: 4500, travel_monthly_lkr: 2000,
+                        evidence_status: "verified", evidence_id: "EV-REAL-SLIATE-01", source_url: "https://sliate.ac.lk",
+                        requirements: { op: "any", conditions: [{ field: "al_passes", cmp: ">=", value: 3 }, { field: "qualification", cmp: "has", value: "QUAL-NVQ4-ICT" }] }
+                    },
+                    {
+                        id: "REAL-UNIVOTEC-BTECH", title: "B.Tech in Software Technology (Lateral Entry)",
+                        institution_name: "University of Vocational Technology (UNIVOTEC)", campus: "Colombo", delivery_mode: "full_time",
+                        goal: "Software Engineer", award_id: "QUAL-BSC-COMP", slqf_level: 6, nvq_level: 7,
+                        duration_months: 24, upfront_cost_lkr: 5000, monthly_cost_lkr: 6000, travel_monthly_lkr: 3000,
+                        evidence_status: "unreviewed", evidence_id: "EV-REAL-UNIVOTEC-01", source_url: "https://univotec.ac.lk",
+                        requirements: { op: "all", conditions: [{ field: "qualification", cmp: "has", value: "QUAL-HNDIT-NVQ6" }, { field: "can_relocate", cmp: "==", value: true }] }
+                    }
+                ],
+                transitions: [
+                    { from_id: "REAL-VTA-NVQ4", to_id: "REAL-SLIATE-HNDIT", transition_type: "nvq_progression", evidence_status: "unreviewed" },
+                    { from_id: "REAL-SLIATE-HNDIT", to_id: "REAL-UNIVOTEC-BTECH", transition_type: "nvq6_lateral_entry", evidence_status: "verified" }
+                ]
+            }
         };
 
+        let profileRevision = 1;
+        let currentNodesMap = {};
         let visNetwork = null;
 
-        function updateBudgetSlider(val) {
-            document.getElementById("budget-display").innerText = `LKR ${Number(val).toLocaleString()}`;
-            runCouncil();
-        }
-
-        function applyHomeCommute() {
-            document.getElementById("input-commute").checked = true;
-            runCouncil();
-        }
-
-        function loadProfile(key, btnEl) {
-            const p = testProfiles[key];
-            if (!p) return;
-
-            document.querySelectorAll(".profile-btn").forEach(btn => {
-                btn.className = "profile-btn bg-white text-slate-700 hover:bg-slate-50 px-3 py-1 rounded border border-slate-300 whitespace-nowrap transition";
-            });
-            if (btnEl) {
-                btnEl.className = "profile-btn bg-slate-900 text-white font-medium px-3 py-1 rounded border border-slate-900 whitespace-nowrap transition";
+        function loadScenario(name) {
+            if (name === "beat2_conflict") {
+                document.getElementById("input-catalogue").value = "demo";
+                document.getElementById("input-savings").value = 2000;
+                document.getElementById("input-budget").value = 5000;
+                document.getElementById("input-relocate").value = "null";
+                document.getElementById("input-maths").value = "false";
+            } else if (name === "beat3_rich") {
+                document.getElementById("input-catalogue").value = "demo";
+                document.getElementById("input-savings").value = 24000;
+                document.getElementById("input-budget").value = 5000;
+                document.getElementById("input-relocate").value = "true";
+                document.getElementById("input-maths").value = "false";
+            } else if (name === "beat6_real") {
+                document.getElementById("input-catalogue").value = "real";
+                document.getElementById("input-savings").value = 5000;
+                document.getElementById("input-budget").value = 9000;
+                document.getElementById("input-relocate").value = "null";
+                document.getElementById("input-maths").value = "false";
             }
-
-            document.getElementById("input-name").value = p.name;
-            document.getElementById("input-stream").value = p.stream;
-            document.getElementById("input-z").value = p.z;
-            document.getElementById("input-passes").value = p.passes;
-            document.getElementById("input-district").value = p.district;
-            document.getElementById("input-career").value = p.career;
-            document.getElementById("input-budget").value = p.budget;
-            document.getElementById("input-commute").checked = p.commute;
-            document.getElementById("budget-display").innerText = `LKR ${Number(p.budget).toLocaleString()}`;
-
-            runCouncil();
+            recomputePlan();
         }
 
-        async function runCouncil() {
-            const payload = {
-                student_name: document.getElementById("input-name").value,
-                stream: document.getElementById("input-stream").value,
-                z_score: parseFloat(document.getElementById("input-z").value),
-                al_passes: parseInt(document.getElementById("input-passes").value),
-                monthly_budget_lkr: parseFloat(document.getElementById("input-budget").value),
-                total_savings_lkr: 50000.0,
-                district: document.getElementById("input-district").value,
-                target_career: document.getElementById("input-career").value,
-                can_commute: document.getElementById("input-commute").checked
-            };
+        function answerQuestion(val) {
+            document.getElementById("input-relocate").value = val ? "true" : "false";
+            recomputePlan();
+        }
 
-            const startTime = performance.now();
+        function getFormInputs() {
+            const relStr = document.getElementById("input-relocate").value;
+            const canRelocate = relStr === "null" ? null : (relStr === "true");
+            return {
+                catalogue_mode: document.getElementById("input-catalogue").value,
+                goal: document.getElementById("input-goal").value,
+                al_passes: parseInt(document.getElementById("input-passes").value),
+                savings_lkr: parseInt(document.getElementById("input-savings").value),
+                monthly_budget_lkr: parseInt(document.getElementById("input-budget").value),
+                home_district: document.getElementById("input-district").value,
+                study_mode: document.getElementById("input-mode").value,
+                can_relocate: canRelocate,
+                has_maths_credit: document.getElementById("input-maths").value === "true",
+                profile_revision: profileRevision++,
+                conversation_id: "guest-session-1"
+            };
+        }
+
+        async function recomputePlan() {
+            const req = getFormInputs();
+            document.getElementById("banner-revision").innerText = `v${req.profile_revision}`;
 
             try {
-                const response = await fetch("http://localhost:8000/walker/RunPathwayCouncil", {
+                const response = await fetch("http://localhost:8000/walker/plan_pathways", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(req)
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    const reportsList = (data.data && data.data.reports) ? data.data.reports : (data.reports || []);
-                    if (reportsList.length > 0) {
-                        const report = reportsList[reportsList.length - 1];
-                        document.getElementById("session-tag").innerText = "JAC SERVER (PORT 8000)";
-                        renderResults(report, payload);
-                        const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
-                        document.getElementById("latency-badge").innerText = `${elapsed}s`;
+                    const reports = (data.data && data.data.reports) ? data.data.reports : (data.reports || []);
+                    if (reports.length > 0) {
+                        const result = reports[reports.length - 1];
+                        if (result.profile_revision < req.profile_revision) return;
+                        document.getElementById("banner-api-mode").innerText = "jac_server_8000";
+                        renderPlanResult(result);
+                        computeClientStressDeltas(req);
                         return;
                     }
                 }
             } catch (e) {
-                // Fallback to synchronized client-side OSP engine when server is offline
+                // Fallback to identical client-side deterministic engine when Jac server is not running
             }
 
-            document.getElementById("session-tag").innerText = "LOCAL OSP ENGINE";
-            renderSimulatedResults(payload);
-            const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
-            document.getElementById("latency-badge").innerText = `${elapsed}s`;
+            document.getElementById("banner-api-mode").innerText = "local_engine";
+            const localResult = runLocalEngine(req);
+            renderPlanResult(localResult);
+            computeClientStressDeltas(req);
         }
 
-        function renderPathwayCards(pathwaysList) {
-            const container = document.getElementById("pathways-container");
-            container.innerHTML = "";
+        // Exact Three-Valued Logic & Cash-Flow Engine (Mirrors main.jac)
+        function evalReq(reqExpr, profile, quals) {
+            const op = reqExpr.op || "all";
+            const conds = reqExpr.conditions || [];
+            if (conds.length === 0) return { verdict: "pass", unknowns: [] };
 
-            pathwaysList.forEach(pw => {
+            const results = [];
+            const unknowns = [];
+            for (const c of conds) {
+                if (c.field === "qualification") {
+                    results.push(quals.includes(c.value) ? "pass" : "fail");
+                } else {
+                    const actual = profile[c.field];
+                    if (actual === null || actual === undefined) {
+                        results.push("unknown");
+                        unknowns.push(c.field);
+                    } else if (c.cmp === ">=") {
+                        results.push(actual >= c.value ? "pass" : "fail");
+                    } else {
+                        results.push(actual === c.value ? "pass" : "fail");
+                    }
+                }
+            }
+
+            if (op === "all") {
+                if (results.includes("fail")) return { verdict: "fail", unknowns };
+                if (results.includes("unknown")) return { verdict: "unknown", unknowns };
+                return { verdict: "pass", unknowns: [] };
+            } else {
+                if (results.includes("pass")) return { verdict: "pass", unknowns: [] };
+                if (results.includes("unknown")) return { verdict: "unknown", unknowns };
+                return { verdict: "fail", unknowns: [] };
+            }
+        }
+
+        function computeCashFlow(steps, savings, budget, travelMult = 1.0, extraMonths = 0) {
+            let balance = savings;
+            let minBalance = savings;
+            let totalCost = 0;
+            let totalMonths = 0;
+
+            steps.forEach((st, idx) => {
+                const upfront = st.upfront_cost_lkr;
+                const extraTravel = Math.round((st.travel_monthly_lkr || 0) * (travelMult - 1.0));
+                const recurring = st.monthly_cost_lkr + extraTravel;
+                const months = st.duration_months + (idx === 0 ? extraMonths : 0);
+
+                balance -= upfront;
+                if (balance < minBalance) minBalance = balance;
+                totalCost += upfront;
+
+                for (let m = 0; m < months; m++) {
+                    balance = balance + budget - recurring;
+                    if (balance < minBalance) minBalance = balance;
+                    totalCost += recurring;
+                }
+                totalMonths += months;
+            });
+
+            const shortfall = Math.max(0, -minBalance);
+            return {
+                status: shortfall === 0 ? "cash_ok" : "shortfall",
+                total_cost_lkr: totalCost,
+                minimum_balance_lkr: minBalance,
+                shortfall_lkr: shortfall,
+                duration_months: totalMonths
+            };
+        }
+
+        function runLocalEngine(req) {
+            const cat = CATALOGUES[req.catalogue_mode];
+            const offMap = {};
+            cat.offerings.forEach(o => offMap[o.id] = o);
+
+            const unknownBlockers = [];
+            const projNodes = [];
+            const projEdges = cat.transitions.map(t => ({ from: t.from_id, to: t.to_id, label: "ProgressesTo" }));
+
+            // Evaluate 3 deterministic lenses per node
+            const nodeFindingsMap = {};
+            cat.offerings.forEach(o => {
+                const cf = computeCashFlow([o], req.savings_lkr, req.monthly_budget_lkr);
+                const gate = evalReq(o.requirements, req, []);
+                gate.unknowns.forEach(u => { if (!unknownBlockers.includes(u)) unknownBlockers.push(u); });
+
+                const levelTag = o.slqf_level ? `SLQF ${o.slqf_level}` : `NVQ ${o.nvq_level}`;
+                const findings = [
+                    {
+                        node_id: o.id, lens: "Aspiration", verdict: "strong_fit",
+                        summary: `Supports ${o.goal} (${levelTag}, ${o.delivery_mode}, ${o.duration_months} mo)`,
+                        evidence_id: o.evidence_id, evidence_status: o.evidence_status
+                    },
+                    {
+                        node_id: o.id, lens: "Fiscal", verdict: cf.status,
+                        summary: cf.status === "shortfall"
+                            ? `Needs LKR ${cf.shortfall_lkr.toLocaleString()} extra upfront (min balance: LKR ${cf.minimum_balance_lkr.toLocaleString()}).`
+                            : `Cash-flow OK (upfront LKR ${o.upfront_cost_lkr.toLocaleString()}, monthly LKR ${o.monthly_cost_lkr.toLocaleString()}, min balance LKR ${cf.minimum_balance_lkr.toLocaleString()}).`,
+                        evidence_id: o.evidence_id, evidence_status: o.evidence_status
+                    },
+                    {
+                        node_id: o.id, lens: "Gatekeeper", verdict: gate.verdict,
+                        summary: gate.verdict === "pass"
+                            ? `Entry requirements pass (${o.evidence_status}).`
+                            : gate.verdict === "unknown"
+                                ? `Unknown requirement field(s): ${gate.unknowns.join(", ")} (${o.evidence_status}).`
+                                : `Requires prerequisite qualification or higher entry criteria (${o.evidence_status}).`,
+                        evidence_id: o.evidence_id, evidence_status: o.evidence_status
+                    }
+                ];
+                nodeFindingsMap[o.id] = findings;
+            });
+
+            // Branch-isolated graph search
+            const frontier = [];
+            cat.offerings.forEach(o => {
+                const g = evalReq(o.requirements, req, []);
+                if (g.verdict === "pass" || g.verdict === "unknown") {
+                    frontier.push({ current_id: o.id, path_ids: [o.id], quals: [o.award_id] });
+                }
+            });
+
+            const candidateRoutes = [];
+            const blockedTransitions = [];
+            const events = [];
+            let stepNum = 1;
+
+            while (frontier.length > 0) {
+                const st = frontier.shift();
+                const curr = offMap[st.current_id];
+                if (curr.award_id === "QUAL-BSC-COMP") {
+                    candidateRoutes.push(st.path_ids.map(pid => offMap[pid]));
+                }
+                if (st.path_ids.length < 4) {
+                    const outs = cat.transitions.filter(t => t.from_id === st.current_id);
+                    for (const tr of outs) {
+                        const nxt = offMap[tr.to_id];
+                        if (st.path_ids.includes(nxt.id)) continue;
+                        const gNext = evalReq(nxt.requirements, req, st.quals);
+                        if (gNext.verdict === "fail") {
+                            blockedTransitions.push({
+                                from_id: st.current_id,
+                                blocked_id: nxt.id,
+                                blocked_title: nxt.title,
+                                reason: `Entry requirement failed at ${nxt.id} despite incoming edge from ${st.current_id}.`
+                            });
+                            events.push({
+                                step: stepNum++,
+                                event_type: "backtrack",
+                                action: "backtrack_branch",
+                                detail: `Blocked at ${nxt.id} (missing prerequisite); backtracking to fork ${st.current_id}.`
+                            });
+                            continue;
+                        }
+                        gNext.unknowns.forEach(u => { if (!unknownBlockers.includes(u)) unknownBlockers.push(u); });
+                        frontier.push({
+                            current_id: nxt.id,
+                            path_ids: [...st.path_ids, nxt.id],
+                            quals: [...st.quals, nxt.award_id]
+                        });
+                    }
+                }
+            }
+
+            // Build CandidatePlans
+            let candidates = candidateRoutes.map((rNodes, idx) => {
+                let quals = [];
+                let routeGate = "pass";
+                let routeEv = "verified";
+                const conds = [];
+                const evLinks = [];
+
+                rNodes.forEach((n, sIdx) => {
+                    const g = evalReq(n.requirements, req, quals);
+                    if (g.verdict === "fail") routeGate = "fail";
+                    else if (g.verdict === "unknown" && routeGate !== "fail") {
+                        routeGate = "unknown";
+                        conds.push(`Confirm ${g.unknowns.join(", ")} for ${n.title}`);
+                    }
+                    quals.push(n.award_id);
+                    if (sIdx > 0) conds.push(`Complete ${rNodes[sIdx - 1].title}`);
+                    if (n.evidence_status === "fixture") routeEv = "fixture";
+                    else if (n.evidence_status === "unreviewed" && routeEv !== "fixture") routeEv = "unreviewed";
+                    evLinks.push(`${n.evidence_id}: ${n.source_url}`);
+                });
+
+                const cf = computeCashFlow(rNodes, req.savings_lkr, req.monthly_budget_lkr);
+                let rStatus = "feasible_under_stated_assumptions";
+                if (routeGate === "fail" || cf.status === "shortfall") rStatus = "not_feasible_under_current_inputs";
+                else if (routeGate === "unknown" || cf.status === "unknown_cost" || routeEv === "unreviewed") rStatus = "needs_confirmation";
+                else if (rNodes.length > 1) rStatus = "conditional";
+
+                let expl = "";
+                if (rStatus === "not_feasible_under_current_inputs") {
+                    expl = `Blocked: requires LKR ${cf.shortfall_lkr.toLocaleString()} additional upfront savings (minimum balance: LKR ${cf.minimum_balance_lkr.toLocaleString()}).`;
+                } else if (rStatus === "needs_confirmation") {
+                    expl = `Needs confirmation of unknown student field or unreviewed transition (${rNodes.length}-step route, shortfall: LKR ${cf.shortfall_lkr.toLocaleString()}).`;
+                } else if (rStatus === "conditional") {
+                    expl = `Bridge Lens Repair: ${rNodes.length}-step catalogue route spreads costs across stages with LKR 0 shortfall (minimum balance: LKR ${cf.minimum_balance_lkr.toLocaleString()}).`;
+                } else {
+                    expl = `Feasible under stated savings and monthly budget (minimum balance: LKR ${cf.minimum_balance_lkr.toLocaleString()}).`;
+                }
+
+                if (rNodes.length > 1) {
+                    const lastId = rNodes[rNodes.length - 1].id;
+                    nodeFindingsMap[lastId].push({
+                        node_id: lastId, lens: "Bridge", verdict: "valid_bridge",
+                        summary: `Catalogue-verified ${rNodes.length}-step bridge route (${rNodes.map(x => x.id).join(" -> ")}).`,
+                        evidence_status: routeEv
+                    });
+                }
+
+                return {
+                    route_id: `ROUTE-${idx + 1}`,
+                    title: rNodes.map(n => n.title).join(" -> "),
+                    step_ids: rNodes.map(n => n.id),
+                    step_titles: rNodes.map(n => n.title),
+                    route_status: rStatus,
+                    gatekeeper_verdict: routeGate,
+                    fiscal_verdict: cf.status,
+                    total_cost_lkr: cf.total_cost_lkr,
+                    minimum_balance_lkr: cf.minimum_balance_lkr,
+                    shortfall_lkr: cf.shortfall_lkr,
+                    duration_months: cf.duration_months,
+                    evidence_status: routeEv,
+                    evidence_links: evLinks,
+                    explanation: expl,
+                    conditions: conds,
+                    next_actions: [
+                        `Verify admission notice at ${rNodes[0].source_url}`,
+                        `Prepare initial upfront registration fee of LKR ${rNodes[0].upfront_cost_lkr.toLocaleString()}`
+                    ]
+                };
+            });
+
+            // Sort feasible/conditional ahead of blocked
+            const orderScore = s => (s === "feasible_under_stated_assumptions" || s === "conditional") ? 1 : (s === "needs_confirmation" ? 2 : 3);
+            candidates.sort((a, b) => orderScore(a.route_status) - orderScore(b.route_status));
+
+            cat.offerings.forEach(o => {
+                const nf = nodeFindingsMap[o.id];
+                const fV = nf[1].verdict;
+                const gV = nf[2].verdict;
+                let uiColor = "green";
+                if (gV === "fail" || fV === "shortfall") uiColor = "red";
+                else if (gV === "unknown" || o.evidence_status === "unreviewed") uiColor = "amber";
+
+                projNodes.push({
+                    id: o.id, title: o.title, institution: o.institution_name, campus: o.campus,
+                    delivery_mode: o.delivery_mode, evidence_status: o.evidence_status,
+                    evidence_id: o.evidence_id, source_url: o.source_url,
+                    ui_color: uiColor, findings: nf
+                });
+            });
+
+            let pendingQ = null;
+            let plannerAction = "finish";
+            const trace = ["evaluate_candidates", "search_alternatives"];
+            if (unknownBlockers.includes("can_relocate") && req.can_relocate === null) {
+                plannerAction = "ask_student";
+                trace.push("ask_student(can_relocate)");
+                pendingQ = {
+                    field: "can_relocate",
+                    prompt: "Can you relocate or commute to Colombo for the final-year degree stage?",
+                    reason: "The final-year Top-Up / B.Tech stage is delivered at the Colombo campus and requires relocation or commuting."
+                };
+            } else {
+                trace.push("finish");
+            }
+
+            trace.forEach(act => {
+                events.push({
+                    step: stepNum++,
+                    event_type: "planner_action",
+                    action: act,
+                    detail: `Planner (rules_fallback) executed action: ${act}`
+                });
+            });
+
+            return {
+                status: "ready",
+                catalogue_mode: req.catalogue_mode,
+                profile_revision: req.profile_revision,
+                planner_mode: "rules_fallback",
+                planner_action: plannerAction,
+                pending_question: pendingQ,
+                candidates,
+                blocked_transitions: blockedTransitions,
+                graph_projection: { nodes: projNodes, edges: projEdges },
+                decision_events: events
+            };
+        }
+
+        function renderPlanResult(res) {
+            // Update Top Banner
+            const badge = document.getElementById("banner-catalogue-badge");
+            const desc = document.getElementById("banner-desc");
+            if (res.catalogue_mode === "demo") {
+                badge.innerText = "DEMO FIXTURE MODE";
+                badge.className = "font-mono font-semibold bg-amber-400 text-slate-950 px-2 py-0.5 rounded text-[11px]";
+                desc.innerText = "Showing deterministic fictional fixture (84,000 direct vs 54,000 3-step oracle). Switch to Real IT Catalogue for verified Sri Lankan sources.";
+            } else {
+                badge.innerText = "REAL SL IT CATALOGUE";
+                badge.className = "font-mono font-semibold bg-emerald-400 text-slate-950 px-2 py-0.5 rounded text-[11px]";
+                desc.innerText = "Showing real Sri Lankan IT offerings (SLIATE, UCSC, UoM, UNIVOTEC, VTA) with per-claim verified / unreviewed evidence labels.";
+            }
+            document.getElementById("banner-planner-mode").innerText = res.planner_mode;
+
+            // Pending Question Card
+            const qCard = document.getElementById("question-card");
+            if (res.pending_question) {
+                qCard.classList.remove("hidden");
+                document.getElementById("question-field-tag").innerText = `field: ${res.pending_question.field}`;
+                document.getElementById("question-prompt").innerText = res.pending_question.prompt;
+                document.getElementById("question-reason").innerText = res.pending_question.reason;
+            } else {
+                qCard.classList.add("hidden");
+            }
+
+            // Render Candidate Cards
+            const routesContainer = document.getElementById("routes-container");
+            routesContainer.innerHTML = "";
+            document.getElementById("route-count-badge").innerText = `${res.candidates.length} routes`;
+
+            const statusBadgeMap = {
+                "feasible_under_stated_assumptions": { label: "FEASIBLE", cls: "bg-emerald-50 text-emerald-800 border-emerald-200" },
+                "conditional": { label: "CONDITIONAL (MULTI-STEP)", cls: "bg-emerald-50 text-emerald-800 border-emerald-200" },
+                "needs_confirmation": { label: "NEEDS CONFIRMATION", cls: "bg-amber-50 text-amber-800 border-amber-200" },
+                "not_feasible_under_current_inputs": { label: "NOT FEASIBLE (BLOCKED)", cls: "bg-rose-50 text-rose-800 border-rose-200" }
+            };
+
+            res.candidates.forEach(c => {
+                const st = statusBadgeMap[c.route_status] || { label: c.route_status, cls: "bg-slate-100 text-slate-700 border-slate-200" };
+                const isBlocked = c.route_status === "not_feasible_under_current_inputs";
                 const card = document.createElement("div");
-                card.className = `border ${pw.isFeasible ? 'border-slate-200 bg-white' : 'border-rose-200 bg-rose-50/30'} rounded-lg p-4 space-y-3`;
+                card.className = `border ${isBlocked ? 'border-rose-200 bg-rose-50/20' : 'border-slate-200 bg-white'} rounded-lg p-4 space-y-3`;
                 card.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <span class="text-[11px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">${pw.pillar}</span>
-                        <span class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded ${pw.isFeasible ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-rose-50 text-rose-800 border border-rose-200'}">
-                            ${pw.isFeasible ? 'FEASIBLE' : 'BUDGET DEFICIT'}
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded border ${st.cls}">${st.label}</span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
+                            evidence: ${c.evidence_status}
                         </span>
                     </div>
                     <div>
-                        <h3 class="text-xs font-semibold text-slate-900">${pw.title}</h3>
-                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">${pw.note}</p>
+                        <h3 class="text-xs font-semibold text-slate-900">${c.title}</h3>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">${c.explanation}</p>
                     </div>
-                    <div class="grid grid-cols-3 gap-2 bg-slate-50 p-2.5 rounded border border-slate-200 text-xs">
+                    <div class="grid grid-cols-4 gap-2 bg-slate-50 p-2.5 rounded border border-slate-200 text-[11px] font-mono">
                         <div>
-                            <div class="text-slate-400 text-[10px]">Total Cost</div>
-                            <div class="font-semibold text-slate-900 font-mono text-[11px]">${pw.cost}</div>
+                            <div class="text-slate-400 text-[10px] font-sans">Total Cost</div>
+                            <div class="font-semibold text-slate-900">LKR ${Number(c.total_cost_lkr).toLocaleString()}</div>
                         </div>
                         <div>
-                            <div class="text-slate-400 text-[10px]">Monthly Burn</div>
-                            <div class="font-semibold text-slate-900 font-mono text-[11px]">${pw.monthly}</div>
+                            <div class="text-slate-400 text-[10px] font-sans">Min Balance</div>
+                            <div class="font-semibold ${c.minimum_balance_lkr < 0 ? 'text-rose-700' : 'text-emerald-700'}">LKR ${Number(c.minimum_balance_lkr).toLocaleString()}</div>
                         </div>
                         <div>
-                            <div class="text-slate-400 text-[10px]">Duration</div>
-                            <div class="font-semibold text-slate-900 font-mono text-[11px]">${pw.duration}</div>
+                            <div class="text-slate-400 text-[10px] font-sans">Shortfall</div>
+                            <div class="font-semibold ${c.shortfall_lkr > 0 ? 'text-rose-700' : 'text-slate-900'}">LKR ${Number(c.shortfall_lkr).toLocaleString()}</div>
+                        </div>
+                        <div>
+                            <div class="text-slate-400 text-[10px] font-sans">Duration</div>
+                            <div class="font-semibold text-slate-900">${c.duration_months} mo</div>
                         </div>
                     </div>
-                    <div>
-                        <div class="flex justify-between text-[11px] mb-1">
-                            <span class="text-slate-500">4-Year Shock Resilience</span>
-                            <span class="font-mono font-semibold text-slate-800">${pw.resilience}%</span>
+                    ${c.conditions && c.conditions.length > 0 ? `
+                        <div class="text-[11px] text-slate-600">
+                            <span class="font-semibold text-slate-800">Conditions:</span> ${c.conditions.join(" · ")}
                         </div>
-                        <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
-                            <div class="bg-slate-800 h-full rounded-full" style="width: ${pw.resilience}%"></div>
-                        </div>
+                    ` : ''}
+                    <div class="text-[11px] text-slate-500 font-mono truncate">
+                        Source: ${(c.evidence_links || [])[0] || ''}
                     </div>
                 `;
-                container.appendChild(card);
+                routesContainer.appendChild(card);
             });
-        }
 
-        function renderResults(report, p) {
-            const isDeadlocked = Boolean(report.deadlock_resolved);
-            document.getElementById("metamorphosis-alert").style.display = isDeadlocked ? "block" : "none";
+            // Render Excluded / Blocked List
+            const exclContainer = document.getElementById("excluded-container");
+            const exclItems = [];
+            res.candidates.filter(c => c.route_status === "not_feasible_under_current_inputs").forEach(c => {
+                exclItems.push(`<div class="bg-rose-50/50 border border-rose-200 p-2.5 rounded"><strong class="text-slate-900">${c.title}:</strong> ${c.explanation}</div>`);
+            });
+            (res.blocked_transitions || []).forEach(b => {
+                exclItems.push(`<div class="bg-slate-50 border border-slate-200 p-2.5 rounded"><strong class="text-slate-900">${b.blocked_id} (${b.blocked_title}):</strong> ${b.reason}</div>`);
+            });
+            exclContainer.innerHTML = exclItems.length > 0 ? exclItems.join("") : `<div class="text-slate-400">No blocked branches under current profile inputs.</div>`;
 
-            const normalizedPathways = (report.pathways || []).map(pw => ({
-                pillar: pw.pillar,
-                title: pw.title,
-                note: pw.tradeoff_note || pw.tradeoff_note_sinhala || "Verified SLQF Level 6 progression pathway.",
-                cost: `LKR ${Number(pw.total_cost_lkr).toLocaleString()}`,
-                monthly: `LKR ${Number(pw.monthly_burn_lkr).toLocaleString()}/mo`,
-                duration: `${pw.total_duration_years} Yrs`,
-                resilience: Number(pw.resilience_score || 90),
-                isFeasible: Boolean(pw.is_feasible)
-            }));
-            renderPathwayCards(normalizedPathways);
-
-            const logContainer = document.getElementById("tab-decision-log");
-            logContainer.innerHTML = (report.decision_log || []).map(line => {
-                if (line.includes("[METAMORPHOSIS]")) {
-                    return `<div class="text-amber-800 bg-amber-50 px-2 py-1 rounded border border-amber-200">${line}</div>`;
-                }
-                return `<div>${line}</div>`;
+            // Render Decision Events Log
+            const evContainer = document.getElementById("tab-events");
+            evContainer.innerHTML = (res.decision_events || []).map(ev => {
+                const badgeCls = ev.event_type === "backtrack" ? "text-rose-700 bg-rose-50 border-rose-200" : "text-slate-700 bg-slate-100 border-slate-200";
+                return `<div class="flex items-center gap-2"><span class="text-[10px] px-1.5 py-0.5 rounded border ${badgeCls}">${ev.event_type}</span> <span>${ev.detail}</span></div>`;
             }).join("");
 
-            const actionList = document.getElementById("action-plan-list");
-            actionList.innerHTML = (report.action_plan || []).map(act => `
-                <div class="bg-slate-50 p-3.5 rounded border border-slate-200 flex flex-col justify-between text-xs">
-                    <div>
-                        <div class="font-mono text-[11px] text-slate-400 mb-1">STEP 0${act.step_num}</div>
-                        <div class="font-semibold text-slate-900 mb-1">${act.action_title}</div>
-                        <div class="text-slate-600 text-[11px] leading-relaxed">${act.action_desc}</div>
-                    </div>
-                    <div class="mt-3 pt-2 border-t border-slate-200 text-[11px] font-mono text-slate-500">
-                        ${act.deadline} · LKR ${Number(act.cost_lkr || 0).toLocaleString()}
-                    </div>
-                </div>
-            `).join("");
-
-            updateGraph(p, isDeadlocked);
+            // Render Graph Projection
+            renderGraphProjection(res.graph_projection);
         }
 
-        function renderSimulatedResults(p) {
-            const budgetVal = Number(p.monthly_budget_lkr || 25000);
-            const zVal = Number(p.z_score || 1.12);
-            const isDeadlocked = (budgetVal < 35000 && zVal < 1.3 && !p.can_commute);
-            document.getElementById("metamorphosis-alert").style.display = isDeadlocked ? "block" : "none";
+        function renderGraphProjection(proj) {
+            currentNodesMap = {};
+            const colorStyles = {
+                green: { background: "#ecfdf5", border: "#059669", font: "#065f46" },
+                amber: { background: "#fffbeb", border: "#d97706", font: "#92400e" },
+                red: { background: "#fff1f2", border: "#e11d48", font: "#9f1239" }
+            };
 
-            const pathways = [
-                {
-                    pillar: "Lowest Cost Pathway",
-                    title: "SLIATE HNDIT to UCSC BIT External Lateral Pathway",
-                    duration: "3.5 Yrs",
-                    cost: "LKR 320,000",
-                    monthly: "LKR 14,500/mo",
-                    resilience: 92,
-                    isFeasible: true,
-                    note: "Lowest total cost accredited pathway. Combines a tuition-free state diploma with an external degree."
-                },
-                {
-                    pillar: "Fastest / Govt Loan Pathway",
-                    title: "SLIIT BSc (Hons) in Software Engineering (IFSLS Loan)",
-                    duration: "4.0 Yrs",
-                    cost: "LKR 3,600,000",
-                    monthly: p.can_commute ? "LKR 12,000/mo" : "LKR 38,000/mo",
-                    resilience: 78,
-                    isFeasible: (budgetVal >= 38000 || p.can_commute),
-                    note: "Direct 4-year Honours cohort pathway backed by up to LKR 1.8M government interest-free loan subsidy."
-                },
-                {
-                    pillar: "Best Work-Study Fit",
-                    title: "TVEC NVQ Ladder to UNIVOTEC B.Tech Honours",
-                    duration: "4.0 Yrs",
-                    cost: "LKR 180,000",
-                    monthly: "LKR 12,000/mo",
-                    resilience: 88,
-                    isFeasible: true,
-                    note: "Accessible vocational progression ladder into a tuition-free state B.Tech Honours degree with industry training."
-                }
-            ];
-
-            renderPathwayCards(pathways);
-
-            const logContainer = document.getElementById("tab-decision-log");
-            logContainer.innerHTML = `
-                <div>[OK] Initialized student profile for ${p.student_name} (Stream: ${p.stream}, Z-Score: ${zVal}, Monthly Budget: LKR ${budgetVal.toLocaleString()})</div>
-                <div>[OK] AspirationScout matched 11 accredited programs aligned with ${p.target_career}</div>
-                <div>[OK] FiscalSurvivalGuard audited cashflow (${p.can_commute ? 'Home commute enabled: Boarding LKR 0' : 'Outstation boarding modeled'})</div>
-                ${isDeadlocked ? '<div class="text-amber-800 bg-amber-50 px-2 py-1 rounded border border-amber-200">[METAMORPHOSIS] Educational Deadlock Detected: BridgeSynthesizer injected SYNTH-SLIATE-BIT-BRIDGE into graph topology</div>' : ''}
-                <div>[OK] SLQFGatekeeper verified UGC recognition and TVEC NVQ Level 6 lateral equivalence</div>
-                <div>[OK] PathwayEvaluator completed 2-Stage Feasibility Gate with 0% constraint violations</div>
-                <div>[OK] GhostWalker simulated 4-year inflation, exam delay, and Year 2 internship cashflow shocks</div>
-                <div>[OK] ActionPlanGenerator compiled 5-step execution checklist</div>
-            `;
-
-            const defaultSteps = [
-                { step_num: 1, action_title: "Download SLIATE Application", action_desc: "Obtain the HNDIT intake application from sliate.ac.lk for Labuduwa or Mattakkuliya.", deadline: "Within 5 days", cost_lkr: 0 },
-                { step_num: 2, action_title: "Prepare Official Certificates", action_desc: "Collect certified G.C.E. A/L results sheet and Grama Niladhari certificate.", deadline: "This week", cost_lkr: 0 },
-                { step_num: 3, action_title: "Register on UCSC BIT Portal", action_desc: "Create an applicant profile on bit.ucsc.cmb.ac.lk and track intake dates.", deadline: "Next window", cost_lkr: 2500 },
-                { step_num: 4, action_title: "Allocate Admission Deposit", action_desc: "Reserve LKR 5,000 for initial institute registration and library caution deposit.", deadline: "Interview day", cost_lkr: 5000 },
-                { step_num: 5, action_title: "Verify Lecture Schedule", action_desc: "Confirm weekend or full-time batch allocation with the academic registrar.", deadline: "Before enrollment", cost_lkr: 0 }
-            ];
-
-            const actionList = document.getElementById("action-plan-list");
-            actionList.innerHTML = defaultSteps.map(act => `
-                <div class="bg-slate-50 p-3.5 rounded border border-slate-200 flex flex-col justify-between text-xs">
-                    <div>
-                        <div class="font-mono text-[11px] text-slate-400 mb-1">STEP 0${act.step_num}</div>
-                        <div class="font-semibold text-slate-900 mb-1">${act.action_title}</div>
-                        <div class="text-slate-600 text-[11px] leading-relaxed">${act.action_desc}</div>
-                    </div>
-                    <div class="mt-3 pt-2 border-t border-slate-200 text-[11px] font-mono text-slate-500">
-                        ${act.deadline} · LKR ${act.cost_lkr.toLocaleString()}
-                    </div>
-                </div>
-            `).join("");
-
-            updateGraph(p, isDeadlocked);
-        }
-
-        function updateGraph(p, isDeadlocked) {
-            const container = document.getElementById("network-canvas");
-            const budgetVal = Number(p.monthly_budget_lkr || 25000);
-            const privateAffordable = (budgetVal >= 38000 || p.can_commute);
-
-            const nodes = [
-                { id: 1, label: "Student\nProfile", color: { background: "#0f172a", border: "#0f172a" }, shape: "box", margin: 10, font: { color: "#ffffff", face: "Inter", size: 12 } },
-                { id: 2, label: "SLIATE HNDIT\n(State Free)", color: { background: "#ecfdf5", border: "#059669" }, shape: "box", margin: 10, font: { color: "#065f46", face: "Inter", size: 11 } },
-                { id: 3, label: "UCSC BIT\n(External Degree)", color: { background: "#ecfdf5", border: "#059669" }, shape: "box", margin: 10, font: { color: "#065f46", face: "Inter", size: 11 } },
-                { id: 4, label: "UNIVOTEC B.Tech\n(State Honours)", color: { background: "#ecfdf5", border: "#059669" }, shape: "box", margin: 10, font: { color: "#065f46", face: "Inter", size: 11 } },
-                { id: 5, label: "SLIIT BSc Hons\n(IFSLS Loan)", color: privateAffordable ? { background: "#ecfdf5", border: "#059669" } : { background: "#fff1f2", border: "#e11d48" }, shape: "box", margin: 10, font: { color: privateAffordable ? "#065f46" : "#9f1239", face: "Inter", size: 11 } },
-                { id: 6, label: "NSBM BSc Hons\n(IFSLS Loan)", color: privateAffordable ? { background: "#ecfdf5", border: "#059669" } : { background: "#fff1f2", border: "#e11d48" }, shape: "box", margin: 10, font: { color: privateAffordable ? "#065f46" : "#9f1239", face: "Inter", size: 11 } },
-                { id: 7, label: "VTA NVQ Level 4\n(Vocational)", color: { background: "#ecfdf5", border: "#059669" }, shape: "box", margin: 10, font: { color: "#065f46", face: "Inter", size: 11 } }
-            ];
-
-            if (isDeadlocked) {
-                nodes.push({
-                    id: 99,
-                    label: "SYNTH-BRIDGE\nSLIATE + UCSC BIT",
-                    color: { background: "#fffbeb", border: "#d97706" },
+            const visNodes = proj.nodes.map(n => {
+                currentNodesMap[n.id] = n;
+                const st = colorStyles[n.ui_color] || colorStyles.green;
+                const statusTag = n.ui_color === "red" ? "[BLOCKED]" : (n.ui_color === "amber" ? "[CONFIRM]" : "[OK]");
+                return {
+                    id: n.id,
+                    label: `${statusTag} ${n.id}\n${n.title.substring(0, 26)}`,
+                    color: { background: st.background, border: st.border },
                     shape: "box",
-                    borderWidth: 2,
                     margin: 10,
-                    font: { color: "#92400e", face: "Inter", size: 12, bold: true }
-                });
-            }
+                    font: { color: st.font, face: "Inter", size: 11 }
+                };
+            });
 
-            const edges = [
-                { from: 1, to: 2, label: "Eligible", color: { color: "#94a3b8" }, font: { size: 10, color: "#64748b" }, arrows: "to" },
-                { from: 1, to: 5, label: privateAffordable ? "Feasible" : "Deficit", color: { color: privateAffordable ? "#059669" : "#e11d48" }, font: { size: 10, color: "#64748b" }, arrows: "to" },
-                { from: 1, to: 6, label: privateAffordable ? "Feasible" : "Deficit", color: { color: privateAffordable ? "#059669" : "#e11d48" }, font: { size: 10, color: "#64748b" }, arrows: "to" },
-                { from: 7, to: 2, label: "NVQ Ladder", color: { color: "#059669" }, font: { size: 10, color: "#64748b" }, arrows: "to" },
-                { from: 2, to: 4, label: "NVQ 6 Lateral", color: { color: "#059669" }, font: { size: 10, color: "#64748b" }, arrows: "to" },
-                { from: 2, to: 3, label: "Credit Transfer", color: { color: "#059669" }, font: { size: 10, color: "#64748b" }, arrows: "to" }
-            ];
+            const visEdges = proj.edges.map(e => ({
+                from: e.from,
+                to: e.to,
+                label: e.label,
+                color: { color: "#94a3b8" },
+                font: { size: 10, color: "#64748b" },
+                arrows: "to"
+            }));
 
-            if (isDeadlocked) {
-                edges.push({ from: 1, to: 99, label: "Synthesized", color: { color: "#d97706" }, dashes: true, width: 2, font: { size: 10, color: "#92400e" }, arrows: "to" });
-                edges.push({ from: 99, to: 3, label: "60 Credits", color: { color: "#d97706" }, width: 2, font: { size: 10, color: "#92400e" }, arrows: "to" });
-            }
-
-            const data = { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) };
+            const container = document.getElementById("network-canvas");
+            const data = { nodes: new vis.DataSet(visNodes), edges: new vis.DataSet(visEdges) };
             const options = {
-                physics: {
-                    stabilization: { iterations: 150 },
-                    barnesHut: { springLength: 130, gravitationalConstant: -3500 }
-                },
+                physics: { stabilization: { iterations: 150 }, barnesHut: { springLength: 140, gravitationalConstant: -3500 } },
                 interaction: { hover: true }
             };
 
@@ -666,76 +956,74 @@
 
             visNetwork.on("click", function(params) {
                 if (params.nodes.length > 0) {
-                    showBlackboard(params.nodes[0], p);
+                    inspectNode(params.nodes[0]);
                 }
             });
 
-            showBlackboard(isDeadlocked ? 99 : 2, p);
+            if (proj.nodes.length > 0) {
+                inspectNode(proj.nodes[0].id);
+            }
         }
 
-        function showBlackboard(nodeId, p) {
-            const titleEl = document.getElementById("blackboard-title");
-            const statusEl = document.getElementById("blackboard-status");
-            const critEl = document.getElementById("blackboard-critiques");
-            const budgetVal = Number(p.monthly_budget_lkr || 25000);
+        function inspectNode(nodeId) {
+            const n = currentNodesMap[nodeId];
+            if (!n) return;
 
-            if (nodeId === 99) {
-                titleEl.innerText = "SYNTH-SLIATE-BIT-BRIDGE";
-                statusEl.innerText = "SYNTHESIZED BRIDGE";
-                statusEl.className = "text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200";
-                critEl.innerHTML = `
-                    <div class="bg-slate-50 p-3 rounded border border-slate-200">
-                        <div class="flex items-center justify-between font-semibold text-slate-900 mb-1">
-                            <span>BridgeSynthesizer</span>
-                            <span class="font-mono text-[10px] text-slate-500">CONFIDENCE: 0.96</span>
-                        </div>
-                        <p class="text-slate-600 leading-relaxed">Injected accredited lateral bridge combining tuition-free SLIATE HNDIT (NVQ Level 6) with UCSC BIT External degree. Eliminates LKR 2.1M upfront private tuition requirement while enabling Year 2 work-study income.</p>
+            document.getElementById("inspector-node-id").innerText = `${n.id} (${n.title})`;
+            document.getElementById("inspector-node-subtitle").innerText = `${n.institution} · Campus: ${n.campus} · Source: ${n.source_url}`;
+            document.getElementById("inspector-evidence-badge").innerText = `evidence: ${n.evidence_status} (${n.evidence_id})`;
+
+            const container = document.getElementById("inspector-findings");
+            container.innerHTML = (n.findings || []).map(f => `
+                <div class="bg-slate-50 p-2.5 rounded border border-slate-200 flex items-start justify-between gap-3">
+                    <div>
+                        <span class="font-semibold text-slate-900">${f.lens} Lens:</span>
+                        <span class="text-slate-600 ml-1">${f.summary}</span>
                     </div>
+                    <span class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-white border border-slate-200 text-slate-700 shrink-0">
+                        ${f.verdict}
+                    </span>
+                </div>
+            `).join("");
+        }
+
+        function computeClientStressDeltas(req) {
+            const cat = CATALOGUES[req.catalogue_mode];
+            const offMap = {};
+            cat.offerings.forEach(o => offMap[o.id] = o);
+
+            const sampleRoutes = req.catalogue_mode === "demo"
+                ? [
+                    [offMap["DEMO-DIRECT-DEG"]],
+                    [offMap["DEMO-FOUNDATION"], offMap["DEMO-DIPLOMA"], offMap["DEMO-TOPUP"]]
+                ]
+                : [
+                    [offMap["REAL-UCSC-BIT"]],
+                    [offMap["REAL-SLIATE-HNDIT"], offMap["REAL-UNIVOTEC-BTECH"]]
+                ];
+
+            const tbody = document.getElementById("stress-table-body");
+            tbody.innerHTML = sampleRoutes.map(rNodes => {
+                const base = computeCashFlow(rNodes, req.savings_lkr, req.monthly_budget_lkr, 1.0, 0);
+                const stressed = computeCashFlow(rNodes, req.savings_lkr, req.monthly_budget_lkr, 1.4, 6);
+                const dCost = stressed.total_cost_lkr - base.total_cost_lkr;
+                const dShort = stressed.shortfall_lkr - base.shortfall_lkr;
+                const dDur = stressed.duration_months - base.duration_months;
+                return `
+                    <tr>
+                        <td class="py-2 px-3 font-sans font-medium text-slate-900">${rNodes.map(n => n.id).join(" -> ")}</td>
+                        <td class="py-2 px-3">LKR ${base.total_cost_lkr.toLocaleString()}</td>
+                        <td class="py-2 px-3">LKR ${stressed.total_cost_lkr.toLocaleString()}</td>
+                        <td class="py-2 px-3 text-amber-700">+LKR ${dCost.toLocaleString()}</td>
+                        <td class="py-2 px-3 ${dShort > 0 ? 'text-rose-700 font-semibold' : 'text-slate-600'}">+LKR ${dShort.toLocaleString()}</td>
+                        <td class="py-2 px-3">+${dDur} mo</td>
+                    </tr>
                 `;
-            } else if (nodeId === 5 || nodeId === 6) {
-                titleEl.innerText = nodeId === 5 ? "SLIIT-SE-HONOURS" : "NSBM-CS-DEGREE";
-                const viable = (budgetVal >= 38000 || p.can_commute);
-                statusEl.innerText = viable ? "FEASIBLE" : "REJECTED (DEFICIT)";
-                statusEl.className = viable
-                    ? "text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200"
-                    : "text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-rose-50 text-rose-800 border border-rose-200";
-                critEl.innerHTML = `
-                    <div class="bg-slate-50 p-3 rounded border border-slate-200">
-                        <div class="flex items-center justify-between font-semibold text-slate-900 mb-1">
-                            <span>FiscalSurvivalGuard</span>
-                            <span class="font-mono text-[10px] text-slate-500">CONFIDENCE: 0.95</span>
-                        </div>
-                        <p class="text-slate-600 leading-relaxed">${viable ? 'Government IFSLS interest-free loan subsidy applied (up to LKR 1.8M covered). Monthly living allowance is sufficient.' : 'Colombo hostel and living expenses (LKR 38,000/month) exceed family monthly budget of LKR ' + budgetVal.toLocaleString() + '.'}</p>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded border border-slate-200">
-                        <div class="flex items-center justify-between font-semibold text-slate-900 mb-1">
-                            <span>SLQFGatekeeper</span>
-                            <span class="font-mono text-[10px] text-slate-500">CONFIDENCE: 0.99</span>
-                        </div>
-                        <p class="text-slate-600 leading-relaxed">Verified: Ministry of Education Non-State Higher Education Division recognized SLQF Level 6 Honours degree.</p>
-                    </div>
-                `;
-            } else {
-                titleEl.innerText = "SLIATE-HNDIT-GALLE";
-                statusEl.innerText = "FEASIBLE";
-                statusEl.className = "text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200";
-                critEl.innerHTML = `
-                    <div class="bg-slate-50 p-3 rounded border border-slate-200">
-                        <div class="flex items-center justify-between font-semibold text-slate-900 mb-1">
-                            <span>FiscalSurvivalGuard</span>
-                            <span class="font-mono text-[10px] text-slate-500">CONFIDENCE: 0.98</span>
-                        </div>
-                        <p class="text-slate-600 leading-relaxed">100% tuition-free state institute program. Upfront registration deposit of LKR 2,500 and monthly living costs are within budget.</p>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded border border-slate-200">
-                        <div class="flex items-center justify-between font-semibold text-slate-900 mb-1">
-                            <span>SLQFGatekeeper</span>
-                            <span class="font-mono text-[10px] text-slate-500">CONFIDENCE: 0.99</span>
-                        </div>
-                        <p class="text-slate-600 leading-relaxed">Verified SLQF Level 4 / NVQ Level 6 qualification with accredited lateral credit transfer to UNIVOTEC B.Tech and UCSC BIT.</p>
-                    </div>
-                `;
-            }
+            }).join("");
+        }
+
+        function triggerStressTest() {
+            switchTab("tab-stress");
         }
 
         function switchTab(tabId) {
@@ -748,7 +1036,7 @@
         }
 
         window.onload = function() {
-            runCouncil();
+            recomputePlan();
         };
     </script>
 </body>

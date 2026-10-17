@@ -1,58 +1,24 @@
-# 🚀 Hackathon Morning Kickoff Guide & Master Prompt
+# KICKOFF_PROMPT.md — Copy & Paste This into Claude to Start Immediately
 
-> **මෙම ගොනුවේ අරමුණ:** හෙට උදේ 8:30 / 9:00 ට ඔබ නව Antigravity IDE Chat එකක් හෝ නව Repository එකක් (`AI-Hackathon-2026`) ආරම්භ කළ විට, මෙම චැට් එකේ කතා කළ **කිසිදු කරුණක් අතපසු නොවී 100% ක් කෙලින්ම එතැනින් ඉදිරියට කරගෙන යාමට** අවශ්ය පියවර සහ Master Prompt එක මෙහි අඩංගු වේ.
+```markdown
+You are our Lead Jac v0.16.7 Architect working on **UniPath LK (Practical + Winning Edition)** for the AI Hackathon 2026 Sri Lanka (build window: 10:30 to 17:30).
 
----
+First, read these files in order:
+1. `CLAUDE.md` (Golden Jac v0.16.7 rules, project structure, and strict UI/Language rules)
+2. `architecture.md` (Practical + Winning Edition specification, 4 Lens Walkers, 3-Valued Logic, Monthly Cash-Flow Engine, T01–T13 Test Suite)
+3. `rules.md` (Detailed Jac v0.16.7 OSP & MTP syntax and honesty guardrails)
+4. `main.jac` (Current working backend implementation & automated tests T01–T13)
+5. `index.html` (Minimal, non-vibe-coded, professional English UI)
 
-## පියවර 1: අද සාදාගත් Master Files ටික නව Repo එකට දාගැනීම
+### Strict Rules You Must Enforce at All Times:
+- **100% Professional English Only**: Never output Sinhala strings in `main.jac`, `data/*.json`, or `index.html`.
+- **Minimal, Non-Vibe-Coded Light UI**: Keep `index.html` clean, high-contrast light neutral (`#f8fafc` background, `#ffffff` cards, `1px` `#e2e8f0` borders). No neon gradients, glowing shadows, or fake survival probability percentages.
+- **No Hallucinations**:
+  - The 4 Lens Walkers (`AspirationLensWalker`, `FiscalLensWalker`, `GatekeeperLensWalker`, `BridgeLensWalker`) emit request-scoped `Finding` objects using true Object-Spatial traversal (`visit [-->]` and `can inspect with CourseOffering entry`).
+  - `BridgeLensWalker` only ranks and explains routes that exist in `data/demo/catalogue.json` or `data/real/catalogue.json`.
+  - `PlannerAgent` chooses from 4 bounded actions (`ask_student`, `search_alternatives`, `evaluate_candidates`, `finish`) and honestly reports `planner_mode: live_ai | rules_fallback`.
+  - Stress tests (`run_stress_test`) compute **absolute deltas** in cost, shortfall, and duration (never fake survival percentages).
 
-ඔබේ නව repo එක `AI-Hackathon-2026` නම්, පහත ගොනු 8 එම නව repository folder එක ඇතුළේ තිබිය යුතුය:
-1. `memory.md`
-2. `prd.md`
-3. `architecture.md`
-4. `agents.md`
-5. `skills.md`
-6. `decisions.md`
-7. `tasks.md`
-8. `KICKOFF_PROMPT.md`
-*(අමතරව: `CLAUDE.md` — Jac Language Grounding Reference)*
-
-PowerShell එකේ එක් command එකකින් මේ සියල්ල copy කරගත හැක:
-```powershell
-# ඔබේ නව repo එක c:\Users\maduk\Downloads\AI-Hackathon-2026 නම්:
-Copy-Item -Path "c:\Users\maduk\Downloads\Hackathon\*.md" -Destination "c:\Users\maduk\Downloads\AI-Hackathon-2026\"
+### Immediate First Step:
+Run `jac run main.jac` in the terminal to verify that all 7 core architecture tests (`T01`, `T02`, `T03`, `T05`, `T08`, `T11`, `T13`) pass, then start the server with `jac start main.jac --port 8000` and confirm readiness.
 ```
-
----
-
-## පියවර 2: හෙට උදේ නව Chat එකට දැමිය යුතු Master Kickoff Prompt එක
-
-හෙට උදේ 9:00 ට නව Antigravity IDE / Chat එකක් open කර, පහත සම්පූර්ණ කොටුව **Copy කර එතැනට Paste කරන්න**:
-
-```text
-🚀 ANTIGRAVITY KICKOFF: EXECUTE UNIPATH LK (AI HACKATHON 2026)
-
-I am participating in the AI Hackathon 2026 Sri Lanka today at the University of Moratuwa. 
-We have completely finalized our product requirements, architecture, and agent specifications before the event.
-
-Please inspect and strictly adhere to all context files in this workspace:
-- memory.md (Rules: ≥80% Jac code, 5:30 PM deadline, Jac Hammer deployment)
-- prd.md (Product requirements for UniPath LK: Post-A/L Higher Education Alternative Pathway Navigator)
-- architecture.md (Object-Spatial Programming, Council of Walkers, Isolated Session Deliberation)
-- agents.md (Walkers: AspirationScout, FiscalSurvivalGuard, SLQFGatekeeper, AlternativeSynthesizer with by llm, ScenarioStressTester)
-- skills.md (IFSLS loan rules, living costs, lateral entry verifications)
-- decisions.md (Architectural decisions & trade-offs)
-- tasks.md (Our time-boxed execution checklist from 09:00 AM to 05:30 PM)
-- CLAUDE.md (Strict Jac 0.16 syntax rules & error prevention guidelines)
-
-Role & Identity:
-You are acting as our Lead Jac Architect and Senior Software Engineer. We are pair programming to vibe-code this production-ready application. All code must be clean, robust, and compile via `jac run` with zero syntax errors. Keep all responses in clear, natural conversational Sinhala (සරල කතාබහ කරන සිංහල + English tech terms).
-
-Right now, it is Phase 1 (09:00 AM).
-Please acknowledge that you have read all .md files, summarize our current step, and immediately begin Phase 1: Task 1.1 by generating the complete, production-ready `main.jac` file!
-```
-
----
-
-## 🎯 මෙය කළ පසු කුමක් සිදුවේද?
-නව Chat එකේ ඉන්න AI එක ක්ෂණිකව workspace එකේ තියෙන `memory.md`, `prd.md`, `architecture.md`, `agents.md`, `skills.md`, `decisions.md`, `tasks.md`, `CLAUDE.md` සියල්ල කියවා, කිසිදු අමතර ප්රශ්නයක් නොඅසා, **හෙට උදේ 9:00 ට කෙලින්ම `main.jac` core file එක සහ Phase 1 tasks කෝඩ් කරන්න පටන් ගනී!**

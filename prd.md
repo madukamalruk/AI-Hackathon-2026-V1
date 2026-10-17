@@ -81,13 +81,16 @@ Every year in Sri Lanka:
   - SLQF & NVQ Level equivalence and UGC accreditation status.
   - Ghost Simulation Resilience Score (%) and vulnerability warnings.
   - Minimum Change recommendation to unlock alternative paths.
-  - 5-step tomorrow-morning Action Checklist in conversational Sinhala + English terms.
+  - 5-step tomorrow-morning Action Checklist in clear, professional English.
 
 ---
 
-## 7. Non-Functional Requirements
+## 7. Non-Functional & UI/UX Requirements
+- **Language**: 100% Professional English across all backend walker reports, logs, and UI components.
+- **UI Design**: Minimal, non-vibe-coded, user-friendly light interface (`#f8fafc` background, `#ffffff` cards, `1px` borders, zero neon/glowing clutter).
 - **Performance**: Graph search & walker execution within 2 seconds.
 - **Codebase Compliance**: ≥ 80% written in Jac.
 - **Robustness**: 100% type-safe Meaning-Typed execution with strict fallback if LLM is unavailable.
 - **Deployment**: Seamless single-command startup via `jac start main.jac` and Jac Hammer compatibility.
+
 

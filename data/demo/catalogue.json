@@ -1,0 +1,363 @@
+{
+  "catalogue_mode": "demo",
+  "version": "2026.10.17-fixture-v2",
+  "description": "Fictional hand-checkable test catalogue, not real education guidance.",
+  "domains": [
+    {
+      "id": "it",
+      "label": "IT & Computing",
+      "description": "Software, data, networks and digital systems"
+    },
+    {
+      "id": "engineering",
+      "label": "Engineering",
+      "description": "Civil, mechanical, electrical and industrial systems"
+    },
+    {
+      "id": "health",
+      "label": "Medicine & Health",
+      "description": "Health sciences, nursing and laboratory practice"
+    },
+    {
+      "id": "science",
+      "label": "Science",
+      "description": "Natural sciences, mathematics and research"
+    },
+    {
+      "id": "business",
+      "label": "Business & Finance",
+      "description": "Management, accounting, marketing and finance"
+    },
+    {
+      "id": "law",
+      "label": "Law",
+      "description": "Legal studies and professional pathways"
+    },
+    {
+      "id": "social",
+      "label": "Social Sciences",
+      "description": "Society, community development and public policy"
+    },
+    {
+      "id": "education",
+      "label": "Education",
+      "description": "Teaching, learning and inclusive education"
+    },
+    {
+      "id": "arts",
+      "label": "Arts & Design",
+      "description": "Design, creative practice and performance"
+    },
+    {
+      "id": "languages",
+      "label": "Languages & Media",
+      "description": "Languages, communication and language teaching"
+    },
+    {
+      "id": "agriculture",
+      "label": "Agriculture & Environment",
+      "description": "Agriculture, land and sustainable systems"
+    },
+    {
+      "id": "tourism",
+      "label": "Tourism & Hospitality",
+      "description": "Tourism, hospitality and visitor experiences"
+    }
+  ],
+  "offerings": [
+    {
+      "id": "DEMO-DIRECT-DEG",
+      "title": "BSc in Computing (Direct Entry)",
+      "institution_id": "INST-DEMO-METRO",
+      "campus": "Colombo",
+      "delivery_mode": "full_time",
+      "goal": "Software Engineer",
+      "award_id": "QUAL-BSC-COMP",
+      "slqf_level": 6,
+      "nvq_level": null,
+      "duration_months": 12,
+      "upfront_cost_lkr": 24000,
+      "monthly_cost_lkr": 5000,
+      "travel_monthly_lkr": 1500,
+      "evidence_status": "fixture",
+      "evidence_id": "EV-DEMO-01",
+      "source_url": "fixture://demo-metro/bsc-direct",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "al_passes",
+            "cmp": ">=",
+            "value": 3
+          }
+        ]
+      },
+      "institution": "Metro School of Computing (Fixture)",
+      "domain_ids": [
+        "it"
+      ],
+      "institution_type": "fictional",
+      "terminal": true,
+      "claims": [
+        {
+          "id": "EV-DEMO-01",
+          "field": "fixture",
+          "status": "fixture",
+          "source_url": "",
+          "checked_on": "2026-10-17",
+          "note": "Fictional numbers for hand-checkable software tests; not an institution or an admission offer."
+        }
+      ],
+      "description": "Fictional software-verification example."
+    },
+    {
+      "id": "DEMO-FOUNDATION",
+      "title": "Certificate in Computing Foundation",
+      "institution_id": "INST-DEMO-REGIONAL",
+      "campus": "Galle",
+      "delivery_mode": "full_time",
+      "goal": "Software Engineer",
+      "award_id": "QUAL-FOUNDATION",
+      "slqf_level": 3,
+      "nvq_level": 4,
+      "duration_months": 4,
+      "upfront_cost_lkr": 2000,
+      "monthly_cost_lkr": 4000,
+      "travel_monthly_lkr": 1000,
+      "evidence_status": "fixture",
+      "evidence_id": "EV-DEMO-02",
+      "source_url": "fixture://demo-regional/foundation",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "al_passes",
+            "cmp": ">=",
+            "value": 1
+          }
+        ]
+      },
+      "institution": "Regional Technical College (Fixture)",
+      "domain_ids": [
+        "it"
+      ],
+      "institution_type": "fictional",
+      "terminal": false,
+      "claims": [
+        {
+          "id": "EV-DEMO-02",
+          "field": "fixture",
+          "status": "fixture",
+          "source_url": "",
+          "checked_on": "2026-10-17",
+          "note": "Fictional numbers for hand-checkable software tests; not an institution or an admission offer."
+        }
+      ],
+      "description": "Fictional software-verification example."
+    },
+    {
+      "id": "DEMO-DIPLOMA",
+      "title": "Higher Diploma in Software Systems",
+      "institution_id": "INST-DEMO-REGIONAL",
+      "campus": "Galle",
+      "delivery_mode": "full_time",
+      "goal": "Software Engineer",
+      "award_id": "QUAL-DIPLOMA",
+      "slqf_level": 4,
+      "nvq_level": 6,
+      "duration_months": 4,
+      "upfront_cost_lkr": 2000,
+      "monthly_cost_lkr": 4000,
+      "travel_monthly_lkr": 1000,
+      "evidence_status": "fixture",
+      "evidence_id": "EV-DEMO-03",
+      "source_url": "fixture://demo-regional/diploma",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "QUAL-FOUNDATION"
+          }
+        ]
+      },
+      "institution": "Regional Technical College (Fixture)",
+      "domain_ids": [
+        "it"
+      ],
+      "institution_type": "fictional",
+      "terminal": false,
+      "claims": [
+        {
+          "id": "EV-DEMO-03",
+          "field": "fixture",
+          "status": "fixture",
+          "source_url": "",
+          "checked_on": "2026-10-17",
+          "note": "Fictional numbers for hand-checkable software tests; not an institution or an admission offer."
+        }
+      ],
+      "description": "Fictional software-verification example."
+    },
+    {
+      "id": "DEMO-TOPUP",
+      "title": "BSc in Computing (Final Year Top-Up)",
+      "institution_id": "INST-DEMO-METRO",
+      "campus": "Colombo",
+      "delivery_mode": "part_time",
+      "goal": "Software Engineer",
+      "award_id": "QUAL-BSC-COMP",
+      "slqf_level": 6,
+      "nvq_level": null,
+      "duration_months": 4,
+      "upfront_cost_lkr": 2000,
+      "monthly_cost_lkr": 4000,
+      "travel_monthly_lkr": 1500,
+      "evidence_status": "fixture",
+      "evidence_id": "EV-DEMO-04",
+      "source_url": "fixture://demo-metro/topup",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "QUAL-DIPLOMA"
+          },
+          {
+            "field": "can_relocate",
+            "cmp": "==",
+            "value": true
+          }
+        ]
+      },
+      "institution": "Metro School of Computing (Fixture)",
+      "domain_ids": [
+        "it"
+      ],
+      "institution_type": "fictional",
+      "terminal": true,
+      "claims": [
+        {
+          "id": "EV-DEMO-04",
+          "field": "fixture",
+          "status": "fixture",
+          "source_url": "",
+          "checked_on": "2026-10-17",
+          "note": "Fictional numbers for hand-checkable software tests; not an institution or an admission offer."
+        }
+      ],
+      "description": "Fictional software-verification example."
+    },
+    {
+      "id": "DEMO-HONOURS-SPEC",
+      "title": "BSc Honours in AI Systems (Requires Maths Credit)",
+      "institution_id": "INST-DEMO-METRO",
+      "campus": "Colombo",
+      "delivery_mode": "full_time",
+      "goal": "Software Engineer",
+      "award_id": "QUAL-BSC-COMP",
+      "slqf_level": 6,
+      "nvq_level": null,
+      "duration_months": 6,
+      "upfront_cost_lkr": 10000,
+      "monthly_cost_lkr": 4500,
+      "travel_monthly_lkr": 1500,
+      "evidence_status": "fixture",
+      "evidence_id": "EV-DEMO-05",
+      "source_url": "fixture://demo-metro/ai-honours",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "QUAL-DIPLOMA"
+          },
+          {
+            "field": "has_maths_credit",
+            "cmp": "==",
+            "value": true
+          }
+        ]
+      },
+      "institution": "Metro School of Computing (Fixture)",
+      "domain_ids": [
+        "it"
+      ],
+      "institution_type": "fictional",
+      "terminal": true,
+      "claims": [
+        {
+          "id": "EV-DEMO-05",
+          "field": "fixture",
+          "status": "fixture",
+          "source_url": "",
+          "checked_on": "2026-10-17",
+          "note": "Fictional numbers for hand-checkable software tests; not an institution or an admission offer."
+        }
+      ],
+      "description": "Fictional software-verification example."
+    }
+  ],
+  "transitions": [
+    {
+      "from_id": "DEMO-FOUNDATION",
+      "to_id": "DEMO-DIPLOMA",
+      "transition_type": "progression",
+      "evidence_status": "fixture",
+      "evidence_id": "EV-TRANS-01",
+      "rationale": "Standard progression from Foundation Certificate to Higher Diploma.",
+      "requirements": {},
+      "claims": [
+        {
+          "id": "EV-TRANS-01",
+          "field": "progression",
+          "status": "fixture",
+          "source_url": "",
+          "checked_on": "2026-10-17",
+          "note": "Fictional test progression."
+        }
+      ]
+    },
+    {
+      "from_id": "DEMO-DIPLOMA",
+      "to_id": "DEMO-TOPUP",
+      "transition_type": "lateral_topup",
+      "evidence_status": "fixture",
+      "evidence_id": "EV-TRANS-02",
+      "rationale": "Articulated credit transfer from Higher Diploma into Final Year Top-Up.",
+      "requirements": {},
+      "claims": [
+        {
+          "id": "EV-TRANS-02",
+          "field": "progression",
+          "status": "fixture",
+          "source_url": "",
+          "checked_on": "2026-10-17",
+          "note": "Fictional test progression."
+        }
+      ]
+    },
+    {
+      "from_id": "DEMO-DIPLOMA",
+      "to_id": "DEMO-HONOURS-SPEC",
+      "transition_type": "specialist_transfer",
+      "evidence_status": "fixture",
+      "evidence_id": "EV-TRANS-03",
+      "rationale": "Requires both QUAL-DIPLOMA and has_maths_credit == true.",
+      "requirements": {},
+      "claims": [
+        {
+          "id": "EV-TRANS-03",
+          "field": "progression",
+          "status": "fixture",
+          "source_url": "",
+          "checked_on": "2026-10-17",
+          "note": "Fictional test progression."
+        }
+      ]
+    }
+  ]
+}

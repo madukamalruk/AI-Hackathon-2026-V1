@@ -1,142 +1,55 @@
-# 📜 Jac Language (v0.16.7) & UniPath LK — Complete Rules & Developer Guide (`rules.md`)
+# Jac Language (v0.16.7) & UniPath LK — Complete Rules (`rules.md`)
 
-This document serves as the **Single Source of Truth** for developing, extending, and running the **UniPath LK (Council of Walkers)** project in **Jac v0.16.7**. Keep this file in the root directory so both developers and AI coding assistants (Claude, Cursor, Antigravity, Copilot) follow exact Jac v0.16.7 syntax and architectural rules.
-
----
-
-## 1. Golden Jac v0.16.7 Syntax Rules (CRITICAL)
-
-### 1.1 Booleans & Nulls
-- **Always** use Python-style capitalized `True`, `False`, and `None`.
-- Never use lowercase `true`, `false`, or `null` inside `.jac` server code.
-
-### 1.2 Top-Level Scope & Entry Points
-- Only declarations (`node`, `edge`, `walker`, `obj`, `enum`, `def`, `glob`, `import`) are permitted at the top level of a `.jac` file.
-- Executable code must live inside `with entry { ... }` or `with entry:__main__ { ... }` or inside walker/function bodies.
-- **Never** write bare `entry { ... }` without `with`.
-
-### 1.3 Archetype Attribute Ordering (`has` Fields)
-- **Non-default attributes MUST always come before default attributes** in any `node`, `edge`, `walker`, or `obj`.
-  ```jac
-  # ✅ CORRECT
-  node Course {
-      has code: str,
-          name: str;
-      has is_active: bool = True,
-          credits: int = 3;
-  }
-
-  # ❌ WRONG (Syntax/Compile Error in Jac)
-  node Course {
-      has is_active: bool = True;
-      has code: str;
-  }
-  ```
-
-### 1.4 Imports
-- Standard Python imports:
-  ```jac
-  import sys;
-  import from os { path }
-  ```
-- **Never** use deprecated `import:py` syntax.
-- Do **not** put a semicolon after closing curly brace `}` on selective imports (`import from module { Symbol }`).
-
-### 1.5 Control Flow & Expressions
-- **Conditionals**: `if cond { ... } elif cond2 { ... } else { ... }`
-- **Inline Conditional (Ternary)**: Use Python-style `(val1) if cond else (val2)`. Never use `cond ? val1 : val2`.
-- **Loops**: `for item in items { ... }` or `for (idx, item) in enumerate(items) { ... }`.
-- **Exceptions**: `try { ... } except Exception as e { ... } finally { ... }` (Never `catch`).
-- **No `pass` keyword**: Use an empty block `{}` instead of `pass`.
+This document defines the syntax, architectural, and UI rules for **UniPath LK (Practical + Winning Edition)**.
 
 ---
 
-## 2. Object-Spatial Programming (OSP) Rules
+## 1. Hard Architectural & Honesty Rules
 
-### 2.1 Defining Graph Archetypes
-- **`obj`**: Standard data class (not attached to graph edges).
-- **`node`**: Graph vertex capable of holding state and a Spatial Blackboard (`deliberation_board`).
-- **`edge`**: Directed/undirected typed connection holding transition metadata (e.g., `BridgePathway`).
-- **`walker`**: Autonomous mobile agent that traverses nodes and edges (`can ability_name with NodeType entry { ... }`).
-
-### 2.2 Graph Construction & Metamorphosis Operators
-- **Create & Connect Node from current node (`here` or `root`)**:
-  ```jac
-  new_nodes = here ++> InstituteCourse(code="SLIATE-HNDIT", ...);
-  ```
-- **Connect Two Nodes with a Typed Edge**:
-  ```jac
-  node_a +>: BridgePathway(credits_transferred=60, is_synthetic=True) :+> node_b;
-  ```
-- **Delete Connection**:
-  ```jac
-  node_a del--> node_b;
-  ```
-
-### 2.3 Graph Traversal & Filtering Operators
-- All outgoing nodes: `[-->]`
-- Filter by node archetype: `[-->](?:InstituteCourse)`
-- Filter by node attribute: `[-->](?:InstituteCourse, node_status == "viable_green")`
-- Traverse via specific edge type: `[->:BridgePathway:->]`
-- Queue nodes for walker visit: `visit [-->](?:InstituteCourse);`
-- Stop walker immediately: `disengage;`
-
-### 2.4 Spawning Walkers & Reading Reports
-- Spawn a walker on `root` or any specific node `n`:
-  ```jac
-  w = root spawn RunPathwayCouncil(student_name="Dinuka", z_score=1.12);
-  ```
-- Emit data to API / caller inside walker:
-  ```jac
-  report {"status": "success", "data": result};
-  ```
-- Read reported output in CLI/test blocks:
-  ```jac
-  output = w.reports[-1]; # Always use .reports, NEVER .returns
-  ```
+1. **100% Professional English Only**: All code, comments, data files, walker outputs, and UI elements must be in clear, professional English.
+2. **Minimal, Non-Vibe-Coded UI**: Keep `index.html` clean, high-contrast, light-themed (`#f8fafc` background, `#ffffff` cards, `1px` `#e2e8f0` borders), and free of neon gradients or decorative clutter.
+3. **Deterministic Validation Over LLM Suggestions**:
+   - The LLM (`PlannerAgent` / `BridgeLensWalker`) may rank catalogue routes, explain trade-offs, and choose from 4 allowlisted actions (`ask_student`, `search_alternatives`, `evaluate_candidates`, `finish`).
+   - It NEVER invents institutions, fees, exemptions, or non-catalogue bridges.
+   - Always label `planner_mode: live_ai | rules_fallback` honestly.
+4. **Three-Valued Logic (`pass / fail / unknown`)**:
+   - Missing student inputs (`None` / `null`) evaluate to `unknown`, triggering `needs_confirmation` status and a clarifying question (`ask_student`).
+5. **Monthly Cash-Flow Ledger**:
+   - Upfront fees are deducted at the start of a course step; monthly budget contributions and recurring costs are applied at month-end.
+   - `shortfall_lkr = max(0, -minimum_balance_lkr)`.
+   -Fixture oracle (`T05`): At `savings=2000, monthly_budget=5000`, Direct Degree (`DEMO-DIRECT-DEG`) costs `84,000` with `minimum_balance = -22,000` (`shortfall = 22,000`), while the 3-step route (`DEMO-FOUNDATION -> DEMO-DIPLOMA -> DEMO-TOPUP`) costs `54,000` with `minimum_balance = 0` (`shortfall = 0`). At `savings=24000`, Direct Degree shortfall becomes `0`.
 
 ---
 
-## 3. Meaning-Typed Programming (MTP) — `by llm()` Rules
+## 2. Jac v0.16.7 Syntax Rules
 
-When connecting an LLM (`byllm` package) for dynamic reasoning:
-```jac
-import from byllm { Model }
-
-glob llm: Model = Model(model_name="gpt-4o");
-
-sem synthesize_bridge = "Synthesize a valid Sri Lankan SLQF/NVQ lateral bridge pathway for a deadlocked student.";
-def synthesize_bridge(stream: str, z_score: float, budget_lkr: float) -> str by llm();
-```
-- **Rule**: Always keep a deterministic fallback in `main.jac` so the project runs 100% offline even on machines without an OpenAI/Gemini API key configured.
-
----
-
-## 4. UniPath LK Multi-Agent Architecture Rules (Council of Walkers)
-
-1. **No Monolithic Prompt Chains**: All pathway discovery, financial auditing, regulatory verification, deadlock synthesis, and stress testing MUST be executed via specialized Walkers (`AspirationScout`, `FiscalSurvivalGuard`, `SLQFGatekeeper`, `BridgeSynthesizer`, `PathwayEvaluator`, `GhostWalker`, `GapAnalyzerWalker`, `MinimumChangeFinder`, `ActionPlanGenerator`).
-2. **Spatial Blackboard Pattern**: `FiscalSurvivalGuard`, `SLQFGatekeeper`, and `BridgeSynthesizer` must write structured `AgentCritique` objects directly onto `here.deliberation_board` on each `InstituteCourse` node.
-3. **Dynamic Graph Metamorphosis**: When a student hits an Educational Deadlock (Z-score below state university cutoff AND monthly budget below direct private university living+tuition cost), `BridgeSynthesizer` dynamically injects `SYNTH-SLIATE-BIT-BRIDGE` into the graph topology and connects it via `BridgePathway`.
-4. **Zero Constraint Violations**: Every recommended pathway must pass the 2-Stage Feasibility Gate (Academic stream & passes + Financial monthly burn & upfront fee + SLQF/UGC verification).
-5. **Windows UTF-8 Compatibility**: Because UniPath LK includes Sinhala explanations (`tradeoff_note_sinhala`, `impact_sinhala`), `sys.stdout` and `sys.stderr` must always be reconfigured to `utf-8` at startup so Windows PowerShell/CMD never raises a `charmap` encoding error.
+1. **Capitalized Literals**: Always use `True`, `False`, `None`.
+2. **Attribute Ordering**: Non-default `has` attributes MUST come before default `has` attributes in all `node`, `edge`, `walker`, and `obj` declarations.
+3. **Top-Level Scope**: Only declarations (`import`, `node`, `edge`, `walker`, `obj`, `def`, `glob`) and `with entry` blocks are allowed at top level.
+4. **Control Flow**:
+   - Inline conditional: `("pass") if cond else ("fail")`
+   - Loops: `for item in items { ... }` or `for (idx, item) in enumerate(items) { ... }`
+   - Exception handling: `try { ... } except Exception as e { ... }` (never `catch`, and do not leave bare `{}` expression statements without `;`).
+5. **Object-Spatial Graph Operations**:
+   - Node creation: `created = here ++> CourseOffering(...);`
+   - Edge connection: `node_a +>: ProgressesTo(...) :+> node_b;`
+   - Typed edge traversal: `neighbors = [node_a ->:ProgressesTo:->](?:CourseOffering);`
+   - Walker spawning & reports: `w = root spawn plan_pathways(...); result = w.reports[-1];`
 
 ---
 
-## 5. Running & Testing Commands
+## 3. Running & Verifying
 
-### 5.1 Run CLI Verification Test
 ```powershell
+# 1. Run the 7 Core Architecture Tests (T01, T02, T03, T05, T08, T11, T13)
 jac run main.jac
-```
 
-### 5.2 Start Jac REST API Server
-```powershell
+# 2. Start the Jac REST API Server on Port 8000
 jac start main.jac --port 8000
 ```
-- Walkers marked with `:pub` (`SeedGraph`, `RunPathwayCouncil`, `GetTestProfiles`) are exposed at:
-  - `POST http://localhost:8000/walker/RunPathwayCouncil`
-  - `POST http://localhost:8000/walker/GetTestProfiles`
-  - `POST http://localhost:8000/walker/SeedGraph`
-
-### 5.3 Launch Interactive Frontend UI
-Open `index.html` in any modern browser (or run `run_project.bat`). It automatically connects to `http://localhost:8000/walker/RunPathwayCouncil` if the Jac server is running, and includes a built-in synchronized simulation engine if opened standalone.
+Public endpoints exposed by `main.jac`:
+- `POST /walker/plan_pathways`
+- `POST /walker/run_stress_test`
+- `POST /walker/get_app_info`
+- `POST /walker/health`
+- `POST /walker/LoadCatalogue`

@@ -1,0 +1,2282 @@
+{
+  "catalogue_mode": "real",
+  "version": "2026.10.17-all-fields-v1",
+  "description": "Small cross-field discovery catalogue. Facts are labelled per claim; unavailable costs and entry rules are unknown.",
+  "domains": [
+    {
+      "id": "it",
+      "label": "IT & Computing",
+      "description": "Software, data, networks and digital systems"
+    },
+    {
+      "id": "engineering",
+      "label": "Engineering",
+      "description": "Civil, mechanical, electrical and industrial systems"
+    },
+    {
+      "id": "health",
+      "label": "Medicine & Health",
+      "description": "Health sciences, nursing and laboratory practice"
+    },
+    {
+      "id": "science",
+      "label": "Science",
+      "description": "Natural sciences, mathematics and research"
+    },
+    {
+      "id": "business",
+      "label": "Business & Finance",
+      "description": "Management, accounting, marketing and finance"
+    },
+    {
+      "id": "law",
+      "label": "Law",
+      "description": "Legal studies and professional pathways"
+    },
+    {
+      "id": "social",
+      "label": "Social Sciences",
+      "description": "Society, community development and public policy"
+    },
+    {
+      "id": "education",
+      "label": "Education",
+      "description": "Teaching, learning and inclusive education"
+    },
+    {
+      "id": "arts",
+      "label": "Arts & Design",
+      "description": "Design, creative practice and performance"
+    },
+    {
+      "id": "languages",
+      "label": "Languages & Media",
+      "description": "Languages, communication and language teaching"
+    },
+    {
+      "id": "agriculture",
+      "label": "Agriculture & Environment",
+      "description": "Agriculture, land and sustainable systems"
+    },
+    {
+      "id": "tourism",
+      "label": "Tourism & Hospitality",
+      "description": "Tourism, hospitality and visitor experiences"
+    }
+  ],
+  "offerings": [
+    {
+      "id": "LK-IT-01",
+      "title": "Bachelor of Software Engineering Honours",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "it"
+      ],
+      "award_id": "LK-IT-01-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-software-engineering-honours/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-IT-01-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-software-engineering-honours/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-IT-01-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-software-engineering-honours/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-IT-01-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-software-engineering-honours/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-IT-01-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-software-engineering-honours/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-IT-01-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-software-engineering-honours/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-IT-02",
+      "title": "Bachelor of Science in Information Technology",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "it"
+      ],
+      "award_id": "LK-IT-02-AWARD",
+      "duration_months": 36,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bscit/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-IT-02-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bscit/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-IT-02-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bscit/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-IT-02-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bscit/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-IT-02-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bscit/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-IT-02-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bscit/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-ENGINEERING-03",
+      "title": "Bachelor of Science Honours in Engineering – Civil Engineering",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "engineering"
+      ],
+      "award_id": "LK-ENGINEERING-03-AWARD",
+      "duration_months": 24,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-civil-engineering/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-ENGINEERING-03-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-civil-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-ENGINEERING-03-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-civil-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-ENGINEERING-03-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-civil-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-ENGINEERING-03-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-civil-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-ENGINEERING-03-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-civil-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-ENGINEERING-04",
+      "title": "Bachelor of Science Honours in Engineering – Mechanical Engineering",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "engineering"
+      ],
+      "award_id": "LK-ENGINEERING-04-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-mechanical-engineering/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-ENGINEERING-04-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-mechanical-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-ENGINEERING-04-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-mechanical-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-ENGINEERING-04-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-mechanical-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-ENGINEERING-04-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-mechanical-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-ENGINEERING-04-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-mechanical-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-HEALTH-05",
+      "title": "Bachelor of Science Honours in Nursing",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "health"
+      ],
+      "award_id": "LK-HEALTH-05-AWARD",
+      "duration_months": 24,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-nursing/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-HEALTH-05-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-nursing/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-HEALTH-05-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-nursing/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-HEALTH-05-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-nursing/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-HEALTH-05-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-nursing/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-HEALTH-05-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-nursing/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-HEALTH-06",
+      "title": "Bachelor of Medical Laboratory Sciences Honours",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "health"
+      ],
+      "award_id": "LK-HEALTH-06-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-medical-laboratory-sciences-honours/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-HEALTH-06-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-medical-laboratory-sciences-honours/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-HEALTH-06-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-medical-laboratory-sciences-honours/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-HEALTH-06-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-medical-laboratory-sciences-honours/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-HEALTH-06-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-medical-laboratory-sciences-honours/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-HEALTH-06-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-medical-laboratory-sciences-honours/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-SCIENCE-07",
+      "title": "Bachelor of Science",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "science"
+      ],
+      "award_id": "LK-SCIENCE-07-AWARD",
+      "duration_months": 36,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bsc/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-SCIENCE-07-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bsc/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-SCIENCE-07-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bsc/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-SCIENCE-07-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bsc/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-SCIENCE-07-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bsc/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-SCIENCE-07-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bsc/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-SCIENCE-08",
+      "title": "Bachelor of Science Honours in Zoology",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "science"
+      ],
+      "award_id": "LK-SCIENCE-08-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bsczoology/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-SCIENCE-08-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bsczoology/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-SCIENCE-08-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bsczoology/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-SCIENCE-08-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bsczoology/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-SCIENCE-08-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bsczoology/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-SCIENCE-08-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bsczoology/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-BUSINESS-09",
+      "title": "Bachelor of Management Studies Honours",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "business"
+      ],
+      "award_id": "LK-BUSINESS-09-AWARD",
+      "duration_months": 24,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-management-studies-honours-2/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-BUSINESS-09-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-management-studies-honours-2/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-BUSINESS-09-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-management-studies-honours-2/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-BUSINESS-09-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-management-studies-honours-2/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-BUSINESS-09-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-management-studies-honours-2/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-BUSINESS-09-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-management-studies-honours-2/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-BUSINESS-10",
+      "title": "Bachelor of Management Studies Honours in Accounting and Finance",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "business"
+      ],
+      "award_id": "LK-BUSINESS-10-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-management-studies-honours-in-accounting-and-finance/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-BUSINESS-10-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-management-studies-honours-in-accounting-and-finance/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-BUSINESS-10-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-management-studies-honours-in-accounting-and-finance/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-BUSINESS-10-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-management-studies-honours-in-accounting-and-finance/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-BUSINESS-10-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-management-studies-honours-in-accounting-and-finance/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-BUSINESS-10-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-management-studies-honours-in-accounting-and-finance/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-LAW-11",
+      "title": "Bachelor of Laws Degree Programme (LLB)",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "law"
+      ],
+      "award_id": "LK-LAW-11-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-laws-degree-programme-llb/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-LAW-11-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-laws-degree-programme-llb/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-LAW-11-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-laws-degree-programme-llb/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-LAW-11-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-laws-degree-programme-llb/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-LAW-11-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-laws-degree-programme-llb/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-LAW-11-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-laws-degree-programme-llb/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-SOCIAL-12",
+      "title": "Bachelor of Arts in Social Sciences",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "social"
+      ],
+      "award_id": "LK-SOCIAL-12-AWARD",
+      "duration_months": 36,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-in-social-sciences/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-SOCIAL-12-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-in-social-sciences/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-SOCIAL-12-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-in-social-sciences/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-SOCIAL-12-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-in-social-sciences/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-SOCIAL-12-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-in-social-sciences/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-SOCIAL-12-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-in-social-sciences/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-SOCIAL-13",
+      "title": "Bachelor of Arts in Youth and Community Development",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "social"
+      ],
+      "award_id": "LK-SOCIAL-13-AWARD",
+      "duration_months": 24,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-in-youth-and-community-development/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-SOCIAL-13-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-in-youth-and-community-development/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-SOCIAL-13-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-in-youth-and-community-development/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-SOCIAL-13-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-in-youth-and-community-development/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-SOCIAL-13-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-in-youth-and-community-development/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-SOCIAL-13-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-in-youth-and-community-development/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-EDUCATION-14",
+      "title": "Bachelor of Education (Honours) in Primary Education",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "education"
+      ],
+      "award_id": "LK-EDUCATION-14-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-primary-education-degree-programme/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-EDUCATION-14-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-primary-education-degree-programme/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-EDUCATION-14-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-primary-education-degree-programme/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-EDUCATION-14-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-primary-education-degree-programme/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-EDUCATION-14-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-primary-education-degree-programme/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-EDUCATION-14-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-primary-education-degree-programme/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-EDUCATION-15",
+      "title": "Bachelor of Education Honours in Special Needs Education",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "education"
+      ],
+      "award_id": "LK-EDUCATION-15-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-special-needs-education/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-EDUCATION-15-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-special-needs-education/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-EDUCATION-15-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-special-needs-education/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-EDUCATION-15-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-special-needs-education/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-EDUCATION-15-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-special-needs-education/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-EDUCATION-15-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-special-needs-education/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-ARTS-16",
+      "title": "Bachelor of Industrial Studies Honours (BIS)– Fashion Design and Product Development",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "arts"
+      ],
+      "award_id": "LK-ARTS-16-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-industrial-studies-honours-fashion-design-and-product-development/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-ARTS-16-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-industrial-studies-honours-fashion-design-and-product-development/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-ARTS-16-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-industrial-studies-honours-fashion-design-and-product-development/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-ARTS-16-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-industrial-studies-honours-fashion-design-and-product-development/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-ARTS-16-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-industrial-studies-honours-fashion-design-and-product-development/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-ARTS-16-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-industrial-studies-honours-fashion-design-and-product-development/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-ARTS-17",
+      "title": "Bachelor of Education Honours in Drama and Theatre",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "arts"
+      ],
+      "award_id": "LK-ARTS-17-AWARD",
+      "duration_months": 24,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-drama-and-theatre/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-ARTS-17-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-drama-and-theatre/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-ARTS-17-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-drama-and-theatre/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-ARTS-17-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-drama-and-theatre/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-ARTS-17-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-drama-and-theatre/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-ARTS-17-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-education-honours-in-drama-and-theatre/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-LANGUAGES-18",
+      "title": "Bachelor of Arts (Honours) in English and English Language Teaching",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "languages"
+      ],
+      "award_id": "LK-LANGUAGES-18-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-honours-in-english-and-english-language-teaching/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-LANGUAGES-18-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-honours-in-english-and-english-language-teaching/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-LANGUAGES-18-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-honours-in-english-and-english-language-teaching/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-LANGUAGES-18-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-honours-in-english-and-english-language-teaching/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-LANGUAGES-18-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-honours-in-english-and-english-language-teaching/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-LANGUAGES-18-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-arts-honours-in-english-and-english-language-teaching/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-LANGUAGES-19",
+      "title": "BA Honours in Tamil and Tamil Language Teaching",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "languages"
+      ],
+      "award_id": "LK-LANGUAGES-19-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/ba-honours-in-tamil-and-tamil-language-teaching/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-LANGUAGES-19-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/ba-honours-in-tamil-and-tamil-language-teaching/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-LANGUAGES-19-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/ba-honours-in-tamil-and-tamil-language-teaching/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-LANGUAGES-19-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/ba-honours-in-tamil-and-tamil-language-teaching/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-LANGUAGES-19-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/ba-honours-in-tamil-and-tamil-language-teaching/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-LANGUAGES-19-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/ba-honours-in-tamil-and-tamil-language-teaching/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-AGRICULTURE-20",
+      "title": "Bachelor of Science Honours in Engineering – Agricultural Engineering",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "agriculture"
+      ],
+      "award_id": "LK-AGRICULTURE-20-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-agricultural-engineering/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-AGRICULTURE-20-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-agricultural-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-AGRICULTURE-20-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-agricultural-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-AGRICULTURE-20-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-agricultural-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-AGRICULTURE-20-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-agricultural-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-AGRICULTURE-20-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-science-honours-in-engineering-agricultural-engineering/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-AGRICULTURE-21",
+      "title": "Bachelor of Industrial Studies Honours – Agricultural",
+      "institution": "The Open University of Sri Lanka",
+      "institution_type": "open_university",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "distance",
+      "domain_ids": [
+        "agriculture"
+      ],
+      "award_id": "LK-AGRICULTURE-21-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://ou.ac.lk/programme/bachelor-of-industrial-studies-honours-agricultural/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-AGRICULTURE-21-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-industrial-studies-honours-agricultural/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-AGRICULTURE-21-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-industrial-studies-honours-agricultural/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-AGRICULTURE-21-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-industrial-studies-honours-agricultural/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-AGRICULTURE-21-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-industrial-studies-honours-agricultural/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-AGRICULTURE-21-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://ou.ac.lk/programme/bachelor-of-industrial-studies-honours-agricultural/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-LAW-22",
+      "title": "Bachelor of Laws",
+      "institution": "University of Colombo",
+      "institution_type": "state",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "full_time",
+      "domain_ids": [
+        "law"
+      ],
+      "award_id": "LK-LAW-22-AWARD",
+      "duration_months": null,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://law.cmb.ac.lk/undergraduate-programmes/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-LAW-22-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://law.cmb.ac.lk/undergraduate-programmes/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-LAW-22-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://law.cmb.ac.lk/undergraduate-programmes/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-LAW-22-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://law.cmb.ac.lk/undergraduate-programmes/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-LAW-22-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://law.cmb.ac.lk/undergraduate-programmes/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-LAW-22-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://law.cmb.ac.lk/undergraduate-programmes/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "unreviewed"
+    },
+    {
+      "id": "LK-TOURISM-23",
+      "title": "Bachelor of Science (Honours) in Tourism Management",
+      "institution": "Sabaragamuwa University of Sri Lanka",
+      "institution_type": "state",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "full_time",
+      "domain_ids": [
+        "tourism"
+      ],
+      "award_id": "LK-TOURISM-23-AWARD",
+      "duration_months": null,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://www.sab.ac.lk/mgmt/index.php/tm_Degree%20Programme/s",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-TOURISM-23-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://www.sab.ac.lk/mgmt/index.php/tm_Degree%20Programme/s",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-TOURISM-23-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://www.sab.ac.lk/mgmt/index.php/tm_Degree%20Programme/s",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-TOURISM-23-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://www.sab.ac.lk/mgmt/index.php/tm_Degree%20Programme/s",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-TOURISM-23-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://www.sab.ac.lk/mgmt/index.php/tm_Degree%20Programme/s",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-TOURISM-23-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://www.sab.ac.lk/mgmt/index.php/tm_Degree%20Programme/s",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "unreviewed"
+    },
+    {
+      "id": "LK-TOURISM-24",
+      "title": "Bachelor of Science (Honours) in Hospitality Management",
+      "institution": "Sabaragamuwa University of Sri Lanka",
+      "institution_type": "state",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "full_time",
+      "domain_ids": [
+        "tourism"
+      ],
+      "award_id": "LK-TOURISM-24-AWARD",
+      "duration_months": null,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://www.sab.ac.lk/mgmt/index.php/tm_Degree%20Programme/s",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-TOURISM-24-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://www.sab.ac.lk/mgmt/index.php/tm_Degree%20Programme/s",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-TOURISM-24-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://www.sab.ac.lk/mgmt/index.php/tm_Degree%20Programme/s",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-TOURISM-24-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://www.sab.ac.lk/mgmt/index.php/tm_Degree%20Programme/s",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-TOURISM-24-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://www.sab.ac.lk/mgmt/index.php/tm_Degree%20Programme/s",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-TOURISM-24-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://www.sab.ac.lk/mgmt/index.php/tm_Degree%20Programme/s",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "unreviewed"
+    },
+    {
+      "id": "LK-IT-25",
+      "title": "Higher National Diploma in Information Technology",
+      "institution": "SLIATE",
+      "institution_type": "higher_diploma",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "full_time",
+      "domain_ids": [
+        "it"
+      ],
+      "award_id": "LK-IT-25-AWARD",
+      "duration_months": null,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://www.sliate.ac.lk/course/hndit",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-IT-25-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://www.sliate.ac.lk/course/hndit",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-IT-25-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://www.sliate.ac.lk/course/hndit",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-IT-25-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://www.sliate.ac.lk/course/hndit",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-IT-25-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://www.sliate.ac.lk/course/hndit",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-IT-25-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://www.sliate.ac.lk/course/hndit",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "unreviewed"
+    },
+    {
+      "id": "LK-BUSINESS-26",
+      "title": "Higher National Diploma in Accountancy",
+      "institution": "SLIATE",
+      "institution_type": "higher_diploma",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "full_time",
+      "domain_ids": [
+        "business"
+      ],
+      "award_id": "LK-BUSINESS-26-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://www.sliate.ac.lk/course/hnda",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-BUSINESS-26-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://www.sliate.ac.lk/course/hnda",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-BUSINESS-26-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://www.sliate.ac.lk/course/hnda",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-BUSINESS-26-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://www.sliate.ac.lk/course/hnda",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-BUSINESS-26-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://www.sliate.ac.lk/course/hnda",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-BUSINESS-26-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://www.sliate.ac.lk/course/hnda",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-TOURISM-27",
+      "title": "Higher National Diploma in Tourism and Hospitality Management",
+      "institution": "SLIATE",
+      "institution_type": "higher_diploma",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "full_time",
+      "domain_ids": [
+        "tourism"
+      ],
+      "award_id": "LK-TOURISM-27-AWARD",
+      "duration_months": 36,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://www.sliate.ac.lk/course/hndthm",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-TOURISM-27-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://www.sliate.ac.lk/course/hndthm",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-TOURISM-27-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://www.sliate.ac.lk/course/hndthm",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-TOURISM-27-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://www.sliate.ac.lk/course/hndthm",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-TOURISM-27-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://www.sliate.ac.lk/course/hndthm",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-TOURISM-27-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://www.sliate.ac.lk/course/hndthm",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    },
+    {
+      "id": "LK-IT-28",
+      "title": "BSc (Hons) in Information Technology",
+      "institution": "Sri Lanka Institute of Information Technology",
+      "institution_type": "non_state",
+      "campus": "Confirm regional/campus availability",
+      "delivery_mode": "full_time",
+      "domain_ids": [
+        "it"
+      ],
+      "award_id": "LK-IT-28-AWARD",
+      "duration_months": 48,
+      "upfront_cost_lkr": null,
+      "monthly_cost_lkr": null,
+      "travel_monthly_lkr": null,
+      "slqf_level": null,
+      "nvq_level": null,
+      "terminal": true,
+      "source_url": "https://www.sliit.lk/computing/programmes/bsc-special-hons-in-information-technology/",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "institution_confirmation",
+            "value": true
+          }
+        ]
+      },
+      "claims": [
+        {
+          "id": "LK-IT-28-programme_identity",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://www.sliit.lk/computing/programmes/bsc-special-hons-in-information-technology/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Programme title found on an institutional page; no current intake or admission guarantee."
+        },
+        {
+          "id": "LK-IT-28-entry_requirements",
+          "field": "entry_requirements",
+          "status": "unreviewed",
+          "source_url": "https://www.sliit.lk/computing/programmes/bsc-special-hons-in-information-technology/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-IT-28-fees",
+          "field": "fees",
+          "status": "unreviewed",
+          "source_url": "https://www.sliit.lk/computing/programmes/bsc-special-hons-in-information-technology/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-IT-28-recognition",
+          "field": "recognition",
+          "status": "unreviewed",
+          "source_url": "https://www.sliit.lk/computing/programmes/bsc-special-hons-in-information-technology/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        },
+        {
+          "id": "LK-IT-28-progression",
+          "field": "progression",
+          "status": "unreviewed",
+          "source_url": "https://www.sliit.lk/computing/programmes/bsc-special-hons-in-information-technology/",
+          "checked_on": "2026-10-17",
+          "source_year": null,
+          "note": "Not independently confirmed for the current intake. Contact the institution."
+        }
+      ],
+      "description": "Explore the official programme information. Entry, intake, complete costs and professional recognition require confirmation.",
+      "delivery_mode_status": "unreviewed",
+      "duration_status": "verified"
+    }
+  ],
+  "transitions": []
+}

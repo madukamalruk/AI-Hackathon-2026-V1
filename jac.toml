@@ -1,0 +1,35 @@
+[project]
+name = "unipath-lk"
+version = "0.2.0"
+description = "Evidence-aware education pathways for Sri Lankan post-A/L students across all fields"
+entry-point = "main.jac"
+jac-version = "0.16.7"
+requires-python = ">=3.12,<3.13"
+
+[dependencies]
+jaclang = "==0.16.7"
+byllm = "==0.6.19"
+
+[dependencies.npm]
+react = "^18.2.0"
+"react-dom" = "^18.2.0"
+"react-router-dom" = "^6.22.0"
+"react-error-boundary" = "^5.0.0"
+"react-hook-form" = "^7.71.0"
+zod = "^4.3.6"
+"@hookform/resolvers" = "^5.2.2"
+
+[dependencies.npm.dev]
+vite = "^6.4.1"
+"@vitejs/plugin-react" = "^4.2.1"
+typescript = "^5.3.3"
+"@types/react" = "^18.2.0"
+"@types/react-dom" = "^18.2.0"
+
+[serve]
+port = 8000
+base_route_app = "app"
+
+[test]
+directory = "tests"
+verbose = true
