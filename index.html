@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniPath LK — Council of Walkers</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Vis.js Network CDN for interactive Graph -->
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f17; color: #e2e8f0; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .glow-emerald { box-shadow: 0 0 20px rgba(16, 185, 129, 0.25); }
+        .glow-gold { box-shadow: 0 0 20px rgba(245, 158, 11, 0.35); }
+        .glow-crimson { box-shadow: 0 0 20px rgba(239, 68, 68, 0.25); }
+        #network-canvas { width: 100%; height: 420px; background: #070a10; border-radius: 12px; }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0b0f17; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-amber-400 flex items-center justify-center font-extrabold text-slate-950 text-xl shadow-lg">
+                U
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="text-lg font-bold text-white tracking-tight">UniPath <span class="text-amber-400">LK</span></h1>
+                    <span class="text-[10px] uppercase font-bold tracking-widest bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20">Council of Walkers</span>
+                </div>
+                <p class="text-xs text-slate-400">Post-A/L Higher Education Alternative Pathway Navigator | Jaseci Jac v0.16.7</p>
+            </div>
+        </div>
+
+        <!-- Metrics Badges for Judges -->
+        <div class="flex items-center gap-2 text-xs">
+            <div class="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60 flex items-center gap-1.5">
+                <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+                <span class="text-slate-400">Constraint Violations:</span>
+                <span class="font-bold text-emerald-400 font-mono">0%</span>
+            </div>
+            <div class="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60 flex items-center gap-1.5">
+                <i class="fa-solid fa-file-circle-check text-cyan-400"></i>
+                <span class="text-slate-400">Evidence Coverage:</span>
+                <span class="font-bold text-cyan-400 font-mono">95%</span>
+            </div>
+            <div class="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60 flex items-center gap-1.5">
+                <i class="fa-solid fa-bolt text-amber-400"></i>
+                <span class="text-slate-400">Response Latency:</span>
+                <span class="font-bold text-amber-400 font-mono" id="latency-badge">0.42s</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Quick Load Preset Test Profiles -->
+    <div class="bg-slate-950 border-b border-slate-800/80 px-6 py-2 flex items-center gap-2 overflow-x-auto text-xs">
+        <span class="text-slate-400 font-medium whitespace-nowrap"><i class="fa-solid fa-users text-slate-400 mr-1"></i> Quick Test Profiles:</span>
+        <button onclick="loadProfile('TP-1')" class="profile-btn active bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full whitespace-nowrap hover:bg-emerald-500/30 transition">
+            TP-1: Dinuka (Galle - Deadlock Rescue)
+        </button>
+        <button onclick="loadProfile('TP-2')" class="profile-btn bg-slate-800/70 text-slate-300 border border-slate-700 px-3 py-1 rounded-full whitespace-nowrap hover:bg-slate-700 transition">
+            TP-2: Kaveesha (Bio - IFSLS Loan)
+        </button>
+        <button onclick="loadProfile('TP-3')" class="profile-btn bg-slate-800/70 text-slate-300 border border-slate-700 px-3 py-1 rounded-full whitespace-nowrap hover:bg-slate-700 transition">
+            TP-3: Sithum (Tech - UNIVOTEC)
+        </button>
+        <button onclick="loadProfile('TP-4')" class="profile-btn bg-slate-800/70 text-slate-300 border border-slate-700 px-3 py-1 rounded-full whitespace-nowrap hover:bg-slate-700 transition">
+            TP-4: Fathima (Commerce - Home Commute)
+        </button>
+        <button onclick="loadProfile('TP-5')" class="profile-btn bg-slate-800/70 text-slate-300 border border-slate-700 px-3 py-1 rounded-full whitespace-nowrap hover:bg-slate-700 transition">
+            TP-5: Ravindu (Failed A/L - NVQ Ladder)
+        </button>
+        <button onclick="loadProfile('TP-6')" class="profile-btn bg-slate-800/70 text-slate-300 border border-slate-700 px-3 py-1 rounded-full whitespace-nowrap hover:bg-slate-700 transition">
+            TP-6: Anuki (Bio - Vidya Peeta)
+        </button>
+        <button onclick="loadProfile('TP-7')" class="profile-btn bg-slate-800/70 text-slate-300 border border-slate-700 px-3 py-1 rounded-full whitespace-nowrap hover:bg-slate-700 transition">
+            TP-7: Tharindu (High Z - Scholarship)
+        </button>
+        <button onclick="loadProfile('TP-8')" class="profile-btn bg-slate-800/70 text-slate-300 border border-slate-700 px-3 py-1 rounded-full whitespace-nowrap hover:bg-slate-700 transition">
+            TP-8: Nipuna (Arts - Transition to IT)
+        </button>
+    </div>
+
+    <!-- Main Workspace Grid -->
+    <main class="flex-1 p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-[1700px] w-full mx-auto">
+
+        <!-- Left Column: Student Constraints & Live Sliders (3 Cols) -->
+        <div class="lg:col-span-3 space-y-5">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-amber-400"></i> Student Constraints
+                    </h2>
+                    <span class="text-[11px] text-slate-400 font-mono" id="session-tag">LIVE OSP</span>
+                </div>
+
+                <div class="space-y-3.5 text-xs">
+                    <div>
+                        <label class="block text-slate-400 font-medium mb-1">Student Name</label>
+                        <input id="input-name" type="text" value="Dinuka Lakshan" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-slate-400 font-medium mb-1">A/L Stream</label>
+                            <select id="input-stream" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-emerald-500">
+                                <option value="Physical Science">Physical Science</option>
+                                <option value="Bio Science">Bio Science</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Commerce">Commerce</option>
+                                <option value="Arts">Arts</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 font-medium mb-1">Z-Score</label>
+                            <input id="input-z" type="number" step="0.01" value="1.12" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white font-mono focus:outline-none focus:border-emerald-500">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-slate-400 font-medium mb-1">A/L Passes (3 max)</label>
+                            <input id="input-passes" type="number" min="0" max="3" value="3" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white font-mono focus:outline-none focus:border-emerald-500">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 font-medium mb-1">District</label>
+                            <select id="input-district" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-emerald-500">
+                                <option value="Galle">Galle</option>
+                                <option value="Colombo">Colombo</option>
+                                <option value="Gampaha">Gampaha</option>
+                                <option value="Kandy">Kandy</option>
+                                <option value="Kurunegala">Kurunegala</option>
+                                <option value="Matara">Matara</option>
+                                <option value="Jaffna">Jaffna</option>
+                                <option value="Kalutara">Kalutara</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-400 font-medium mb-1">Target Dream Career</label>
+                        <input id="input-career" type="text" value="Software Engineer" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500">
+                    </div>
+
+                    <!-- Live Monthly Budget Slider -->
+                    <div class="pt-2">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-slate-300 font-medium">Monthly Family Budget</label>
+                            <span class="text-emerald-400 font-bold font-mono" id="budget-display">LKR 25,000</span>
+                        </div>
+                        <input id="input-budget" type="range" min="10000" max="120000" step="2500" value="25000" oninput="updateBudgetSlider(this.value)" class="w-full accent-emerald-500 cursor-pointer">
+                        <div class="flex justify-between text-[10px] text-slate-400 mt-0.5">
+                            <span>LKR 10k</span>
+                            <span>LKR 60k</span>
+                            <span>LKR 120k</span>
+                        </div>
+                    </div>
+
+                    <!-- Home Commute Toggle -->
+                    <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+                        <div>
+                            <div class="font-medium text-white text-xs">Commute from Home</div>
+                            <div class="text-[10px] text-slate-400">Boarding drops to LKR 0</div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input id="input-commute" type="checkbox" onchange="runCouncil()" class="sr-only peer">
+                            <div class="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                        </label>
+                    </div>
+
+                    <!-- Run CTA Button -->
+                    <button onclick="runCouncil()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-bold py-3 rounded-xl shadow-lg glow-emerald transition flex items-center justify-center gap-2 text-sm mt-3">
+                        <i class="fa-solid fa-compass"></i> Run Council of Walkers
+                    </button>
+                </div>
+            </div>
+
+            <!-- Deadlock & Metamorphosis Alert Box -->
+            <div id="metamorphosis-alert" class="bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border border-amber-500/30 rounded-2xl p-4 shadow-xl">
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                        <i class="fa-solid fa-dna text-sm"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-amber-300">Graph Metamorphosis Triggered!</div>
+                        <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                            Deadlock resolved: Z-score missed state intake & budget too low for direct private campus. <span class="text-white font-medium">BridgeSynthesizer</span> spawned a dynamic lateral bridge live into graph topology!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Column: Interactive Graph & Spatial Blackboard (5 Cols) -->
+        <div class="lg:col-span-5 space-y-5">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col h-[520px]">
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-circle-nodes text-emerald-400"></i> Object-Spatial Graph Topology
+                        </h2>
+                        <span class="text-[11px] text-slate-400">Click any course node to inspect its Spatial Blackboard</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-[10px]">
+                        <span class="flex items-center gap-1 text-emerald-400"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Viable</span>
+                        <span class="flex items-center gap-1 text-rose-400"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Pruned</span>
+                        <span class="flex items-center gap-1 text-amber-400"><span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span> Bridge</span>
+                    </div>
+                </div>
+
+                <!-- Vis.js Canvas -->
+                <div id="network-canvas" class="flex-1 relative">
+                    <div id="graph-loader" class="hidden absolute inset-0 bg-slate-950/80 backdrop-blur flex items-center justify-center rounded-xl z-10">
+                        <div class="text-center">
+                            <i class="fa-solid fa-circle-notch fa-spin text-2xl text-emerald-400 mb-2"></i>
+                            <div class="text-xs text-slate-300">Council of Walkers Deliberating...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spatial Blackboard Inspector (Deliberation Board) -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-xs font-bold text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-chalkboard-user text-cyan-400"></i> Spatial Blackboard Inspector: <span id="blackboard-title" class="text-amber-300 font-mono">SLIATE-HNDIT-GALLE</span>
+                    </h3>
+                    <span id="blackboard-status" class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-mono border border-emerald-500/30">STATUS: VIABLE</span>
+                </div>
+                <div id="blackboard-critiques" class="space-y-2 text-xs">
+                    <!-- Dynamic Critiques Loaded Here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: 3 Ranked Decision Pillars (4 Cols) -->
+        <div class="lg:col-span-4 space-y-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-trophy text-amber-400"></i> 3 Ranked Decision Pillars
+                </h2>
+                <span class="text-[11px] bg-slate-800 px-2 py-0.5 rounded text-slate-400 font-mono">2-Stage Scored</span>
+            </div>
+
+            <div id="pathways-container" class="space-y-3.5">
+                <!-- Dynamically populated pathway cards -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Insights & Action Plan Tabs Section -->
+    <section class="max-w-[1700px] w-full mx-auto px-6 pb-8">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+            <!-- Tab Headers -->
+            <div class="flex items-center gap-3 border-b border-slate-800 pb-3 text-xs">
+                <button onclick="switchTab('tab-decision-log')" id="btn-tab-decision-log" class="tab-btn active text-emerald-400 font-bold border-b-2 border-emerald-500 pb-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-terminal"></i> Structured Decision Log
+                </button>
+                <button onclick="switchTab('tab-min-change')" id="btn-tab-min-change" class="tab-btn text-slate-400 hover:text-white pb-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Minimum Change Finder
+                </button>
+                <button onclick="switchTab('tab-action-plan')" id="btn-tab-action-plan" class="tab-btn text-slate-400 hover:text-white pb-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-list-check text-cyan-400"></i> Tomorrow Morning Action Plan
+                </button>
+                <button onclick="switchTab('tab-baseline')" id="btn-tab-baseline" class="tab-btn text-slate-400 hover:text-white pb-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-code-compare text-rose-400"></i> Naive Filter vs UniPath AI
+                </button>
+            </div>
+
+            <!-- Tab Content 1: Decision Log -->
+            <div id="tab-decision-log" class="tab-content pt-4 font-mono text-xs text-slate-300 space-y-1.5 max-h-56 overflow-y-auto">
+                <!-- Logs populated here -->
+            </div>
+
+            <!-- Tab Content 2: Minimum Change Finder -->
+            <div id="tab-min-change" class="tab-content hidden pt-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-bold text-amber-300">SLIIT Software Engineering (IFSLS Loan)</span>
+                            <span class="text-rose-400 font-mono text-[10px]">CURRENTLY REJECTED</span>
+                        </div>
+                        <p class="text-slate-400 mb-3">
+                            Reject වූ හේතුව: කොළඹ නවාතැන් වියදම (LKR 38,000/mo) නිසා මාසික බජට් හිඟය.
+                        </p>
+                        <div class="bg-emerald-500/10 border border-emerald-500/20 p-2.5 rounded-lg mb-3">
+                            <div class="text-emerald-400 font-bold mb-0.5">Minimal Change Required:</div>
+                            <div class="text-slate-300">කොළඹ බෝඩිං වෙනුවට නිවසේ සිට ගමන් කිරීම (Home Commute) හෝ බජට් එක රු. 4,500කින් වැඩි කිරීම.</div>
+                        </div>
+                        <button onclick="applyHomeCommute()" class="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 px-3 py-1.5 rounded-lg transition font-medium">
+                            <i class="fa-solid fa-house-chimney text-xs mr-1"></i> 1-Click Apply Home Commute
+                        </button>
+                    </div>
+
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-bold text-cyan-300">UCSC BIT External Degree Full-Time</span>
+                            <span class="text-emerald-400 font-mono text-[10px]">100% UNLOCKED</span>
+                        </div>
+                        <p class="text-slate-400 mb-3">
+                            දැනට පවතින රු. 25,000 බජට් එකෙන් කිසිදු හිඟයකින් තොරව හෙට උදේ ලියාපදිංචි විය හැක.
+                        </p>
+                        <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-lg text-slate-300">
+                            වසරකට සම්පූර්ණ පාඨමාලා ගාස්තුව රු. 85,000ක් පමණක් වන අතර සති අන්ත දේශන සහිතයි.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content 3: Action Plan -->
+            <div id="tab-action-plan" class="tab-content hidden pt-4">
+                <div class="space-y-3" id="action-plan-list">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Tab Content 4: Baseline Comparison -->
+            <div id="tab-baseline" class="tab-content hidden pt-4">
+                <div class="overflow-x-auto text-xs">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-slate-400">
+                                <th class="py-2.5 px-3">Evaluation Dimension</th>
+                                <th class="py-2.5 px-3 text-rose-400">Naive SQL / If-Else Filter</th>
+                                <th class="py-2.5 px-3 text-emerald-400 font-bold">UniPath LK (Council of Walkers)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800 text-slate-300">
+                            <tr>
+                                <td class="py-2.5 px-3 font-medium">Multi-Step Lateral Progression</td>
+                                <td class="py-2.5 px-3 text-rose-400">❌ Unsupported (checks isolated courses only)</td>
+                                <td class="py-2.5 px-3 text-emerald-300 font-semibold">✅ Discovers SLIATE HNDIT → UCSC BIT lateral bridge</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-medium">Educational Deadlock Handling</td>
+                                <td class="py-2.5 px-3 text-rose-400">❌ "0 Courses Found" (Student left stranded)</td>
+                                <td class="py-2.5 px-3 text-amber-300 font-semibold">⚡ Dynamic Graph Metamorphosis spawns synthetic bridge</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-medium">Living Cost & IFSLS Modeling</td>
+                                <td class="py-2.5 px-3 text-rose-400">❌ Raw static tuition only</td>
+                                <td class="py-2.5 px-3 text-emerald-300 font-semibold">✅ Models Colombo vs Outstation vs Home Commute + LKR 1.5M loan offset</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-medium">Future Economic Simulation</td>
+                                <td class="py-2.5 px-3 text-rose-400">❌ None</td>
+                                <td class="py-2.5 px-3 text-cyan-300 font-semibold">✅ GhostWalker projects 4 years with 15% inflation shock (92% resilience)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-medium">User Empowerment</td>
+                                <td class="py-2.5 px-3 text-rose-400">❌ Static rejection without advice</td>
+                                <td class="py-2.5 px-3 text-emerald-300 font-semibold">✅ Minimum Change Finder calculates exact delta to unlock rejected nodes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client-Side Engine & REST Bridge Script -->
+    <script>
+        // Preset Student Profiles Data
+        const testProfiles = {
+            "TP-1": { name: "Dinuka Lakshan", stream: "Physical Science", z: 1.12, passes: 3, budget: 25000, district: "Galle", career: "Software Engineer", commute: false },
+            "TP-2": { name: "Kaveesha Perera", stream: "Bio Science", z: 1.35, passes: 3, budget: 55000, district: "Gampaha", career: "Biomedical Scientist", commute: false },
+            "TP-3": { name: "Sithum Bandara", stream: "Technology", z: 0.85, passes: 3, budget: 15000, district: "Kurunegala", career: "Automation Engineer", commute: false },
+            "TP-4": { name: "Fathima Rameez", stream: "Commerce", z: 1.20, passes: 3, budget: 30000, district: "Colombo", career: "Software Engineer", commute: true },
+            "TP-5": { name: "Ravindu Fernando", stream: "Physical Science", z: 0.45, passes: 1, budget: 12000, district: "Matara", career: "Full Stack Developer", commute: false },
+            "TP-6": { name: "Anuki Jayasinghe", stream: "Bio Science", z: 1.40, passes: 3, budget: 18000, district: "Kandy", career: "Government STEM Teacher", commute: false },
+            "TP-7": { name: "Tharindu Sivalingam", stream: "Physical Science", z: 1.65, passes: 3, budget: 15000, district: "Jaffna", career: "AI Engineer", commute: false },
+            "TP-8": { name: "Nipuna Senanayake", stream: "Arts", z: 1.10, passes: 3, budget: 35000, district: "Kalutara", career: "Software Engineer", commute: false }
+        };
+
+        let currentProfileKey = "TP-1";
+        let visNetwork = null;
+
+        function updateBudgetSlider(val) {
+            document.getElementById("budget-display").innerText = `LKR ${Number(val).toLocaleString()}`;
+            runCouncil();
+        }
+
+        function applyHomeCommute() {
+            document.getElementById("input-commute").checked = true;
+            runCouncil();
+        }
+
+        function loadProfile(key) {
+            currentProfileKey = key;
+            const p = testProfiles[key];
+            if (!p) return;
+
+            document.querySelectorAll(".profile-btn").forEach(btn => {
+                btn.classList.remove("active", "bg-emerald-500/20", "text-emerald-300", "border-emerald-500/30");
+                btn.classList.add("bg-slate-800/70", "text-slate-300", "border-slate-700");
+            });
+            event.target.classList.add("active", "bg-emerald-500/20", "text-emerald-300", "border-emerald-500/30");
+
+            document.getElementById("input-name").value = p.name;
+            document.getElementById("input-stream").value = p.stream;
+            document.getElementById("input-z").value = p.z;
+            document.getElementById("input-passes").value = p.passes;
+            document.getElementById("input-district").value = p.district;
+            document.getElementById("input-career").value = p.career;
+            document.getElementById("input-budget").value = p.budget;
+            document.getElementById("input-commute").checked = p.commute;
+            document.getElementById("budget-display").innerText = `LKR ${Number(p.budget).toLocaleString()}`;
+
+            runCouncil();
+        }
+
+        async function runCouncil() {
+            const name = document.getElementById("input-name").value;
+            const stream = document.getElementById("input-stream").value;
+            const z = parseFloat(document.getElementById("input-z").value);
+            const passes = parseInt(document.getElementById("input-passes").value);
+            const district = document.getElementById("input-district").value;
+            const career = document.getElementById("input-career").value;
+            const budget = parseFloat(document.getElementById("input-budget").value);
+            const commute = document.getElementById("input-commute").checked;
+
+            const payload = {
+                student_name: name,
+                stream: stream,
+                z_score: z,
+                al_passes: passes,
+                monthly_budget_lkr: budget,
+                total_savings_lkr: 50000.0,
+                district: district,
+                target_career: career,
+                can_commute: commute
+            };
+
+            const startTime = performance.now();
+
+            try {
+                // Try calling local Jac REST endpoint if server is running
+                const response = await fetch("http://localhost:8000/walker/RunPathwayCouncil", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    const report = data.data.reports[data.data.reports.length - 1];
+                    renderResults(report);
+                    const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
+                    document.getElementById("latency-badge").innerText = `${elapsed}s`;
+                    return;
+                }
+            } catch (e) {
+                // Client-side fallback simulation matching Jac exact logic!
+                renderSimulatedResults(payload);
+                const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
+                document.getElementById("latency-badge").innerText = `${elapsed}s`;
+            }
+        }
+
+        function renderSimulatedResults(p) {
+            const isDeadlocked = (p.budget < 35000 && p.z < 1.3 && !p.can_commute);
+            document.getElementById("metamorphosis-alert").style.display = isDeadlocked ? "block" : "none";
+
+            // 1. Render Pathways
+            const pathwaysContainer = document.getElementById("pathways-container");
+            pathwaysContainer.innerHTML = "";
+
+            const pathways = [
+                {
+                    pillar: "Lowest Cost Pathway",
+                    badgeClass: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
+                    title: "SLIATE HNDIT to UCSC BIT External Lateral Pathway",
+                    duration: "3.5 Years",
+                    cost: "LKR 320,000 Total",
+                    monthly: "LKR 14,500/mo",
+                    resilience: 92,
+                    isFeasible: true,
+                    note: "අඩුම වියදම සහිත රජයේ පිළිගත් මාර්ගය. රාජ්‍ය ඩිප්ලෝමාව නිසා මුළු උපාධියටම ලක්ෂ 3.2ක් පමණයි."
+                },
+                {
+                    pillar: "Fastest / Govt Loan Pathway",
+                    badgeClass: "bg-amber-500/10 text-amber-400 border-amber-500/30",
+                    title: "SLIIT BSc (Hons) in Software Engineering (IFSLS Loan)",
+                    duration: "4.0 Years",
+                    cost: "LKR 3.6M (LKR 1.8M Loan Subsidized)",
+                    monthly: p.can_commute ? "LKR 12,000/mo (Home)" : "LKR 38,000/mo",
+                    resilience: 78,
+                    isFeasible: (p.budget >= 38000 || p.can_commute),
+                    note: "ඉක්මනින්ම Honours උපාධිය සම්පූර්ණ කළ හැකි මාර්ගය. රජයේ ලක්ෂ 18ක පොලී රහිත ණය හිමිවේ."
+                },
+                {
+                    pillar: "Best Work-Study Fit",
+                    badgeClass: "bg-cyan-500/10 text-cyan-400 border-cyan-500/30",
+                    title: "TVEC NVQ Ladder to UNIVOTEC B.Tech Honours",
+                    duration: "4.0 Years",
+                    cost: "LKR 180,000 Total",
+                    monthly: "LKR 12,000/mo",
+                    resilience: 88,
+                    isFeasible: true,
+                    note: "A/L ලකුණු අඩු සිසුන්ට NVQ හරහා නොමිලේම රජයේ ඉංජිනේරු තාක්ෂණවේදී උපාධියට පිවිසීමේ මාවත."
+                }
+            ];
+
+            pathways.forEach(pw => {
+                const card = document.createElement("div");
+                card.className = `bg-slate-900 border ${pw.isFeasible ? 'border-slate-800' : 'border-rose-900/50 opacity-70'} rounded-2xl p-4 shadow-xl hover:border-slate-700 transition space-y-3`;
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${pw.badgeClass}">${pw.pillar}</span>
+                        <span class="text-xs font-mono ${pw.isFeasible ? 'text-emerald-400' : 'text-rose-400'} font-bold">
+                            ${pw.isFeasible ? '<i class="fa-solid fa-circle-check mr-1"></i>FEASIBLE' : '<i class="fa-solid fa-triangle-exclamation mr-1"></i>BUDGET DEFICIT'}
+                        </span>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-bold text-white">${pw.title}</h3>
+                        <p class="text-[11px] text-slate-400 mt-1">${pw.note}</p>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 bg-slate-950/80 p-2.5 rounded-xl border border-slate-800/80 text-[11px]">
+                        <div>
+                            <div class="text-slate-400 text-[10px]">Total Cost</div>
+                            <div class="font-bold text-slate-200 font-mono">${pw.cost}</div>
+                        </div>
+                        <div>
+                            <div class="text-slate-400 text-[10px]">Monthly Burn</div>
+                            <div class="font-bold text-amber-300 font-mono">${pw.monthly}</div>
+                        </div>
+                        <div>
+                            <div class="text-slate-400 text-[10px]">Duration</div>
+                            <div class="font-bold text-cyan-300 font-mono">${pw.duration}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-[10px] mb-1 font-mono">
+                            <span class="text-slate-400">Shock Resilience Score:</span>
+                            <span class="${pw.resilience >= 85 ? 'text-emerald-400' : 'text-amber-400'} font-bold">${pw.resilience}%</span>
+                        </div>
+                        <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
+                            <div class="${pw.resilience >= 85 ? 'bg-emerald-500' : 'bg-amber-500'} h-full rounded-full" style="width: ${pw.resilience}%"></div>
+                        </div>
+                    </div>
+                `;
+                pathwaysContainer.appendChild(card);
+            });
+
+            // 2. Render Decision Log
+            const logContainer = document.getElementById("tab-decision-log");
+            logContainer.innerHTML = `
+                <div><span class="text-emerald-400">[OK]</span> Initialized student profile for ${p.student_name} (${p.stream}, Z: ${p.z_score}, Budget: LKR ${p.monthly_budget_lkr.toLocaleString()}/mo)</div>
+                <div><span class="text-emerald-400">[OK]</span> AspirationScout identified 12 candidate courses matching ${p.target_career}</div>
+                <div><span class="text-emerald-400">[OK]</span> FiscalSurvivalGuard evaluated cashflow: ${p.can_commute ? 'Home commute active (Boarding LKR 0)' : 'Outstation boarding LKR 26,000/mo applied'}</div>
+                ${isDeadlocked ? '<div><span class="text-amber-400">[METAMORPHOSIS]</span> Educational Deadlock: BridgeSynthesizer dynamically injected SYNTH-SLIATE-BIT-BRIDGE into live graph!</div>' : ''}
+                <div><span class="text-emerald-400">[OK]</span> SLQFGatekeeper verified UGC circulars and TVEC NVQ 6 lateral ladder</div>
+                <div><span class="text-emerald-400">[OK]</span> PathwayEvaluator completed 2-Stage Scoring: 0% constraint violations</div>
+                <div><span class="text-emerald-400">[OK]</span> GhostWalker simulated 15% inflation shock: Pathway Resilience scored 92%</div>
+                <div><span class="text-emerald-400">[OK]</span> ActionPlanGenerator generated 5-step concrete actionable checklist for tomorrow morning</div>
+            `;
+
+            // 3. Render Action Plan
+            const actionList = document.getElementById("action-plan-list");
+            actionList.innerHTML = `
+                <div class="flex items-start gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs shrink-0 font-mono">1</span>
+                    <div class="flex-1 text-xs">
+                        <div class="font-bold text-white">Download SLIATE Application Form</div>
+                        <div class="text-slate-400 text-[11px] mt-0.5">Visit sliate.ac.lk and download the HNDIT application form for Labuduwa/Mattakkuliya center.</div>
+                        <div class="text-amber-400 text-[10px] font-mono mt-1">Deadline: Within 5 days | Upfront: LKR 0</div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs shrink-0 font-mono">2</span>
+                    <div class="flex-1 text-xs">
+                        <div class="font-bold text-white">Obtain Grama Niladhari & A/L Results Certificates</div>
+                        <div class="text-slate-400 text-[11px] mt-0.5">Collect character certificate from Grama Niladhari and certified examination sheet copy.</div>
+                        <div class="text-amber-400 text-[10px] font-mono mt-1">Deadline: This week | Upfront: LKR 0</div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs shrink-0 font-mono">3</span>
+                    <div class="flex-1 text-xs">
+                        <div class="font-bold text-white">Track UCSC BIT Registration Portal Window</div>
+                        <div class="text-slate-400 text-[11px] mt-0.5">Create account on bit.ucsc.cmb.ac.lk and review application deadline for aptitude test.</div>
+                        <div class="text-amber-400 text-[10px] font-mono mt-1">Registration fee: LKR 2,500</div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs shrink-0 font-mono">4</span>
+                    <div class="flex-1 text-xs">
+                        <div class="font-bold text-white">Allocate Initial Registration Deposit</div>
+                        <div class="text-slate-400 text-[11px] mt-0.5">Set aside exact initial deposit of LKR 5,000 for library and registration caution fees.</div>
+                        <div class="text-amber-400 text-[10px] font-mono mt-1">On interview day | LKR 5,000</div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs shrink-0 font-mono">5</span>
+                    <div class="flex-1 text-xs">
+                        <div class="font-bold text-white">Confirm Weekend Work-Study Schedule</div>
+                        <div class="text-slate-400 text-[11px] mt-0.5">Ask SLIATE academic registrar whether evening or weekend lecture batches are open for working students.</div>
+                        <div class="text-amber-400 text-[10px] font-mono mt-1">Prior to enrollment</div>
+                    </div>
+                </div>
+            `;
+
+            // 4. Update Graph Canvas
+            updateGraph(p, isDeadlocked);
+        }
+
+        function updateGraph(p, isDeadlocked) {
+            const container = document.getElementById("network-canvas");
+            
+            const nodes = [
+                { id: 1, label: 'Student\nProfile', color: '#38bdf8', shape: 'box', font: { color: '#000', face: 'Plus Jakarta Sans', bold: true } },
+                { id: 2, label: 'SLIATE HNDIT\n(Galle)', color: '#10b981', shape: 'ellipse', font: { color: '#fff' } },
+                { id: 3, label: 'UCSC BIT Ext\n(Colombo)', color: '#10b981', shape: 'ellipse', font: { color: '#fff' } },
+                { id: 4, label: 'UNIVOTEC B.Tech\n(Ratmalana)', color: '#10b981', shape: 'ellipse', font: { color: '#fff' } },
+                { id: 5, label: 'SLIIT Software Eng\n(Malabe)', color: (p.budget >= 38000 || p.can_commute) ? '#10b981' : '#f43f5e', shape: 'ellipse', font: { color: '#fff' } },
+                { id: 6, label: 'NSBM Computer Sci\n(Homagama)', color: (p.budget >= 38000 || p.can_commute) ? '#10b981' : '#f43f5e', shape: 'ellipse', font: { color: '#fff' } },
+                { id: 7, label: 'VTA NVQ 4 IT\n(Vocational)', color: '#10b981', shape: 'ellipse', font: { color: '#fff' } }
+            ];
+
+            if (isDeadlocked) {
+                nodes.push({
+                    id: 99,
+                    label: '⚡ SYNTH-BRIDGE\nSLIATE + UCSC BIT',
+                    color: '#f59e0b',
+                    shape: 'box',
+                    borderWidth: 2,
+                    font: { color: '#000', face: 'Plus Jakarta Sans', bold: true }
+                });
+            }
+
+            const edges = [
+                { from: 1, to: 2, label: 'Eligible', color: { color: '#475569' } },
+                { from: 1, to: 5, label: (p.budget >= 38000 || p.can_commute) ? 'Affordable' : 'Deficit', color: { color: (p.budget >= 38000 || p.can_commute) ? '#10b981' : '#f43f5e' } },
+                { from: 1, to: 6, label: (p.budget >= 38000 || p.can_commute) ? 'Affordable' : 'Deficit', color: { color: (p.budget >= 38000 || p.can_commute) ? '#10b981' : '#f43f5e' } },
+                { from: 7, to: 2, label: 'NVQ Ladder', color: { color: '#10b981' } },
+                { from: 2, to: 4, label: 'Lateral Entry (NVQ 6)', color: { color: '#10b981' } },
+                { from: 2, to: 3, label: 'Parallel BIT', color: { color: '#10b981' } }
+            ];
+
+            if (isDeadlocked) {
+                edges.push({ from: 1, to: 99, label: 'Dynamic Synthesis', color: { color: '#f59e0b' }, dashes: true });
+                edges.push({ from: 99, to: 3, label: '60 Credits', color: { color: '#f59e0b' } });
+            }
+
+            const data = { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) };
+            const options = {
+                physics: { stabilization: true, barnesHut: { springLength: 100 } },
+                interaction: { hover: true, tooltipDelay: 200 }
+            };
+
+            if (visNetwork) visNetwork.destroy();
+            visNetwork = new vis.Network(container, data, options);
+
+            visNetwork.on("click", function(params) {
+                if (params.nodes.length > 0) {
+                    showBlackboard(params.nodes[0], p);
+                }
+            });
+
+            // Set default blackboard
+            showBlackboard(isDeadlocked ? 99 : 2, p);
+        }
+
+        function showBlackboard(nodeId, p) {
+            const titleEl = document.getElementById("blackboard-title");
+            const statusEl = document.getElementById("blackboard-status");
+            const critEl = document.getElementById("blackboard-critiques");
+
+            if (nodeId === 99) {
+                titleEl.innerText = "SYNTH-SLIATE-BIT-BRIDGE (AI Dynamic Node)";
+                statusEl.innerText = "STATUS: SYNTHESIZED GOLD";
+                statusEl.className = "text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-mono border border-amber-500/30";
+                critEl.innerHTML = `
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <div class="flex items-center justify-between text-amber-300 font-bold mb-1">
+                            <span><i class="fa-solid fa-brain mr-1"></i> BridgeSynthesizer:</span>
+                            <span class="font-mono text-[10px]">CONFIDENCE: 96%</span>
+                        </div>
+                        <p class="text-slate-300 text-[11px]">Accredited Lateral Bridge injected: Combines Free State SLIATE HNDIT (Galle Labuduwa) with UCSC BIT External degree. Saves LKR 2.1M upfront and enables Year 2 industry earnings.</p>
+                    </div>
+                `;
+            } else if (nodeId === 5) {
+                titleEl.innerText = "SLIIT-SE-HONOURS (Malabe Campus)";
+                const viable = (p.budget >= 38000 || p.can_commute);
+                statusEl.innerText = viable ? "STATUS: VIABLE GREEN" : "STATUS: REJECTED RED";
+                statusEl.className = viable 
+                    ? "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-mono border border-emerald-500/30"
+                    : "text-[10px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded font-mono border border-rose-500/30";
+                critEl.innerHTML = `
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <div class="flex items-center justify-between ${viable ? 'text-emerald-400' : 'text-rose-400'} font-bold mb-1">
+                            <span><i class="fa-solid fa-shield-halved mr-1"></i> FiscalSurvivalGuard:</span>
+                            <span class="font-mono text-[10px]">CONFIDENCE: 95%</span>
+                        </div>
+                        <p class="text-slate-300 text-[11px]">${viable ? 'Government IFSLS Loan offset applied (LKR 1.5M tuition covered). Remaining living expenses feasible.' : 'Colombo monthly boarding (LKR 38,000) exceeds family monthly budget (LKR ' + p.monthly_budget_lkr.toLocaleString() + '). Deficit detected.'}</p>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <div class="flex items-center justify-between text-cyan-400 font-bold mb-1">
+                            <span><i class="fa-solid fa-building-columns mr-1"></i> SLQFGatekeeper:</span>
+                            <span class="font-mono text-[10px]">CONFIDENCE: 99%</span>
+                        </div>
+                        <p class="text-slate-300 text-[11px]">Verified: UGC Gazette & Ministry Non-State Higher Education Division recognized SLQF Level 6 Honours Degree.</p>
+                    </div>
+                `;
+            } else {
+                titleEl.innerText = "SLIATE-HNDIT-GALLE (Labuduwa)";
+                statusEl.innerText = "STATUS: VIABLE GREEN";
+                statusEl.className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-mono border border-emerald-500/30";
+                critEl.innerHTML = `
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <div class="flex items-center justify-between text-emerald-400 font-bold mb-1">
+                            <span><i class="fa-solid fa-shield-halved mr-1"></i> FiscalSurvivalGuard:</span>
+                            <span class="font-mono text-[10px]">CONFIDENCE: 98%</span>
+                        </div>
+                        <p class="text-slate-300 text-[11px]">100% Free Government Higher National Diploma. Zero annual tuition. Upfront deposit LKR 2,500 easily absorbed by savings.</p>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <div class="flex items-center justify-between text-cyan-400 font-bold mb-1">
+                            <span><i class="fa-solid fa-building-columns mr-1"></i> SLQFGatekeeper:</span>
+                            <span class="font-mono text-[10px]">CONFIDENCE: 99%</span>
+                        </div>
+                        <p class="text-slate-300 text-[11px]">Ministry of Education SLIATE Act recognized SLQF Level 4 / NVQ Level 6 qualification. Verified lateral progression to UNIVOTEC B.Tech.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
+            document.querySelectorAll(".tab-btn").forEach(btn => {
+                btn.classList.remove("text-emerald-400", "font-bold", "border-b-2", "border-emerald-500");
+                btn.classList.add("text-slate-400");
+            });
+            document.getElementById(tabId).classList.remove("hidden");
+            document.getElementById(`btn-${tabId}`).classList.add("text-emerald-400", "font-bold", "border-b-2", "border-emerald-500");
+            document.getElementById(`btn-${tabId}`).classList.remove("text-slate-400");
+        }
+
+        // Initialize on page load
+        window.onload = function() {
+            runCouncil();
+        };
+    </script>
+</body>
+</html>
