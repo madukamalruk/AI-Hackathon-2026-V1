@@ -722,26 +722,29 @@
             const req = getFormInputs();
             document.getElementById("sidebar-revision").innerText = `v${req.profile_revision}`;
 
-            try {
-                const response = await fetch("http://localhost:8000/walker/plan_pathways", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ profile: req })
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    const reports = (data.data && data.data.reports) ? data.data.reports : (data.reports || []);
-                    if (reports.length > 0) {
-                        const result = reports[reports.length - 1];
-                        if (result.profile_revision < req.profile_revision) return;
-                        document.getElementById("sidebar-api-mode").innerText = "jac_server_8000";
-                        renderPlanResult(result);
-                        computeClientStressDeltas(req);
-                        return;
+            const apiPorts = [8001, 8000];
+            for (const port of apiPorts) {
+                try {
+                    const response = await fetch(`http://localhost:${port}/walker/plan_pathways`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ profile: req })
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        const reports = (data.data && data.data.reports) ? data.data.reports : (data.reports || []);
+                        if (reports.length > 0) {
+                            const result = reports[reports.length - 1];
+                            if (result.profile_revision < req.profile_revision) return;
+                            document.getElementById("sidebar-api-mode").innerText = `jac_server_${port}`;
+                            renderPlanResult(result);
+                            computeClientStressDeltas(req);
+                            return;
+                        }
                     }
+                } catch (e) {
+                    // Try next port or fallback to local
                 }
-            } catch (e) {
-                // Server unavailable, fall back to clean deterministic local engine
             }
 
             document.getElementById("sidebar-api-mode").innerText = "local_engine";
