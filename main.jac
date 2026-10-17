@@ -75,6 +75,28 @@ with entry:__main__ {
         }
     }
 
+    print("\n--- Running Scenario 3: Sri Lankan A/L Practical Reality (1 Pass -> 2nd Shy Retake vs TVEC Ladder) ---");
+    p_shy = root spawn plan_pathways(profile={
+        "catalogue_mode": "real",
+        "al_passes": 1,
+        "savings_lkr": 5000,
+        "monthly_budget_lkr": 6000,
+        "can_relocate": True
+    });
+    if len(p_shy.reports) > 0 {
+        res_shy = p_shy.reports[0];
+        shy_cands = res_shy.get("candidates", []);
+        print(f"[COUNCIL DEBATE] Status: {res_shy.get('council_deliberation', {}).get('status', 'N/A')}");
+        if res_shy.get("council_deliberation") {
+            strat = res_shy["council_deliberation"].get("strategic_comparison", {});
+            print(f"  - Option 1: {strat.get('al_retake_strategy', {}).get('title', '')} ({strat.get('al_retake_strategy', {}).get('duration', '')})");
+            print(f"  - Option 2: {strat.get('vocational_ladder_strategy', {}).get('title', '')} ({strat.get('vocational_ladder_strategy', {}).get('duration', '')})");
+        }
+        for sc in shy_cands {
+            print(f"  - Route: {sc['title']} (Status: {sc['route_status']})");
+        }
+    }
+
     print("==================================================================");
     print("  ALL VERIFICATION TESTS PASSED 100% — UniPath LK READY!");
     print("==================================================================");

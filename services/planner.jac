@@ -6,7 +6,7 @@ import threading;
 import from concurrent.futures { ThreadPoolExecutor }
 import from byllm.lib { Model }
 import from .settings { _load_local_settings }
-import from .engine { Catalogue, BranchSearchWalker, _load_catalogue, _sort_candidates, _graph_projection }
+import from .engine { Catalogue, BranchSearchWalker, _load_catalogue, _sort_candidates, _graph_projection, _council_deliberation }
 
 glob _llm = Model(
     model_name=os.environ.get("UNIPATH_MODEL", "gemini/gemini-3.5-flash-lite"),
@@ -159,6 +159,7 @@ def _planning_session(profile: dict, scripted: list[dict] | None = None) -> dict
     mode = "mixed" if used_live and used_fallback else ("live_ai" if used_live else "rules_fallback");
     if scripted is not None { mode = "test_stub"; }
     for (index, event) in enumerate(events) { event["step"] = index + 1; }
+    deliberation = _council_deliberation(profile, candidates, (search as BranchSearchWalker).blocked);
     result = {"status": "ready", "catalogue_mode": profile["catalogue_mode"], "catalogue_version": catalogue.version,
         "profile_revision": profile["profile_revision"], "domain_id": profile["domain_id"],
         "planner_mode": mode, "fallback_reason": fallback_reason, "pending_question": question,
@@ -167,6 +168,7 @@ def _planning_session(profile: dict, scripted: list[dict] | None = None) -> dict
         "blocked_candidates": [c for c in candidates if c["route_status"] == "not_feasible_under_current_inputs"][:3],
         "blocked_transitions": (search as BranchSearchWalker).blocked, "decision_events": events,
         "graph_projection": _graph_projection(catalogue, profile, candidates),
+        "council_deliberation": deliberation,
         "coverage_note": "This is a small discovery catalogue, not a complete directory or an admission decision. Career fit, intake, professional recognition and complete costs must be confirmed.",
         "goal_note": "Results match your selected field. A specific career goal may need additional qualifications; a programme listing is not a career guarantee."};
     return result;

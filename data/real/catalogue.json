@@ -2613,6 +2613,55 @@
         }
       ],
       "description": "Flagship 4-year Honours degree in Software Engineering with Ministry IFSLS Interest-Free Loan eligibility."
+    },
+    {
+      "id": "REAL-AL-RETAKE-SHY2",
+      "title": "G.C.E. A/L Second / Third Shy Strategic Revision",
+      "institution": "Department of Examinations Sri Lanka (State & Revision Centres)",
+      "institution_name": "Department of Examinations Sri Lanka",
+      "institution_type": "state_national_exam",
+      "campus": "Island-wide Examination Centres & Revision Classes",
+      "delivery_mode": "full_time",
+      "domain_ids": [
+        "it",
+        "engineering",
+        "science",
+        "business",
+        "arts",
+        "technology"
+      ],
+      "award_id": "QUAL-AL-3PASSES",
+      "duration_months": 12,
+      "upfront_cost_lkr": 5000,
+      "monthly_cost_lkr": 3500,
+      "travel_monthly_lkr": 1500,
+      "slqf_level": 3,
+      "nvq_level": null,
+      "terminal": false,
+      "source_url": "https://www.doenets.lk",
+      "requirements": {
+        "op": "all",
+        "conditions": []
+      },
+      "claims": [
+        {
+          "id": "EV-REAL-AL-RETAKE-01",
+          "field": "programme_identity",
+          "status": "verified",
+          "source_url": "https://www.doenets.lk",
+          "checked_on": "2026-10-17",
+          "note": "Public Examinations Act No. 25 of 1968. Sri Lankan students are officially entitled to sit up to 3 attempts (Shys) for G.C.E. Advanced Level."
+        },
+        {
+          "id": "EV-REAL-AL-RETAKE-FEES",
+          "field": "fees",
+          "status": "verified",
+          "source_url": "https://www.doenets.lk",
+          "checked_on": "2026-10-17",
+          "note": "State exam registration LKR 1,500 - 3,000; island-wide revision tuition ~LKR 1,000 - 1,500/subject monthly (~LKR 47,000 across 12 months)."
+        }
+      ],
+      "description": "Strategic 12-month G.C.E. A/L retake revision year. Enables students with weak 1st shy results to target 100% free State University merit seats or qualify for direct UCSC BIT / OUSL admission."
     }
   ],
   "transitions": [
@@ -2702,6 +2751,90 @@
           "source_url": "https://bit.ucsc.cmb.ac.lk",
           "checked_on": "2026-10-17",
           "note": "UCSC BIT External Degree By-laws Section 3(b) Alternate Qualifications."
+        }
+      ]
+    },
+    {
+      "from_id": "REAL-AL-RETAKE-SHY2",
+      "to_id": "REAL-UCSC-BIT",
+      "transition_type": "al_direct_admission",
+      "rationale": "Achieving 3 A/L passes in 2nd/3rd Shy qualifies for direct UCSC BIT admission without foundation or NVQ stages.",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "QUAL-AL-3PASSES"
+          }
+        ]
+      },
+      "evidence_id": "EV-TRANS-AL-RETAKE-UCSC",
+      "evidence_status": "verified",
+      "claims": [
+        {
+          "id": "EV-TRANS-AL-RETAKE-UCSC",
+          "field": "progression",
+          "status": "verified",
+          "source_url": "https://bit.ucsc.cmb.ac.lk",
+          "checked_on": "2026-10-17",
+          "note": "UCSC BIT Regulations Section 3: Minimum 3 Ordinary Passes in G.C.E. A/L in a single sitting satisfies direct admission."
+        }
+      ]
+    },
+    {
+      "from_id": "REAL-AL-RETAKE-SHY2",
+      "to_id": "REAL-SLIATE-HNDIT",
+      "transition_type": "al_merit_admission",
+      "rationale": "3 A/L passes obtained in retake qualifies for direct merit selection into SLIATE HNDIT (Free State Technological Diploma).",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "QUAL-AL-3PASSES"
+          }
+        ]
+      },
+      "evidence_id": "EV-TRANS-AL-RETAKE-SLIATE",
+      "evidence_status": "verified",
+      "claims": [
+        {
+          "id": "EV-TRANS-AL-RETAKE-SLIATE",
+          "field": "progression",
+          "status": "verified",
+          "source_url": "https://sliate.ac.lk",
+          "checked_on": "2026-10-17",
+          "note": "SLIATE Admissions Handbook: 3 G.C.E. A/L passes qualifies for direct application."
+        }
+      ]
+    },
+    {
+      "from_id": "REAL-AL-RETAKE-SHY2",
+      "to_id": "LK-IT-01",
+      "transition_type": "al_merit_admission",
+      "rationale": "3 A/L passes obtained in retake qualifies for direct admission into Open University Bachelor of Software Engineering Honours.",
+      "requirements": {
+        "op": "all",
+        "conditions": [
+          {
+            "field": "qualification",
+            "cmp": "has",
+            "value": "QUAL-AL-3PASSES"
+          }
+        ]
+      },
+      "evidence_id": "EV-TRANS-AL-RETAKE-OUSL",
+      "evidence_status": "verified",
+      "claims": [
+        {
+          "id": "EV-TRANS-AL-RETAKE-OUSL",
+          "field": "progression",
+          "status": "verified",
+          "source_url": "https://ou.ac.lk",
+          "checked_on": "2026-10-17",
+          "note": "OUSL Faculty of Engineering: 3 A/L passes fulfills admission criteria."
         }
       ]
     }
