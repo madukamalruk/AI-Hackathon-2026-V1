@@ -51,8 +51,10 @@ def:pub App() -> JsxElement {
     has resultRef: Ref[HTMLDivElement] = Ref();
     grades = [["unknown", "Not supplied"], ["A", "A"], ["B", "B"], ["C", "C"], ["S", "S"], ["F", "F"]];
     streams = [["unknown", "Not supplied"], ["commerce", "Commerce"], ["physical_science", "Physical science"], ["biological_science", "Biological science"], ["arts", "Arts"], ["technology", "Technology"], ["other", "Other"]];
-    yes_no = [["unknown", "Not sure yet"], ["yes", "Yes"], ["no", "No"]];
+    has info_loaded: bool = False;
     async def load_info() -> None {
+        if info_loaded { return; }
+        info_loaded = True;
         info_error = "";
         try { response = root spawn get_app_info(); if response.reports and len(response.reports) > 0 { info = response.reports[0] as dict; } else { info_error = "The catalogue did not load. Try again."; } }
         except Exception { info_error = "We could not connect to the catalogue. Check your connection and try again."; }
