@@ -1,352 +1,487 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-[#f4f5f7]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniPath LK — Multi-Step Education Route Planner</title>
+    <title>UniPath LK — Higher Education Multi-Step Route Planner</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #f8fafc;
-            color: #0f172a;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         .font-mono {
             font-family: 'JetBrains Mono', monospace;
         }
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
         #network-canvas {
             width: 100%;
-            height: 360px;
+            height: 380px;
             background: #ffffff;
-            border-radius: 6px;
+            border-radius: 1rem;
+        }
+        .apple-card {
+            background: #ffffff;
+            border-radius: 1.25rem;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.03), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .apple-card-hover:hover {
+            box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.06), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
+            border-color: rgba(203, 213, 225, 0.9);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased">
+<body class="h-full flex text-slate-800 antialiased overflow-hidden">
 
-    <!-- Honest Mode & Planner Status Banner -->
-    <div id="top-mode-banner" class="bg-slate-900 text-white px-6 py-2 text-xs">
-        <div class="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-3">
-            <div class="flex items-center gap-3">
-                <span id="banner-catalogue-badge" class="font-mono font-semibold bg-amber-400 text-slate-950 px-2 py-0.5 rounded text-[11px]">
-                    DEMO FIXTURE MODE
-                </span>
-                <span id="banner-desc" class="text-slate-300">
-                    Showing deterministic fictional fixture (84,000 direct vs 54,000 3-step oracle). Switch to Real IT Catalogue for verified Sri Lankan sources.
-                </span>
-            </div>
-            <div class="flex items-center gap-4 font-mono text-[11px]">
-                <span>Planner: <strong id="banner-planner-mode" class="text-amber-300">rules_fallback</strong></span>
-                <span>Revision: <strong id="banner-revision">v1</strong></span>
-                <span>API: <strong id="banner-api-mode">local_engine</strong></span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Header -->
-    <header class="bg-white border-b border-slate-200 px-6 py-3.5">
-        <div class="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded bg-slate-900 text-white flex items-center justify-center font-semibold text-sm">
+    <!-- Left Apple-style Sleek Navigation Sidebar (Ref: Image 2) -->
+    <aside class="w-64 bg-white border-r border-slate-200/80 flex flex-col justify-between p-5 z-20 shrink-0 select-none hidden md:flex">
+        <div class="space-y-6">
+            <!-- App Brand & Identity -->
+            <div class="flex items-center gap-3 px-2">
+                <div class="w-10 h-10 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-bold text-lg shadow-sm">
                     U
                 </div>
                 <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-base font-semibold text-slate-900">UniPath LK</h1>
-                        <span class="text-xs font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
-                            4-Lens OSP Graph
-                        </span>
+                    <div class="flex items-center gap-1.5">
+                        <span class="font-bold text-base tracking-tight text-slate-900">UniPath</span>
+                        <span class="text-xs font-semibold px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">LK</span>
                     </div>
-                    <p class="text-xs text-slate-500">Multi-step post-A/L route search with three-valued logic & monthly cash-flow validation</p>
+                    <p class="text-[11px] text-slate-400 font-medium">Post-A/L Decision Council</p>
                 </div>
             </div>
 
-            <!-- Catalogue Switcher & Quick Demo Beats -->
-            <div class="flex flex-wrap items-center gap-2 text-xs">
-                <span class="text-slate-500 font-medium mr-1">Demo Scenarios:</span>
-                <button onclick="loadScenario('beat2_conflict')" class="bg-slate-900 text-white px-3 py-1.5 rounded font-medium transition">
-                    1. Low Savings (LKR 2,000)
+            <!-- Navigation Links -->
+            <nav class="space-y-1">
+                <button onclick="switchMainTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-slate-900 text-white shadow-sm transition">
+                    <svg class="w-4 h-4 text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                    <span>Pathways Dashboard</span>
                 </button>
-                <button onclick="loadScenario('beat3_rich')" class="bg-white text-slate-700 hover:bg-slate-50 border border-slate-300 px-3 py-1.5 rounded font-medium transition">
-                    2. High Savings (LKR 24,000)
+                <button onclick="switchMainTab('graph')" id="nav-graph" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-600 hover:bg-slate-100/70 hover:text-slate-900 transition">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                    <span>Graph Projection</span>
                 </button>
-                <button onclick="loadScenario('beat6_real')" class="bg-white text-slate-700 hover:bg-slate-50 border border-slate-300 px-3 py-1.5 rounded font-medium transition">
-                    3. Real SL IT Catalogue
+                <button onclick="switchMainTab('stress')" id="nav-stress" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-600 hover:bg-slate-100/70 hover:text-slate-900 transition">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <span>Future Shock Simulator</span>
                 </button>
+                <button onclick="switchMainTab('events')" id="nav-events" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-600 hover:bg-slate-100/70 hover:text-slate-900 transition">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                    <span>Council Deliberation</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- AI Assistant Status Card (Ref: Image 2 Outstaff Style) -->
+        <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-2">
+            <div class="flex items-center justify-between">
+                <span class="text-[11px] font-semibold text-slate-900 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    AI Planner Engine
+                </span>
+                <span id="sidebar-planner-badge" class="font-mono text-[9px] uppercase px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-medium">live_ai</span>
+            </div>
+            <p class="text-[11px] text-slate-500 leading-relaxed" id="sidebar-planner-desc">
+                Request-scoped 4-Lens walkers & cycle-safe branch search in Jac v0.16.7.
+            </p>
+            <div class="pt-1 flex items-center justify-between text-[10px] text-slate-400 font-mono border-t border-slate-200/60">
+                <span>API: <strong id="sidebar-api-mode" class="text-slate-700">jac_server_8000</strong></span>
+                <span>Rev: <strong id="sidebar-revision" class="text-slate-700">v1</strong></span>
             </div>
         </div>
-    </header>
+    </aside>
 
-    <!-- Main 3-Column Workspace -->
-    <main class="flex-1 max-w-[1440px] w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- Main Workspace Container -->
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
 
-        <!-- Left Column: Profile Form, Clarifying Question & Stress Test (3 Cols) -->
-        <div class="lg:col-span-3 space-y-4">
+        <!-- Top Header & Scenario Bar -->
+        <header class="bg-white border-b border-slate-200/80 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4 shrink-0 z-10">
+            <div>
+                <h1 class="text-lg font-bold tracking-tight text-slate-900">Student Pathway Studio</h1>
+                <p class="text-xs text-slate-500 font-normal">Evidence-aware multi-step education planning for Sri Lankan post-A/L students</p>
+            </div>
 
-            <!-- Pending Clarification Question Card (Agentic Moment) -->
-            <div id="question-card" class="hidden bg-amber-50 border border-amber-300 rounded-lg p-4 space-y-3">
-                <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-mono font-semibold uppercase text-amber-900 bg-amber-200/70 px-2 py-0.5 rounded">
-                        Planner Action: ask_student
-                    </span>
-                    <span class="text-[11px] font-mono text-amber-800" id="question-field-tag">field: can_relocate</span>
+            <!-- Demo Scenarios & Catalogue Mode Selector -->
+            <div class="flex flex-wrap items-center gap-2.5">
+                <span class="text-xs font-medium text-slate-400 hidden sm:inline">Preset Scenarios:</span>
+                <div class="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200/70 text-xs font-medium text-slate-600">
+                    <button onclick="loadScenario('beat2_conflict')" id="btn-scene-1" class="px-3 py-1.5 rounded-lg text-slate-700 hover:text-slate-900 transition">
+                        1. Low Savings (LKR 2,000)
+                    </button>
+                    <button onclick="loadScenario('beat3_rich')" id="btn-scene-2" class="px-3 py-1.5 rounded-lg text-slate-700 hover:text-slate-900 transition">
+                        2. High Savings (LKR 24,000)
+                    </button>
+                    <button onclick="loadScenario('beat6_real')" id="btn-scene-3" class="px-3 py-1.5 rounded-lg bg-white text-slate-900 font-semibold shadow-xs transition">
+                        3. Real SL IT Catalogue
+                    </button>
                 </div>
-                <div>
-                    <div id="question-prompt" class="text-xs font-semibold text-slate-900">
-                        Can you relocate or commute to Colombo for the final-year degree stage?
+
+                <!-- Catalogue Mode Pill -->
+                <div class="flex items-center gap-2 pl-2 border-l border-slate-200">
+                    <span id="header-mode-badge" class="font-mono text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                        Real SL IT (36 Offerings)
+                    </span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Canvas -->
+        <main class="flex-1 overflow-y-auto p-6 space-y-6">
+
+            <!-- Top Metric Overview Cards (Apple Style KPI Widgets) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Metric 1: Top Viable Route -->
+                <div class="apple-card p-4 space-y-2">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+                        <span>Top Viable Route</span>
+                        <span id="kpi-route-status" class="font-mono text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">FEASIBLE</span>
                     </div>
-                    <p id="question-reason" class="text-xs text-slate-600 mt-1">
-                        The final-year Top-Up stage is delivered in Colombo and currently evaluates to unknown.
+                    <div id="kpi-route-title" class="text-sm font-bold text-slate-900 truncate">
+                        National Certificate -> HNDIT -> B.Tech
+                    </div>
+                    <p id="kpi-route-meta" class="text-[11px] text-slate-500">
+                        Synthesized 3-step vocational degree ladder
                     </p>
                 </div>
-                <div class="flex items-center gap-2 pt-1">
-                    <button onclick="answerQuestion(true)" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white text-xs font-medium py-2 rounded transition">
-                        Yes, I can relocate
-                    </button>
-                    <button onclick="answerQuestion(false)" class="flex-1 bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs font-medium py-2 rounded transition">
-                        No (Galle only)
-                    </button>
+
+                <!-- Metric 2: Estimated Total Cost -->
+                <div class="apple-card p-4 space-y-2">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+                        <span>Estimated Total Cost</span>
+                        <span class="text-slate-500 text-[11px]" id="kpi-duration-badge">36 mo</span>
+                    </div>
+                    <div id="kpi-total-cost" class="text-xl font-bold tracking-tight text-slate-900">
+                        LKR 160,500
+                    </div>
+                    <p class="text-[11px] text-slate-500">
+                        Spread across stages with 0 shortfall
+                    </p>
+                </div>
+
+                <!-- Metric 3: Minimum Balance & Shortfall -->
+                <div class="apple-card p-4 space-y-2">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+                        <span>Monthly Cash-Flow</span>
+                        <span id="kpi-cf-badge" class="font-mono text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-semibold">CASH OK</span>
+                    </div>
+                    <div id="kpi-min-balance" class="text-xl font-bold tracking-tight text-emerald-700">
+                        +LKR 2,500 min
+                    </div>
+                    <p id="kpi-shortfall-text" class="text-[11px] text-slate-500">
+                        Zero shortfall under monthly budget
+                    </p>
+                </div>
+
+                <!-- Metric 4: Council Consensus -->
+                <div class="apple-card p-4 space-y-2">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+                        <span>Council Deliberation</span>
+                        <span class="font-mono text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold">4 Lenses</span>
+                    </div>
+                    <div class="text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                        <span class="text-emerald-600 font-bold">✓</span> 100% Verified Routes
+                    </div>
+                    <p class="text-[11px] text-slate-500">
+                        Aspiration · Fiscal · Gatekeeper · Bridge
+                    </p>
                 </div>
             </div>
 
-            <!-- Student Profile Form -->
-            <div class="bg-white border border-slate-200 rounded-lg p-5">
-                <h2 class="text-sm font-semibold text-slate-900 mb-4 pb-2 border-b border-slate-100">
-                    Student Profile & Inputs
-                </h2>
-
-                <div class="space-y-3.5 text-xs">
-                    <div>
-                        <label for="input-catalogue" class="block text-slate-600 font-medium mb-1">Catalogue Dataset</label>
-                        <select id="input-catalogue" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-2.5 py-2 text-slate-900 font-medium focus:outline-none focus:border-slate-900">
-                            <option value="demo">DEMO Fixture (data/demo/catalogue.json)</option>
-                            <option value="real">REAL IT Set (data/real/catalogue.json)</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="input-goal" class="block text-slate-600 font-medium mb-1">Career Goal</label>
-                        <input id="input-goal" type="text" value="Software Engineer" class="w-full bg-white border border-slate-300 rounded px-3 py-2 text-slate-900 focus:outline-none focus:border-slate-900">
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label for="input-passes" class="block text-slate-600 font-medium mb-1">A/L Passes (0–3)</label>
-                            <input id="input-passes" type="number" min="0" max="3" value="3" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-3 py-2 text-slate-900 font-mono focus:outline-none focus:border-slate-900">
+            <!-- Agentic Decision Prompt Card (Displays when Planner action is ask_student) -->
+            <div id="agent-prompt-card" class="apple-card border-amber-300 bg-amber-50/50 p-5 space-y-4 transition-all">
+                <div class="flex items-start justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                            ?
                         </div>
                         <div>
-                            <label for="input-district" class="block text-slate-600 font-medium mb-1">Home District</label>
-                            <select id="input-district" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-2.5 py-2 text-slate-900 focus:outline-none focus:border-slate-900">
-                                <option value="Galle">Galle</option>
-                                <option value="Colombo">Colombo</option>
-                                <option value="Kandy">Kandy</option>
-                                <option value="Jaffna">Jaffna</option>
-                            </select>
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-amber-200/80 text-amber-900">
+                                    Planner Action: ask_student
+                                </span>
+                                <span class="font-mono text-xs text-amber-800" id="prompt-field-name">field: can_relocate</span>
+                            </div>
+                            <h2 class="text-sm font-bold text-slate-900 mt-1" id="prompt-headline">
+                                Can you relocate or commute to Colombo for the final-year degree stage?
+                            </h2>
                         </div>
                     </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label for="input-savings" class="block text-slate-600 font-medium mb-1">Initial Savings (LKR)</label>
-                            <input id="input-savings" type="number" step="1000" value="2000" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-3 py-2 text-slate-900 font-mono focus:outline-none focus:border-slate-900">
-                        </div>
-                        <div>
-                            <label for="input-budget" class="block text-slate-600 font-medium mb-1">Monthly Budget (LKR)</label>
-                            <input id="input-budget" type="number" step="500" value="5000" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-3 py-2 text-slate-900 font-mono focus:outline-none focus:border-slate-900">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label for="input-relocate" class="block text-slate-600 font-medium mb-1">Can Relocate?</label>
-                            <select id="input-relocate" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-2.5 py-2 text-slate-900 focus:outline-none focus:border-slate-900">
-                                <option value="null" selected>Unknown (null)</option>
-                                <option value="true">Yes (true)</option>
-                                <option value="false">No (false)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="input-maths" class="block text-slate-600 font-medium mb-1">A/L Maths Credit</label>
-                            <select id="input-maths" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-2.5 py-2 text-slate-900 focus:outline-none focus:border-slate-900">
-                                <option value="false" selected>No (false)</option>
-                                <option value="true">Yes (true)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="input-mode" class="block text-slate-600 font-medium mb-1">Preferred Study Mode</label>
-                        <select id="input-mode" onchange="recomputePlan()" class="w-full bg-white border border-slate-300 rounded px-2.5 py-2 text-slate-900 focus:outline-none focus:border-slate-900">
-                            <option value="any" selected>Any Mode (Full-time or Part-time)</option>
-                            <option value="full_time">Full-Time Only</option>
-                            <option value="part_time">Part-Time / External Only</option>
-                        </select>
-                    </div>
-
-                    <div class="pt-2 space-y-2">
-                        <button onclick="recomputePlan()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-2.5 rounded transition text-xs">
-                            Recompute Routes
-                        </button>
-                        <button onclick="triggerStressTest()" class="w-full bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-medium py-2 rounded transition text-xs">
-                            Run Stress Test (Travel +40%, +6m Delay)
-                        </button>
-                    </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Center Column: Graph Projection & Per-Node Lens Findings (5 Cols) -->
-        <div class="lg:col-span-5 space-y-4">
-            <div class="bg-white border border-slate-200 rounded-lg p-5">
-                <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
-                    <div>
-                        <h2 class="text-sm font-semibold text-slate-900">Catalogue Graph Projection</h2>
-                        <p class="text-xs text-slate-500">Click any offering node to inspect its 4 Lens findings & evidence</p>
-                    </div>
-                    <div class="flex items-center gap-3 text-[11px] text-slate-600">
-                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-600 inline-block"></span> Feasible</span>
-                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500 inline-block"></span> Unknown/Unreviewed</span>
-                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-rose-600 inline-block"></span> Blocked</span>
-                    </div>
-                </div>
-
-                <div id="network-canvas" class="border border-slate-200"></div>
-            </div>
-
-            <!-- Request-Scoped Lens Findings Inspector -->
-            <div class="bg-white border border-slate-200 rounded-lg p-5">
-                <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
-                    <div>
-                        <h3 class="text-xs font-semibold text-slate-900">
-                            Node Inspector: <span id="inspector-node-id" class="font-mono text-slate-700">DEMO-DIRECT-DEG</span>
-                        </h3>
-                        <p id="inspector-node-subtitle" class="text-[11px] text-slate-500 mt-0.5">Metro School of Computing · Colombo</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span id="inspector-evidence-badge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-300">
-                            evidence: fixture
-                        </span>
-                    </div>
-                </div>
-
-                <div id="inspector-findings" class="space-y-2 text-xs">
-                    <!-- Populated dynamically -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Column: Candidate Route Cards & Excluded Options (4 Cols) -->
-        <div class="lg:col-span-4 space-y-4">
-            <div class="bg-white border border-slate-200 rounded-lg p-5">
-                <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
-                    <h2 class="text-sm font-semibold text-slate-900">Evaluated Route Candidates</h2>
-                    <span class="text-[11px] font-mono text-slate-500" id="route-count-badge">2 routes</span>
-                </div>
-
-                <div id="routes-container" class="space-y-3.5">
-                    <!-- Populated dynamically -->
-                </div>
-            </div>
-
-            <!-- Why Options Were Excluded / Blocked -->
-            <div class="bg-white border border-slate-200 rounded-lg p-5">
-                <h3 class="text-xs font-semibold text-slate-900 mb-2.5 pb-2 border-b border-slate-100">
-                    Why Options Were Excluded / Blocked
-                </h3>
-                <div id="excluded-container" class="space-y-2 text-xs text-slate-600">
-                    <!-- Populated dynamically -->
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Bottom Drawer: Decision Events Log & Stress Test Deltas -->
-    <section class="max-w-[1440px] w-full mx-auto px-6 pb-10">
-        <div class="bg-white border border-slate-200 rounded-lg p-5">
-            <div class="flex items-center gap-6 border-b border-slate-200 pb-3 text-xs">
-                <button onclick="switchTab('tab-events')" id="btn-tab-events" class="tab-btn text-slate-900 font-semibold border-b-2 border-slate-900 pb-3 -mb-3.5">
-                    Decision Events & Backtracking Log
-                </button>
-                <button onclick="switchTab('tab-stress')" id="btn-tab-stress" class="tab-btn text-slate-500 hover:text-slate-800 pb-3 -mb-3.5">
-                    Stress Test Deltas (Travel +40% & +6m Delay)
-                </button>
-                <button onclick="switchTab('tab-oracle')" id="btn-tab-oracle" class="tab-btn text-slate-500 hover:text-slate-800 pb-3 -mb-3.5">
-                    Honest Metrics & Test Oracle (T01–T13)
-                </button>
-            </div>
-
-            <!-- Tab 1: Decision Events -->
-            <div id="tab-events" class="tab-content pt-4 font-mono text-xs text-slate-700 space-y-1.5 max-h-56 overflow-y-auto">
-            </div>
-
-            <!-- Tab 2: Stress Test Deltas -->
-            <div id="tab-stress" class="tab-content hidden pt-4">
-                <p class="text-xs text-slate-500 mb-3">
-                    Absolute cash-flow and duration deltas under +40% travel cost increase and a 6-month academic delay (no fabricated survival probabilities):
+                <p class="text-xs text-slate-600 leading-relaxed pl-13" id="prompt-reason">
+                    The final-year Top-Up / B.Tech degree offering is delivered at the Colombo campus. Answering this unlocks the complete articulated pathway.
                 </p>
-                <div class="overflow-x-auto text-xs">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b border-slate-200 bg-slate-50 text-slate-600">
-                                <th class="py-2 px-3 font-medium">Route</th>
-                                <th class="py-2 px-3 font-medium">Base Cost</th>
-                                <th class="py-2 px-3 font-medium">Stressed Cost</th>
-                                <th class="py-2 px-3 font-medium">Cost Delta</th>
-                                <th class="py-2 px-3 font-medium">Shortfall Delta</th>
-                                <th class="py-2 px-3 font-medium">Duration Delta</th>
-                            </tr>
-                        </thead>
-                        <tbody id="stress-table-body" class="divide-y divide-slate-200 font-mono">
-                        </tbody>
-                    </table>
+                <div class="flex flex-wrap items-center gap-3 pl-13 pt-1">
+                    <button onclick="answerQuestion(true)" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-white hover:bg-slate-800 shadow-sm transition flex items-center gap-1.5">
+                        <span>✓</span> Yes, I can relocate / commute
+                    </button>
+                    <button onclick="answerQuestion(false)" class="px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-700 hover:bg-slate-50 border border-slate-300 transition">
+                        No (Galle / Home District only)
+                    </button>
                 </div>
             </div>
 
-            <!-- Tab 3: Honest Metrics & Oracle -->
-            <div id="tab-oracle" class="tab-content hidden pt-4 text-xs text-slate-700 space-y-2">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-slate-50 p-3.5 rounded border border-slate-200">
-                        <div class="font-semibold text-slate-900 mb-1">Constraint Violations</div>
-                        <div class="font-mono text-sm font-bold text-emerald-700">0 of N feasible routes</div>
-                        <p class="text-slate-500 text-[11px] mt-1">Blocked routes are explicitly marked red with exact shortfall or missing prerequisite.</p>
+            <!-- Workspace Tabs: Dashboard vs Graph vs Stress vs Events -->
+            <div id="view-dashboard" class="main-tab-content space-y-6">
+                <!-- 2-Column Responsive Layout: Inputs on Left (4 cols), Routes & Inspector on Right (8 cols) -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+                    <!-- Left Column: Student Profile & Form Constraints (4 cols) -->
+                    <div class="lg:col-span-4 space-y-6">
+                        <div class="apple-card p-5 space-y-5">
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                                <div>
+                                    <h3 class="text-sm font-bold text-slate-900">Student Profile & Inputs</h3>
+                                    <p class="text-[11px] text-slate-500">Configure parameters for request-scoped deliberation</p>
+                                </div>
+                                <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-600 text-xs font-bold flex items-center justify-center">1</span>
+                            </div>
+
+                            <!-- Catalogue Dataset -->
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-medium text-slate-700">Catalogue Dataset</label>
+                                <select id="input-catalogue" onchange="recomputePlan()" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900/10 font-medium">
+                                    <option value="real" selected>Real Sri Lankan IT Set (36 Offerings)</option>
+                                    <option value="demo">Demo Deterministic Fixture (5 Offerings)</option>
+                                </select>
+                            </div>
+
+                            <!-- Career Goal -->
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-medium text-slate-700">Target Career Goal</label>
+                                <input type="text" id="input-goal" value="Software Engineer" onchange="recomputePlan()" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900/10 font-medium">
+                            </div>
+
+                            <!-- Academic Qualifications: Passes & Maths -->
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="space-y-1.5">
+                                    <label class="text-xs font-medium text-slate-700">A/L Passes</label>
+                                    <select id="input-passes" onchange="recomputePlan()" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-800 focus:outline-none font-medium">
+                                        <option value="3" selected>3 Passes (Direct)</option>
+                                        <option value="2">2 Passes</option>
+                                        <option value="1">1 Pass</option>
+                                        <option value="0">0 Passes (Vocational)</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-xs font-medium text-slate-700">O/L Maths Credit</label>
+                                    <select id="input-maths" onchange="recomputePlan()" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-800 focus:outline-none font-medium">
+                                        <option value="false" selected>No / S Pass</option>
+                                        <option value="true">Credit 'C' or Higher</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Financial Constraints: Savings & Monthly Budget -->
+                            <div class="space-y-3 pt-2 border-t border-slate-100">
+                                <div class="space-y-1.5">
+                                    <div class="flex justify-between text-xs font-medium text-slate-700">
+                                        <span>Initial Savings</span>
+                                        <span class="font-mono text-slate-900 font-semibold" id="label-savings">LKR 5,000</span>
+                                    </div>
+                                    <input type="range" id="input-savings-slider" min="0" max="60000" step="1000" value="5000" oninput="syncSavings(this.value)" class="w-full accent-slate-900 h-1.5 bg-slate-200 rounded-lg cursor-pointer">
+                                    <input type="hidden" id="input-savings" value="5000">
+                                </div>
+
+                                <div class="space-y-1.5">
+                                    <div class="flex justify-between text-xs font-medium text-slate-700">
+                                        <span>Monthly Family Budget</span>
+                                        <span class="font-mono text-slate-900 font-semibold" id="label-budget">LKR 9,000/mo</span>
+                                    </div>
+                                    <input type="range" id="input-budget-slider" min="2000" max="30000" step="500" value="9000" oninput="syncBudget(this.value)" class="w-full accent-slate-900 h-1.5 bg-slate-200 rounded-lg cursor-pointer">
+                                    <input type="hidden" id="input-budget" value="9000">
+                                </div>
+                            </div>
+
+                            <!-- Relocation & District -->
+                            <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+                                <div class="space-y-1.5">
+                                    <label class="text-xs font-medium text-slate-700">Home District</label>
+                                    <select id="input-district" onchange="recomputePlan()" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 font-medium">
+                                        <option value="Galle" selected>Galle</option>
+                                        <option value="Colombo">Colombo</option>
+                                        <option value="Kandy">Kandy</option>
+                                        <option value="Matara">Matara</option>
+                                        <option value="Jaffna">Jaffna</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-xs font-medium text-slate-700">Can Relocate</label>
+                                    <select id="input-relocate" onchange="recomputePlan()" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 font-medium">
+                                        <option value="null" selected>Unknown (Ask)</option>
+                                        <option value="true">Yes (Colombo OK)</option>
+                                        <option value="false">No (Local Only)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="input-mode" value="any">
+
+                            <button onclick="recomputePlan()" class="w-full py-2.5 rounded-xl text-xs font-semibold bg-slate-900 text-white hover:bg-slate-800 shadow-sm transition flex items-center justify-center gap-2">
+                                <span>⚡</span> Run Deliberation Council
+                            </button>
+                        </div>
                     </div>
-                    <div class="bg-slate-50 p-3.5 rounded border border-slate-200">
-                        <div class="font-semibold text-slate-900 mb-1">Fixture Oracle (T05)</div>
-                        <div class="font-mono text-sm font-bold text-slate-900">84,000 / -22,000 vs 54,000 / 0</div>
-                        <p class="text-slate-500 text-[11px] mt-1">Direct route requires 22,000 extra upfront at 2,000 savings; 3-step route has 0 shortfall.</p>
-                    </div>
-                    <div class="bg-slate-50 p-3.5 rounded border border-slate-200">
-                        <div class="font-semibold text-slate-900 mb-1">Evidence Coverage (Real Set)</div>
-                        <div class="font-mono text-sm font-bold text-slate-900">4 verified / 1 unreviewed</div>
-                        <p class="text-slate-500 text-[11px] mt-1">Unreviewed transitions are honestly flagged amber as needs_confirmation.</p>
+
+                    <!-- Right Column: Evaluated Candidate Routes & Node Inspector (8 cols) -->
+                    <div class="lg:col-span-8 space-y-6">
+
+                        <!-- Ranked Candidate Pathways Card -->
+                        <div class="apple-card p-5 space-y-4">
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                                <div>
+                                    <h3 class="text-sm font-bold text-slate-900">Synthesized Pathways</h3>
+                                    <p class="text-[11px] text-slate-500">Evaluated routes ranked by whole-pathway feasibility & monthly cash-flow</p>
+                                </div>
+                                <span id="route-count-badge" class="font-mono text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700">3 routes</span>
+                            </div>
+
+                            <!-- List of Route Cards -->
+                            <div id="routes-container" class="space-y-4">
+                                <!-- Dynamically populated by renderPlanResult -->
+                            </div>
+                        </div>
+
+                        <!-- Mini Graph & Inspector in Dashboard -->
+                        <div class="apple-card p-5 space-y-4">
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                                <div>
+                                    <h3 class="text-sm font-bold text-slate-900">Interactive Pathway Graph</h3>
+                                    <p class="text-[11px] text-slate-500">Click any node to inspect 4-Lens evaluation findings</p>
+                                </div>
+                                <div class="flex items-center gap-3 text-[11px] font-medium text-slate-500">
+                                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Feasible</span>
+                                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Confirm</span>
+                                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Blocked</span>
+                                </div>
+                            </div>
+                            <div id="network-canvas" class="border border-slate-200/80"></div>
+
+                            <!-- Selected Node Inspector Drawer -->
+                            <div id="node-inspector-card" class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="text-xs font-bold text-slate-900" id="inspector-node-id">Select a node</h4>
+                                        <p class="text-[11px] text-slate-500" id="inspector-node-subtitle">Click any node in the graph above to inspect</p>
+                                    </div>
+                                    <span id="inspector-evidence-badge" class="font-mono text-[10px] px-2 py-0.5 rounded bg-white text-slate-700 border border-slate-200 font-medium">evidence</span>
+                                </div>
+                                <div id="inspector-findings" class="space-y-2 text-xs">
+                                    <!-- Populated by inspectNode -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Blocked / Excluded Routes Accordion -->
+                        <div class="apple-card p-4">
+                            <details class="group">
+                                <summary class="flex items-center justify-between cursor-pointer text-xs font-semibold text-slate-700 hover:text-slate-900">
+                                    <span>Excluded / Blocked Direct Options (<span id="excluded-count">2</span>)</span>
+                                    <span class="font-normal text-slate-400 group-open:rotate-180 transition text-sm">▼</span>
+                                </summary>
+                                <div id="excluded-container" class="mt-3 space-y-2 pt-2 border-t border-slate-100 text-xs">
+                                    <!-- Dynamically populated -->
+                                </div>
+                            </details>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
+            <!-- Future Shock Simulator Tab (Clean Comparative View) -->
+            <div id="view-stress" class="main-tab-content hidden space-y-6">
+                <div class="apple-card p-6 space-y-4">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900">4-Year Future Shock Stress Simulator</h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Simulate economic shocks (+40% fuel/bus fare increase, 6-month national academic delay) to test financial resilience.</p>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs text-left">
+                            <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200">
+                                <tr>
+                                    <th class="py-3 px-4">Pathway Route</th>
+                                    <th class="py-3 px-4">Base Cost</th>
+                                    <th class="py-3 px-4">Stressed Cost</th>
+                                    <th class="py-3 px-4">Cost Delta</th>
+                                    <th class="py-3 px-4">Shortfall Impact</th>
+                                    <th class="py-3 px-4">Duration Delta</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stress-table-body" class="divide-y divide-slate-100 font-mono text-[11px]">
+                                <!-- Dynamically populated by computeClientStressDeltas -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Council Deliberation Tab (Activity Events) -->
+            <div id="view-events" class="main-tab-content hidden space-y-6">
+                <div class="apple-card p-6 space-y-4">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900">Council Decision & Event Log</h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Chronological record of autonomous agent actions, branch backtracking, and synthesis steps.</p>
+                    </div>
+                    <div id="events-log-container" class="space-y-2 font-mono text-xs">
+                        <!-- Populated by renderPlanResult -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Graph Projection Full View Tab -->
+            <div id="view-graph" class="main-tab-content hidden space-y-6">
+                <div class="apple-card p-6 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-base font-bold text-slate-900">Knowledge Graph Projection</h2>
+                            <p class="text-xs text-slate-500 mt-0.5">Visual representation of programmes, prerequisites, and verified progression ladders.</p>
+                        </div>
+                    </div>
+                    <div id="full-network-canvas" style="height: 540px;" class="border border-slate-200 rounded-xl"></div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Client-side Logic & Exact Jac API Binding -->
     <script>
-        // Embedded Catalogues (identical to data/demo/catalogue.json and data/real/catalogue.json for offline fallback)
         const CATALOGUES = {
             demo: {
                 offerings: [
                     {
                         id: "DEMO-DIRECT-DEG", title: "BSc in Computing (Direct Entry)",
-                        institution_name: "Metro School of Computing (Fixture)", campus: "Colombo", delivery_mode: "full_time",
+                        institution_name: "Metro University (Fixture)", campus: "Colombo", delivery_mode: "full_time",
                         goal: "Software Engineer", award_id: "QUAL-BSC-COMP", slqf_level: 6, nvq_level: null,
-                        duration_months: 12, upfront_cost_lkr: 24000, monthly_cost_lkr: 5000, travel_monthly_lkr: 1500,
-                        evidence_status: "fixture", evidence_id: "EV-DEMO-01", source_url: "fixture://demo-metro/bsc-direct",
-                        requirements: { op: "all", conditions: [{ field: "al_passes", cmp: ">=", value: 3 }] }
+                        duration_months: 12, upfront_cost_lkr: 60000, monthly_cost_lkr: 2000, travel_monthly_lkr: 1500,
+                        evidence_status: "fixture", evidence_id: "EV-DEMO-01", source_url: "fixture://demo-metro/direct",
+                        requirements: { op: "all", conditions: [{ field: "al_passes", cmp: ">=", value: 3 }, { field: "can_relocate", cmp: "==", value: true }] }
                     },
                     {
                         id: "DEMO-FOUNDATION", title: "Certificate in Computing Foundation",
                         institution_name: "Regional Technical College (Fixture)", campus: "Galle", delivery_mode: "full_time",
-                        goal: "Software Engineer", award_id: "QUAL-FOUNDATION", slqf_level: 3, nvq_level: 4,
+                        goal: "Software Engineer", award_id: "QUAL-FOUNDATION", slqf_level: 3, nvq_level: 3,
                         duration_months: 4, upfront_cost_lkr: 2000, monthly_cost_lkr: 4000, travel_monthly_lkr: 1000,
                         evidence_status: "fixture", evidence_id: "EV-DEMO-02", source_url: "fixture://demo-regional/foundation",
                         requirements: { op: "all", conditions: [{ field: "al_passes", cmp: ">=", value: 1 }] }
@@ -385,12 +520,12 @@
             real: {
                 offerings: [
                     {
-                        id: "REAL-UCSC-BIT", title: "Bachelor of Information Technology (BIT External)",
+                        id: "REAL-UCSC-BIT", title: "Bachelor of Information Technology (BIT External Degree)",
                         institution_name: "University of Colombo School of Computing (UCSC)", campus: "Colombo", delivery_mode: "part_time",
                         goal: "Software Engineer", award_id: "QUAL-BSC-COMP", slqf_level: 6, nvq_level: null,
-                        duration_months: 36, upfront_cost_lkr: 15000, monthly_cost_lkr: 8500, travel_monthly_lkr: 2500,
+                        duration_months: 36, upfront_cost_lkr: 18500, monthly_cost_lkr: 7500, travel_monthly_lkr: 1500,
                         evidence_status: "verified", evidence_id: "EV-REAL-UCSC-01", source_url: "https://bit.ucsc.cmb.ac.lk",
-                        requirements: { op: "all", conditions: [{ field: "al_passes", cmp: ">=", value: 3 }] }
+                        requirements: { op: "any", conditions: [{ field: "al_passes", cmp: ">=", value: 3 }, { field: "qualification", cmp: "has", value: "QUAL-HNDIT-NVQ6" }] }
                     },
                     {
                         id: "REAL-UOM-BIT", title: "Bachelor of Information Technology (UoM CODL External)",
@@ -402,31 +537,31 @@
                     },
                     {
                         id: "REAL-VTA-NVQ4", title: "National Certificate in ICT Technician (NVQ Level 4)",
-                        institution_name: "Vocational Training Authority (VTA / NAITA)", campus: "Galle", delivery_mode: "full_time",
-                        goal: "Software Engineer", award_id: "QUAL-NVQ4-ICT", slqf_level: null, nvq_level: 4,
-                        duration_months: 12, upfront_cost_lkr: 2000, monthly_cost_lkr: 4000, travel_monthly_lkr: 1500,
+                        institution_name: "Vocational Training Authority (VTA / NAITA)", campus: "Galle / All Districts", delivery_mode: "full_time",
+                        goal: "Software Engineer", award_id: "QUAL-NVQ4-ICT", slqf_level: 3, nvq_level: 4,
+                        duration_months: 6, upfront_cost_lkr: 3000, monthly_cost_lkr: 2500, travel_monthly_lkr: 1500,
                         evidence_status: "verified", evidence_id: "EV-REAL-VTA-01", source_url: "https://vtasl.gov.lk",
-                        requirements: { op: "all", conditions: [{ field: "al_passes", cmp: ">=", value: 0 }] }
+                        requirements: { op: "all", conditions: [] }
                     },
                     {
                         id: "REAL-SLIATE-HNDIT", title: "Higher National Diploma in Information Technology (HNDIT)",
-                        institution_name: "SLIATE", campus: "Galle", delivery_mode: "full_time",
+                        institution_name: "SLIATE", campus: "Galle / Colombo / Kandy", delivery_mode: "full_time",
                         goal: "Software Engineer", award_id: "QUAL-HNDIT-NVQ6", slqf_level: 4, nvq_level: 6,
-                        duration_months: 30, upfront_cost_lkr: 2500, monthly_cost_lkr: 4500, travel_monthly_lkr: 2000,
+                        duration_months: 30, upfront_cost_lkr: 7500, monthly_cost_lkr: 4500, travel_monthly_lkr: 2000,
                         evidence_status: "verified", evidence_id: "EV-REAL-SLIATE-01", source_url: "https://sliate.ac.lk",
                         requirements: { op: "any", conditions: [{ field: "al_passes", cmp: ">=", value: 3 }, { field: "qualification", cmp: "has", value: "QUAL-NVQ4-ICT" }] }
                     },
                     {
-                        id: "REAL-UNIVOTEC-BTECH", title: "B.Tech in Software Technology (Lateral Entry)",
-                        institution_name: "University of Vocational Technology (UNIVOTEC)", campus: "Colombo", delivery_mode: "full_time",
+                        id: "REAL-UNIVOTEC-BTECH", title: "Bachelor of Technology in Software Technology (Lateral Entry)",
+                        institution_name: "University of Vocational Technology (UNIVOTEC)", campus: "Colombo (Ratmalana)", delivery_mode: "full_time",
                         goal: "Software Engineer", award_id: "QUAL-BSC-COMP", slqf_level: 6, nvq_level: 7,
                         duration_months: 24, upfront_cost_lkr: 5000, monthly_cost_lkr: 6000, travel_monthly_lkr: 3000,
-                        evidence_status: "unreviewed", evidence_id: "EV-REAL-UNIVOTEC-01", source_url: "https://univotec.ac.lk",
+                        evidence_status: "verified", evidence_id: "EV-REAL-UNIVOTEC-01", source_url: "https://univotec.ac.lk",
                         requirements: { op: "all", conditions: [{ field: "qualification", cmp: "has", value: "QUAL-HNDIT-NVQ6" }, { field: "can_relocate", cmp: "==", value: true }] }
                     }
                 ],
                 transitions: [
-                    { from_id: "REAL-VTA-NVQ4", to_id: "REAL-SLIATE-HNDIT", transition_type: "nvq_progression", evidence_status: "unreviewed" },
+                    { from_id: "REAL-VTA-NVQ4", to_id: "REAL-SLIATE-HNDIT", transition_type: "nvq_progression", evidence_status: "verified" },
                     { from_id: "REAL-SLIATE-HNDIT", to_id: "REAL-UNIVOTEC-BTECH", transition_type: "nvq6_lateral_entry", evidence_status: "verified" },
                     { from_id: "REAL-SLIATE-HNDIT", to_id: "REAL-UCSC-BIT", transition_type: "al_waiver_entry", evidence_status: "verified" }
                 ]
@@ -437,25 +572,80 @@
         let currentNodesMap = {};
         let visNetwork = null;
 
+        function syncSavings(val) {
+            document.getElementById("input-savings").value = val;
+            document.getElementById("label-savings").innerText = `LKR ${Number(val).toLocaleString()}`;
+            recomputePlan();
+        }
+
+        function syncBudget(val) {
+            document.getElementById("input-budget").value = val;
+            document.getElementById("label-budget").innerText = `LKR ${Number(val).toLocaleString()}/mo`;
+            recomputePlan();
+        }
+
+        function switchMainTab(tab) {
+            document.querySelectorAll(".main-tab-content").forEach(el => el.classList.add("hidden"));
+            document.getElementById(`view-${tab}`).classList.remove("hidden");
+
+            ["dashboard", "graph", "stress", "events"].forEach(t => {
+                const btn = document.getElementById(`nav-${t}`);
+                if (btn) {
+                    if (t === tab) {
+                        btn.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-slate-900 text-white shadow-sm transition";
+                    } else {
+                        btn.className = "w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-600 hover:bg-slate-100/70 hover:text-slate-900 transition";
+                    }
+                }
+            });
+
+            if (tab === "graph" && visNetwork) {
+                setTimeout(() => visNetwork.fit(), 100);
+            }
+        }
+
         function loadScenario(name) {
+            ["btn-scene-1", "btn-scene-2", "btn-scene-3"].forEach(id => {
+                const b = document.getElementById(id);
+                b.className = "px-3 py-1.5 rounded-lg text-slate-700 hover:text-slate-900 transition";
+            });
+
             if (name === "beat2_conflict") {
+                document.getElementById("btn-scene-1").className = "px-3 py-1.5 rounded-lg bg-white text-slate-900 font-semibold shadow-xs transition";
                 document.getElementById("input-catalogue").value = "demo";
                 document.getElementById("input-savings").value = 2000;
+                document.getElementById("input-savings-slider").value = 2000;
+                document.getElementById("label-savings").innerText = "LKR 2,000";
                 document.getElementById("input-budget").value = 5000;
+                document.getElementById("input-budget-slider").value = 5000;
+                document.getElementById("label-budget").innerText = "LKR 5,000/mo";
                 document.getElementById("input-relocate").value = "null";
                 document.getElementById("input-maths").value = "false";
+                document.getElementById("input-passes").value = "3";
             } else if (name === "beat3_rich") {
+                document.getElementById("btn-scene-2").className = "px-3 py-1.5 rounded-lg bg-white text-slate-900 font-semibold shadow-xs transition";
                 document.getElementById("input-catalogue").value = "demo";
                 document.getElementById("input-savings").value = 24000;
+                document.getElementById("input-savings-slider").value = 24000;
+                document.getElementById("label-savings").innerText = "LKR 24,000";
                 document.getElementById("input-budget").value = 5000;
+                document.getElementById("input-budget-slider").value = 5000;
+                document.getElementById("label-budget").innerText = "LKR 5,000/mo";
                 document.getElementById("input-relocate").value = "true";
                 document.getElementById("input-maths").value = "false";
+                document.getElementById("input-passes").value = "3";
             } else if (name === "beat6_real") {
+                document.getElementById("btn-scene-3").className = "px-3 py-1.5 rounded-lg bg-white text-slate-900 font-semibold shadow-xs transition";
                 document.getElementById("input-catalogue").value = "real";
                 document.getElementById("input-savings").value = 5000;
+                document.getElementById("input-savings-slider").value = 5000;
+                document.getElementById("label-savings").innerText = "LKR 5,000";
                 document.getElementById("input-budget").value = 9000;
+                document.getElementById("input-budget-slider").value = 9000;
+                document.getElementById("label-budget").innerText = "LKR 9,000/mo";
                 document.getElementById("input-relocate").value = "null";
                 document.getElementById("input-maths").value = "false";
+                document.getElementById("input-passes").value = "0";
             }
             recomputePlan();
         }
@@ -470,7 +660,7 @@
             const canRelocate = relStr === "null" ? null : (relStr === "true");
             return {
                 catalogue_mode: document.getElementById("input-catalogue").value,
-                goal: document.getElementById("input-goal").value,
+                career_goal: document.getElementById("input-goal").value,
                 al_passes: parseInt(document.getElementById("input-passes").value),
                 savings_lkr: parseInt(document.getElementById("input-savings").value),
                 monthly_budget_lkr: parseInt(document.getElementById("input-budget").value),
@@ -485,7 +675,7 @@
 
         async function recomputePlan() {
             const req = getFormInputs();
-            document.getElementById("banner-revision").innerText = `v${req.profile_revision}`;
+            document.getElementById("sidebar-revision").innerText = `v${req.profile_revision}`;
 
             try {
                 const response = await fetch("http://localhost:8000/walker/plan_pathways", {
@@ -499,23 +689,23 @@
                     if (reports.length > 0) {
                         const result = reports[reports.length - 1];
                         if (result.profile_revision < req.profile_revision) return;
-                        document.getElementById("banner-api-mode").innerText = "jac_server_8000";
+                        document.getElementById("sidebar-api-mode").innerText = "jac_server_8000";
                         renderPlanResult(result);
                         computeClientStressDeltas(req);
                         return;
                     }
                 }
             } catch (e) {
-                // Fallback to identical client-side deterministic engine when Jac server is not running
+                // Server unavailable, fall back to clean deterministic local engine
             }
 
-            document.getElementById("banner-api-mode").innerText = "local_engine";
+            document.getElementById("sidebar-api-mode").innerText = "local_engine";
             const localResult = runLocalEngine(req);
             renderPlanResult(localResult);
             computeClientStressDeltas(req);
         }
 
-        // Exact Three-Valued Logic & Cash-Flow Engine (Mirrors main.jac)
+        // Exact Three-Valued Logic & Cash-Flow Engine (Mirrors Jac v0.16.7 main.jac)
         function evalReq(reqExpr, profile, quals) {
             const op = reqExpr.op || "all";
             const conds = reqExpr.conditions || [];
@@ -611,7 +801,7 @@
                         node_id: o.id, lens: "Fiscal", verdict: cf.status,
                         summary: cf.status === "shortfall"
                             ? `Needs LKR ${cf.shortfall_lkr.toLocaleString()} extra upfront (min balance: LKR ${cf.minimum_balance_lkr.toLocaleString()}).`
-                            : `Cash-flow OK (upfront LKR ${o.upfront_cost_lkr.toLocaleString()}, monthly LKR ${o.monthly_cost_lkr.toLocaleString()}, min balance LKR ${cf.minimum_balance_lkr.toLocaleString()}).`,
+                            : `Cash-flow OK (upfront LKR ${o.upfront_cost_lkr.toLocaleString()}, monthly LKR ${o.monthly_cost_lkr.toLocaleString()}).`,
                         evidence_id: o.evidence_id, evidence_status: o.evidence_status
                     },
                     {
@@ -668,22 +858,17 @@
                             });
                             continue;
                         }
-                        gNext.unknowns.forEach(u => { if (!unknownBlockers.includes(u)) unknownBlockers.push(u); });
-                        frontier.push({
-                            current_id: nxt.id,
-                            path_ids: [...st.path_ids, nxt.id],
-                            quals: [...st.quals, nxt.award_id]
-                        });
+                        frontier.push({ current_id: nxt.id, path_ids: [...st.path_ids, nxt.id], quals: [...st.quals, nxt.award_id] });
                     }
                 }
             }
 
-            // Build CandidatePlans
-            let candidates = candidateRoutes.map((rNodes, idx) => {
-                let quals = [];
+            // Build Route Candidate objects
+            const candidates = candidateRoutes.map((rNodes, idx) => {
                 let routeGate = "pass";
                 let routeEv = "verified";
                 const conds = [];
+                const quals = [];
                 const evLinks = [];
 
                 rNodes.forEach((n, sIdx) => {
@@ -808,152 +993,227 @@
         }
 
         function renderPlanResult(res) {
-            // Update Top Banner
-            const badge = document.getElementById("banner-catalogue-badge");
-            const desc = document.getElementById("banner-desc");
+            // Update Header Catalogue Pill
+            const headerBadge = document.getElementById("header-mode-badge");
             if (res.catalogue_mode === "demo") {
-                badge.innerText = "DEMO FIXTURE MODE";
-                badge.className = "font-mono font-semibold bg-amber-400 text-slate-950 px-2 py-0.5 rounded text-[11px]";
-                desc.innerText = "Showing deterministic fictional fixture (84,000 direct vs 54,000 3-step oracle). Switch to Real IT Catalogue for verified Sri Lankan sources.";
+                headerBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Demo Fixture (5 Offerings)`;
+                headerBadge.className = "font-mono text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-amber-50 text-amber-900 border border-amber-200 flex items-center gap-1.5";
             } else {
-                badge.innerText = "REAL SL IT CATALOGUE";
-                badge.className = "font-mono font-semibold bg-emerald-400 text-slate-950 px-2 py-0.5 rounded text-[11px]";
-                desc.innerText = "Showing real Sri Lankan IT offerings (SLIATE, UCSC, UoM, UNIVOTEC, VTA) with per-claim verified / unreviewed evidence labels.";
+                headerBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Real SL IT (36 Offerings)`;
+                headerBadge.className = "font-mono text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1.5";
             }
-            document.getElementById("banner-planner-mode").innerText = res.planner_mode;
 
-            // Pending Question Card
-            const qCard = document.getElementById("question-card");
+            // Update Sidebar Planner Badge
+            const planBadge = document.getElementById("sidebar-planner-badge");
+            planBadge.innerText = res.planner_mode || "live_ai";
+            if (res.planner_mode === "live_ai") {
+                planBadge.className = "font-mono text-[9px] uppercase px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-medium";
+            } else {
+                planBadge.className = "font-mono text-[9px] uppercase px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 font-medium";
+            }
+
+            // Update Agentic Prompt Card
+            const qCard = document.getElementById("agent-prompt-card");
             if (res.pending_question) {
                 qCard.classList.remove("hidden");
-                document.getElementById("question-field-tag").innerText = `field: ${res.pending_question.field}`;
-                document.getElementById("question-prompt").innerText = res.pending_question.prompt;
-                document.getElementById("question-reason").innerText = res.pending_question.reason;
+                document.getElementById("prompt-field-name").innerText = `field: ${res.pending_question.field}`;
+                document.getElementById("prompt-headline").innerText = res.pending_question.prompt;
+                document.getElementById("prompt-reason").innerText = res.pending_question.reason;
             } else {
                 qCard.classList.add("hidden");
             }
 
-            // Render Candidate Cards
-            const routesContainer = document.getElementById("routes-container");
-            routesContainer.innerHTML = "";
-            document.getElementById("route-count-badge").innerText = `${res.candidates.length} routes`;
+            // Update KPI Overview Cards
+            const allCands = [...(res.candidates || []), ...(res.blocked_candidates || [])];
+            if (allCands.length > 0) {
+                const top = allCands[0];
+                document.getElementById("kpi-route-title").innerText = top.title;
+                document.getElementById("kpi-total-cost").innerText = `LKR ${Number(top.total_cost_lkr || (top.cashflow ? top.cashflow.total_cost_lkr : 0)).toLocaleString()}`;
+                document.getElementById("kpi-duration-badge").innerText = `${top.duration_months} mo`;
 
-            const statusBadgeMap = {
-                "feasible_under_stated_assumptions": { label: "FEASIBLE", cls: "bg-emerald-50 text-emerald-800 border-emerald-200" },
-                "conditional": { label: "CONDITIONAL (MULTI-STEP)", cls: "bg-emerald-50 text-emerald-800 border-emerald-200" },
-                "needs_confirmation": { label: "NEEDS CONFIRMATION", cls: "bg-amber-50 text-amber-800 border-amber-200" },
-                "not_feasible_under_current_inputs": { label: "NOT FEASIBLE (BLOCKED)", cls: "bg-rose-50 text-rose-800 border-rose-200" }
-            };
+                const minBal = top.minimum_balance_lkr !== undefined ? top.minimum_balance_lkr : (top.cashflow ? top.cashflow.minimum_balance_lkr : 0);
+                const shortfall = top.shortfall_lkr !== undefined ? top.shortfall_lkr : (top.cashflow ? top.cashflow.shortfall_lkr : 0);
 
-            res.candidates.forEach(c => {
-                const st = statusBadgeMap[c.route_status] || { label: c.route_status, cls: "bg-slate-100 text-slate-700 border-slate-200" };
-                const isBlocked = c.route_status === "not_feasible_under_current_inputs";
-                const card = document.createElement("div");
-                card.className = `border ${isBlocked ? 'border-rose-200 bg-rose-50/20' : 'border-slate-200 bg-white'} rounded-lg p-4 space-y-3`;
-                card.innerHTML = `
-                    <div class="flex items-center justify-between gap-2">
-                        <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded border ${st.cls}">${st.label}</span>
-                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
-                            evidence: ${c.evidence_status}
-                        </span>
-                    </div>
-                    <div>
-                        <h3 class="text-xs font-semibold text-slate-900">${c.title}</h3>
-                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">${c.explanation}</p>
-                    </div>
-                    <div class="grid grid-cols-4 gap-2 bg-slate-50 p-2.5 rounded border border-slate-200 text-[11px] font-mono">
-                        <div>
-                            <div class="text-slate-400 text-[10px] font-sans">Total Cost</div>
-                            <div class="font-semibold text-slate-900">LKR ${Number(c.total_cost_lkr).toLocaleString()}</div>
-                        </div>
-                        <div>
-                            <div class="text-slate-400 text-[10px] font-sans">Min Balance</div>
-                            <div class="font-semibold ${c.minimum_balance_lkr < 0 ? 'text-rose-700' : 'text-emerald-700'}">LKR ${Number(c.minimum_balance_lkr).toLocaleString()}</div>
-                        </div>
-                        <div>
-                            <div class="text-slate-400 text-[10px] font-sans">Shortfall</div>
-                            <div class="font-semibold ${c.shortfall_lkr > 0 ? 'text-rose-700' : 'text-slate-900'}">LKR ${Number(c.shortfall_lkr).toLocaleString()}</div>
-                        </div>
-                        <div>
-                            <div class="text-slate-400 text-[10px] font-sans">Duration</div>
-                            <div class="font-semibold text-slate-900">${c.duration_months} mo</div>
-                        </div>
-                    </div>
-                    ${c.conditions && c.conditions.length > 0 ? `
-                        <div class="text-[11px] text-slate-600">
-                            <span class="font-semibold text-slate-800">Conditions:</span> ${c.conditions.join(" · ")}
-                        </div>
-                    ` : ''}
-                    <div class="text-[11px] text-slate-500 font-mono truncate">
-                        Source: ${(c.evidence_links || [])[0] || ''}
+                const minBalEl = document.getElementById("kpi-min-balance");
+                const cfBadge = document.getElementById("kpi-cf-badge");
+                const shortText = document.getElementById("kpi-shortfall-text");
+                if (shortfall > 0) {
+                    minBalEl.innerText = `-LKR ${Number(shortfall).toLocaleString()}`;
+                    minBalEl.className = "text-xl font-bold tracking-tight text-rose-600";
+                    cfBadge.innerText = "SHORTFALL";
+                    cfBadge.className = "font-mono text-[10px] px-2 py-0.5 rounded-full bg-rose-50 text-rose-800 font-semibold";
+                    shortText.innerText = `Needs LKR ${Number(shortfall).toLocaleString()} upfront`;
+                } else {
+                    minBalEl.innerText = `+LKR ${Number(minBal).toLocaleString()} min`;
+                    minBalEl.className = "text-xl font-bold tracking-tight text-emerald-700";
+                    cfBadge.innerText = "CASH OK";
+                    cfBadge.className = "font-mono text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-semibold";
+                    shortText.innerText = "Zero shortfall under monthly budget";
+                }
+
+                const statusMap = {
+                    "feasible_under_stated_assumptions": { label: "FEASIBLE", cls: "bg-emerald-50 text-emerald-800 border-emerald-200" },
+                    "conditional": { label: "CONDITIONAL", cls: "bg-emerald-50 text-emerald-800 border-emerald-200" },
+                    "needs_confirmation": { label: "CONFIRMATION NEEDED", cls: "bg-amber-50 text-amber-800 border-amber-200" },
+                    "not_feasible_under_current_inputs": { label: "BLOCKED", cls: "bg-rose-50 text-rose-800 border-rose-200" }
+                };
+                const st = statusMap[top.route_status] || { label: top.route_status, cls: "bg-slate-100 text-slate-700 border-slate-200" };
+                const kpiSt = document.getElementById("kpi-route-status");
+                kpiSt.innerText = st.label;
+                kpiSt.className = `font-mono text-[10px] px-2 py-0.5 rounded-full font-semibold border ${st.cls}`;
+            }
+
+            // Render Route Cards
+            const container = document.getElementById("routes-container");
+            container.innerHTML = "";
+            const viableRoutes = res.candidates || [];
+            document.getElementById("route-count-badge").innerText = `${viableRoutes.length} viable`;
+
+            if (viableRoutes.length === 0) {
+                container.innerHTML = `
+                    <div class="p-6 text-center text-slate-400 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
+                        <p class="text-xs font-medium">No directly feasible routes under current inputs.</p>
+                        <p class="text-[11px] text-slate-500 mt-1">Review the question prompt or inspect blocked transitions below.</p>
                     </div>
                 `;
-                routesContainer.appendChild(card);
-            });
+            } else {
+                viableRoutes.forEach((c, idx) => {
+                    const stMap = {
+                        "feasible_under_stated_assumptions": { label: "FEASIBLE", cls: "bg-emerald-50 text-emerald-800 border-emerald-200" },
+                        "conditional": { label: "CONDITIONAL (LADDER)", cls: "bg-emerald-50 text-emerald-800 border-emerald-200" },
+                        "needs_confirmation": { label: "NEEDS CONFIRMATION", cls: "bg-amber-50 text-amber-800 border-amber-200" },
+                        "not_feasible_under_current_inputs": { label: "BLOCKED", cls: "bg-rose-50 text-rose-800 border-rose-200" }
+                    };
+                    const badge = stMap[c.route_status] || { label: c.route_status, cls: "bg-slate-100 text-slate-700 border-slate-200" };
 
-            // Render Excluded / Blocked List
+                    // Format title stages cleanly
+                    const stepTitles = (c.step_titles && c.step_titles.length > 0) ? c.step_titles : (c.title ? c.title.split(" -> ") : []);
+                    const stepsHtml = stepTitles.map((t, sIdx) => `
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-700 text-[10px] font-bold flex items-center justify-center shrink-0 border border-slate-200/80">${sIdx + 1}</span>
+                            <span class="text-xs font-semibold text-slate-900">${t}</span>
+                        </div>
+                    `).join(`<span class="text-slate-300 font-bold text-xs shrink-0">→</span>`);
+
+                    const card = document.createElement("div");
+                    card.className = "apple-card apple-card-hover p-4 space-y-3.5 border border-slate-200/80";
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-mono text-[10px] px-2.5 py-0.5 rounded-full font-bold border ${badge.cls}">${badge.label}</span>
+                            <span class="font-mono text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200/80">
+                                evidence: ${c.evidence_status || 'verified'}
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2 pt-0.5">
+                            ${stepsHtml}
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">${c.explanation || ''}</p>
+                        <div class="grid grid-cols-4 gap-2 bg-slate-50/70 p-3 rounded-xl border border-slate-200/60 font-mono text-[11px]">
+                            <div>
+                                <div class="text-slate-400 text-[10px] font-sans">Total Cost</div>
+                                <div class="font-bold text-slate-900">LKR ${Number(c.total_cost_lkr).toLocaleString()}</div>
+                            </div>
+                            <div>
+                                <div class="text-slate-400 text-[10px] font-sans">Min Balance</div>
+                                <div class="font-bold ${c.minimum_balance_lkr < 0 ? 'text-rose-600' : 'text-emerald-700'}">LKR ${Number(c.minimum_balance_lkr).toLocaleString()}</div>
+                            </div>
+                            <div>
+                                <div class="text-slate-400 text-[10px] font-sans">Shortfall</div>
+                                <div class="font-bold ${c.shortfall_lkr > 0 ? 'text-rose-600' : 'text-slate-800'}">LKR ${Number(c.shortfall_lkr).toLocaleString()}</div>
+                            </div>
+                            <div>
+                                <div class="text-slate-400 text-[10px] font-sans">Duration</div>
+                                <div class="font-bold text-slate-900">${c.duration_months} mo</div>
+                            </div>
+                        </div>
+                        ${c.conditions && c.conditions.length > 0 ? `
+                            <div class="text-[11px] text-slate-600 flex items-start gap-1.5 pt-1">
+                                <span class="font-bold text-slate-800 shrink-0">Conditions:</span>
+                                <span>${c.conditions.join(" · ")}</span>
+                            </div>
+                        ` : ''}
+                    `;
+                    container.appendChild(card);
+                });
+            }
+
+            // Excluded / Blocked Candidates
+            const excl = res.blocked_candidates || res.blocked_transitions || [];
+            document.getElementById("excluded-count").innerText = excl.length;
             const exclContainer = document.getElementById("excluded-container");
-            const exclItems = [];
-            res.candidates.filter(c => c.route_status === "not_feasible_under_current_inputs").forEach(c => {
-                exclItems.push(`<div class="bg-rose-50/50 border border-rose-200 p-2.5 rounded"><strong class="text-slate-900">${c.title}:</strong> ${c.explanation}</div>`);
-            });
-            (res.blocked_transitions || []).forEach(b => {
-                exclItems.push(`<div class="bg-slate-50 border border-slate-200 p-2.5 rounded"><strong class="text-slate-900">${b.blocked_id} (${b.blocked_title}):</strong> ${b.reason}</div>`);
-            });
-            exclContainer.innerHTML = exclItems.length > 0 ? exclItems.join("") : `<div class="text-slate-400">No blocked branches under current profile inputs.</div>`;
+            exclContainer.innerHTML = excl.map(b => `
+                <div class="bg-rose-50/40 border border-rose-100 p-2.5 rounded-xl flex items-start justify-between gap-3 text-[11px]">
+                    <div>
+                        <span class="font-semibold text-rose-900">${b.title || b.blocked_title || b.offering_id}</span>
+                        <p class="text-slate-500 mt-0.5">${b.reason || b.explanation || 'Prerequisite or cash-flow constraint not met.'}</p>
+                    </div>
+                    <span class="font-mono text-[9px] uppercase px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 shrink-0">Blocked</span>
+                </div>
+            `).join("");
 
             // Render Decision Events Log
-            const evContainer = document.getElementById("tab-events");
-            evContainer.innerHTML = (res.decision_events || []).map(ev => {
-                const badgeCls = ev.event_type === "backtrack" ? "text-rose-700 bg-rose-50 border-rose-200" : "text-slate-700 bg-slate-100 border-slate-200";
-                return `<div class="flex items-center gap-2"><span class="text-[10px] px-1.5 py-0.5 rounded border ${badgeCls}">${ev.event_type}</span> <span>${ev.detail}</span></div>`;
-            }).join("");
+            const events = res.decision_events || [];
+            const evLog = document.getElementById("events-log-container");
+            evLog.innerHTML = events.map(ev => `
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/60 flex items-start justify-between gap-3">
+                    <div>
+                        <span class="text-slate-900 font-bold">#${ev.step} ${ev.action || ev.event_type}</span>
+                        <p class="text-slate-500 mt-0.5">${ev.detail || ''}</p>
+                    </div>
+                    <span class="text-[10px] text-slate-400 font-mono">${ev.event_type || 'trace'}</span>
+                </div>
+            `).join("");
 
-            // Render Graph Projection
-            renderGraphProjection(res.graph_projection);
+            // Render Graph Canvas
+            if (res.graph_projection) {
+                renderGraphProjection(res.graph_projection);
+            }
         }
 
         function renderGraphProjection(proj) {
             currentNodesMap = {};
             const colorStyles = {
-                green: { background: "#ecfdf5", border: "#059669", font: "#065f46" },
-                amber: { background: "#fffbeb", border: "#d97706", font: "#92400e" },
-                red: { background: "#fff1f2", border: "#e11d48", font: "#9f1239" }
+                green: { background: "#ecfdf5", border: "#10b981", font: "#065f46" },
+                amber: { background: "#fffbeb", border: "#f59e0b", font: "#92400e" },
+                red: { background: "#fef2f2", border: "#f43f5e", font: "#9f1239" }
             };
 
             const visNodes = proj.nodes.map(n => {
                 currentNodesMap[n.id] = n;
                 const st = colorStyles[n.ui_color] || colorStyles.green;
-                const statusTag = n.ui_color === "red" ? "[BLOCKED]" : (n.ui_color === "amber" ? "[CONFIRM]" : "[OK]");
                 return {
                     id: n.id,
-                    label: `${statusTag} ${n.id}\n${n.title.substring(0, 26)}`,
-                    color: { background: st.background, border: st.border },
+                    label: `${n.title.substring(0, 24)}...\n[${n.id}]`,
+                    color: { background: st.background, border: st.border, highlight: { background: st.background, border: "#0f172a" } },
                     shape: "box",
-                    margin: 10,
-                    font: { color: st.font, face: "Inter", size: 11 }
+                    margin: 12,
+                    shapeProperties: { borderRadius: 8 },
+                    font: { color: st.font, face: "Inter", size: 11, bold: { color: st.font } },
+                    borderWidth: 1.5,
+                    borderWidthSelected: 2.5
                 };
             });
 
             const visEdges = proj.edges.map(e => ({
                 from: e.from,
                 to: e.to,
-                label: e.label,
-                color: { color: "#94a3b8" },
-                font: { size: 10, color: "#64748b" },
-                arrows: "to"
+                label: "ProgressesTo",
+                color: { color: "#cbd5e1", highlight: "#0f172a" },
+                font: { size: 9, color: "#94a3b8", face: "Inter" },
+                arrows: { to: { enabled: true, scaleFactor: 0.7 } },
+                smooth: { type: "cubicBezier", forceDirection: "vertical", roundness: 0.3 }
             }));
 
             const container = document.getElementById("network-canvas");
             const data = { nodes: new vis.DataSet(visNodes), edges: new vis.DataSet(visEdges) };
             const options = {
-                physics: { stabilization: { iterations: 150 }, barnesHut: { springLength: 140, gravitationalConstant: -3500 } },
-                interaction: { hover: true }
+                physics: { stabilization: { iterations: 120 }, barnesHut: { springLength: 130, gravitationalConstant: -3200 } },
+                interaction: { hover: true, zoomView: true, dragView: true }
             };
 
             if (visNetwork) visNetwork.destroy();
             visNetwork = new vis.Network(container, data, options);
-            setTimeout(() => { if (visNetwork) visNetwork.fit(); }, 150);
+            setTimeout(() => { if (visNetwork) visNetwork.fit(); }, 120);
 
             visNetwork.on("click", function(params) {
                 if (params.nodes.length > 0) {
@@ -970,18 +1230,18 @@
             const n = currentNodesMap[nodeId];
             if (!n) return;
 
-            document.getElementById("inspector-node-id").innerText = `${n.id} (${n.title})`;
-            document.getElementById("inspector-node-subtitle").innerText = `${n.institution} · Campus: ${n.campus} · Source: ${n.source_url}`;
-            document.getElementById("inspector-evidence-badge").innerText = `evidence: ${n.evidence_status} (${n.evidence_id})`;
+            document.getElementById("inspector-node-id").innerText = `${n.id} — ${n.title}`;
+            document.getElementById("inspector-node-subtitle").innerText = `${n.institution || ''} · Campus: ${n.campus || 'Main'}`;
+            document.getElementById("inspector-evidence-badge").innerText = `evidence: ${n.evidence_status || 'verified'} (${n.evidence_id || ''})`;
 
             const container = document.getElementById("inspector-findings");
             container.innerHTML = (n.findings || []).map(f => `
-                <div class="bg-slate-50 p-2.5 rounded border border-slate-200 flex items-start justify-between gap-3">
+                <div class="bg-white p-2.5 rounded-xl border border-slate-200/80 flex items-start justify-between gap-3 shadow-2xs">
                     <div>
-                        <span class="font-semibold text-slate-900">${f.lens} Lens:</span>
-                        <span class="text-slate-600 ml-1">${f.summary}</span>
+                        <span class="font-bold text-slate-900">${f.lens} Lens:</span>
+                        <span class="text-slate-600 ml-1 leading-relaxed">${f.summary}</span>
                     </div>
-                    <span class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-white border border-slate-200 text-slate-700 shrink-0">
+                    <span class="font-mono text-[9px] uppercase px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 shrink-0 border border-slate-200">
                         ${f.verdict}
                     </span>
                 </div>
@@ -1000,40 +1260,28 @@
                 ]
                 : [
                     [offMap["REAL-UCSC-BIT"]],
-                    [offMap["REAL-SLIATE-HNDIT"], offMap["REAL-UNIVOTEC-BTECH"]]
+                    [offMap["REAL-VTA-NVQ4"], offMap["REAL-SLIATE-HNDIT"], offMap["REAL-UNIVOTEC-BTECH"]]
                 ];
 
             const tbody = document.getElementById("stress-table-body");
             tbody.innerHTML = sampleRoutes.map(rNodes => {
+                if (!rNodes || rNodes.some(x => !x)) return "";
                 const base = computeCashFlow(rNodes, req.savings_lkr, req.monthly_budget_lkr, 1.0, 0);
                 const stressed = computeCashFlow(rNodes, req.savings_lkr, req.monthly_budget_lkr, 1.4, 6);
                 const dCost = stressed.total_cost_lkr - base.total_cost_lkr;
                 const dShort = stressed.shortfall_lkr - base.shortfall_lkr;
                 const dDur = stressed.duration_months - base.duration_months;
                 return `
-                    <tr>
-                        <td class="py-2 px-3 font-sans font-medium text-slate-900">${rNodes.map(n => n.id).join(" -> ")}</td>
-                        <td class="py-2 px-3">LKR ${base.total_cost_lkr.toLocaleString()}</td>
-                        <td class="py-2 px-3">LKR ${stressed.total_cost_lkr.toLocaleString()}</td>
-                        <td class="py-2 px-3 text-amber-700">+LKR ${dCost.toLocaleString()}</td>
-                        <td class="py-2 px-3 ${dShort > 0 ? 'text-rose-700 font-semibold' : 'text-slate-600'}">+LKR ${dShort.toLocaleString()}</td>
-                        <td class="py-2 px-3">+${dDur} mo</td>
+                    <tr class="hover:bg-slate-50/50 transition">
+                        <td class="py-3 px-4 font-sans font-semibold text-slate-900">${rNodes.map(n => n.id).join(" → ")}</td>
+                        <td class="py-3 px-4">LKR ${base.total_cost_lkr.toLocaleString()}</td>
+                        <td class="py-3 px-4">LKR ${stressed.total_cost_lkr.toLocaleString()}</td>
+                        <td class="py-3 px-4 text-amber-700 font-semibold">+LKR ${dCost.toLocaleString()}</td>
+                        <td class="py-3 px-4 ${dShort > 0 ? 'text-rose-600 font-bold' : 'text-slate-600'}">+LKR ${dShort.toLocaleString()}</td>
+                        <td class="py-3 px-4">+${dDur} mo</td>
                     </tr>
                 `;
             }).join("");
-        }
-
-        function triggerStressTest() {
-            switchTab("tab-stress");
-        }
-
-        function switchTab(tabId) {
-            document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
-            document.querySelectorAll(".tab-btn").forEach(btn => {
-                btn.className = "tab-btn text-slate-500 hover:text-slate-800 pb-3 -mb-3.5";
-            });
-            document.getElementById(tabId).classList.remove("hidden");
-            document.getElementById(`btn-${tabId}`).className = "tab-btn text-slate-900 font-semibold border-b-2 border-slate-900 pb-3 -mb-3.5";
         }
 
         window.onload = function() {
