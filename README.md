@@ -16,26 +16,22 @@ In Sri Lanka, approximately **300,000 students sit the G.C.E. Advanced Level (A/
 
 Traditional career counseling relies on static if-else databases or naive LLM chatbots that flatly respond: *"Your Z-score is insufficient; your budget is too low."* They fail to account for hidden city boarding expenses in Colombo, ignore the government's Interest-Free Student Loan Scheme (IFSLS), and remain blind to accredited lateral transfer bridges (such as TVEC NVQ ladders and external degrees).
 
-**UniPath LK** fundamentally transforms this paradigm using **Object-Spatial Programming (OSP)** in **Jac v0.16.7**. Instead of dead-end answers, an autonomous **Council of Walkers** debates on a spatial blackboard directly on graph nodes. When a student is deadlocked by low Z-scores and limited family capital, the **`BridgeSynthesizer`** agent uses `by llm(method="Reasoning")` to perform **Dynamic Graph Metamorphosis**—injecting a newly synthesized, accredited bridging pathway directly into the graph topology in real time.
+**UniPath LK** fundamentally transforms this paradigm using **Object-Spatial Programming (OSP)** in **Jac v0.16.7**. Instead of dead-end answers or hallucinated courses, a stateless **Council of Four Lens Walkers** (`Aspiration`, `Fiscal`, `Gatekeeper`, `Bridge`) and a **Cycle-Safe `BranchSearchWalker`** traverse an evidence-backed spatial graph (`Catalogue -> Offering ->:ProgressesTo:-> Offering`). A bounded **`PlannerDecision`** agent powered by `by _llm(...)` coordinates search, candidate evaluation, and student questioning—with an automatic, honest rules fallback whenever the model times out or is unavailable.
 
 ---
 
 ## 🚀 Key Features
 
-* **🌐 Object-Spatial Higher Education Graph**: 12 verified Sri Lankan institutions and pathways (SLIATE, UCSC BIT, UNIVOTEC, NDT Moratuwa, SLIIT, KIU, NCoE, MoHE, VTA, OUSL) modeled as an interconnected spatial topology.
-* **🤖 Autonomous Council of Walkers (9 Walkers)**:
-  * **`AspirationScout`**: Traverses the graph from the student's A/L stream toward target careers.
-  * **`FiscalSurvivalGuard`**: Evaluates living costs across Colombo hostels, outstation boarding, or home commutes, and injects IFSLS state loan subsidies.
-  * **`SLQFGatekeeper`**: Enforces strict UGC and TVEC SLQF (Level 4 Higher Diploma, Level 5/6 Degree) accreditation to guard against unaccredited degree mills.
-  * **`BridgeSynthesizer` (The AI Brain)**: Invokes `by llm(method="Reasoning")` to synthesize accredited lateral bridges and executes runtime graph metamorphosis (`here ++> ...`).
-  * **`PathwayEvaluator`**: Conducts end-to-end evaluation of composite multi-year pathways, verifying credit transfers and intake schedule validity.
-  * **`GhostWalker`**: Projects the student's profile 4 years into the future, stress-testing against inflation (+15%), transport hikes (+40%), and exam delays, generating a **Pathway Resilience Score (0–100%)**.
-  * **`GapAnalyzerWalker`**: Pinpoints credit, duration, and prerequisite deficits between current student status and career goals.
-  * **`MinimumChangeFinder`**: Calculates the precise minimal parameter relaxation (e.g., *"+LKR 4,500/month budget"* or *"Commute from home"*) needed to flip rejected options to viable.
-  * **`ActionPlanGenerator`**: Generates a 5-step concrete actionable checklist for tomorrow morning in conversational Sinhala/English.
-* **📋 Spatial Blackboard Architecture**: Nodes maintain a typed `deliberation_board: list[AgentCritique]`, eliminating prompt bloat and providing complete auditability.
-* **⚖️ Two-Stage Scoring Framework**: Binary Feasibility Gate (prerequisites, accreditation, liquid budget) separates valid options before Multi-Objective Preference Ranking (Lowest Cost, Fastest Completion, Best Work-Study Fit).
-* **🖥️ Interactive Cyber-Academic Dashboard**: Full reactive visual interface (`index.html`) featuring an interactive Vis.js graph visualizer, live node inspector, 8 preloaded student personas, and sensitivity sliders.
+* **🌐 Evidence-Backed Higher Education Graph**: **37 verified Sri Lankan programmes** across 12 academic domains (OUSL, UCSC BIT, SLIATE HNDIT, UNIVOTEC B.Tech, SLIIT, VTA/NAITA NVQ 4, Department of Examinations) plus **5 hand-checkable Demo Fixtures** (explicitly labelled `institution_type: "fictional"`).
+* **🤖 Council of Four Lens Walkers & Graph Search (`services/engine.jac`)**:
+  * **`BranchSearchWalker`**: Traverses `Offering` nodes along typed `ProgressesTo` edges (`max_steps = 4`, `max_states = 100`) using isolated per-branch state copies and three-valued requirement logic (`pass | fail | unknown`).
+  * **`LensWalker (Aspiration)`**: Evaluates alignment with the student's selected domain, delivery mode, and SLQF/NVQ qualification ladder.
+  * **`LensWalker (Fiscal)`**: Deterministic monthly cash-flow ledger computing `total_cost_lkr`, `minimum_balance_lkr`, and exact `shortfall_lkr` from initial savings and monthly budget.
+  * **`LensWalker (Gatekeeper)`**: Verifies statutory entry requirements (`all` / `any`), prerequisite qualifications, and evidence verification status (`verified | unreviewed | fixture`).
+  * **`LensWalker (Bridge Synthesizer)`**: Synthesizes multi-step bridging routes and generates the **Sri Lankan A/L Practical Reality Trade-off Matrix** comparing **Option A: G.C.E. A/L 2nd/3rd Shy Strategic Retake (12M, ~LKR 47,000)** vs **Option B: Immediate TVEC Vocational Ladder (NVQ 4 $\to$ SLIATE HNDIT $\to$ UNIVOTEC B.Tech)**.
+* **🧠 Bounded AI Planner (`services/planner.jac`)**: Uses `by _llm` (`PlannerDecision`) restricted to 4 allowlisted actions (`search_alternatives`, `evaluate_candidates`, `ask_student`, `finish`). Zero invented routes; guaranteed fallback to `rules_fallback`.
+* **📉 Honest Stress Testing**: Computes exact **absolute LKR and duration deltas** under `+40% travel inflation and 6-month delay` (`run_stress_test`)—zero fake survival percentages.
+* **🖥️ Apple-HIG Interactive Dashboard & Native Jac Client**: Full reactive visual interface (`index.html` & `components/App.cl.jac`) featuring a Council Deliberation ledger, side-by-side A/L Shy trade-off cards, cash-flow breakdown, and graph projection.
 
 ---
 
@@ -44,47 +40,37 @@ Traditional career counseling relies on static if-else databases or naive LLM ch
 ```mermaid
 flowchart TD
     subgraph Client_Layer ["Client & Interface Layer"]
-        UI["Web Dashboard (index.html)"]
+        UI["Apple-HIG Web Dashboard (index.html & App.cl.jac)"]
         CLI["Terminal CLI (jac run main.jac)"]
     end
 
-    subgraph Dispatch_Layer ["Jac Server & Dispatch"]
-        Server["Jac Server (jac start --port 8000)"]
-        Council["walker :pub RunPathwayCouncil"]
+    subgraph Dispatch_Layer ["Jac REST API Walkers (services/api.jac)"]
+        Server["Jac Server (jac start main.jac)"]
+        API["plan_pathways | run_stress_test | get_catalogue_projection | get_evidence | get_app_info | health"]
     end
 
-    subgraph Spatial_Graph ["Object-Spatial Graph Topology"]
-        RootNode["Root (Jac Graph Entry)"]
-        StreamNode["AcademicStream (Physical / Bio / Tech / Commerce / Arts)"]
-        CourseNodes["InstituteCourse Nodes (SLIATE, UCSC, UNIVOTEC, SLIIT)"]
-        SynthNode["Dynamic Synthetic Node (here ++> InstituteCourse)"]
-        CareerNodes["Career Nodes (Software Engineer, Bio Researcher)"]
+    subgraph Spatial_Graph ["Object-Spatial Graph Topology (services/engine.jac)"]
+        CatNode["node Catalogue (real: 37 offerings | demo: 5 fixtures)"]
+        OffNodes["node Offering (OUSL, UCSC, SLIATE, UNIVOTEC, VTA, SLIIT, A/L Shy)"]
+        Edges["edge ProgressesTo (Verified Articulation & Lateral Bridges)"]
         
-        RootNode --> StreamNode
-        StreamNode --> CourseNodes
-        CourseNodes -.->|"Evidence-Backed BridgePathway"| SynthNode
-        CourseNodes --> CareerNodes
-        SynthNode --> CareerNodes
+        CatNode --> OffNodes
+        OffNodes -->|"ProgressesTo"| Edges --> OffNodes
     end
 
-    subgraph Council_Of_Walkers ["Council of Walkers & AI Brain"]
-        W1["1. AspirationScout (Filter by Stream & Career)"]
-        W2["2. FiscalSurvivalGuard (City Living & IFSLS Subsidies)"]
-        W3["3. SLQFGatekeeper (UGC / TVEC Compliance)"]
-        W4["4. BridgeSynthesizer (by llm - Graph Metamorphosis)"]
-        W5["5. PathwayEvaluator (2-Stage Feasibility Gate)"]
-        W6["6. GhostWalker (4-Year Shock & Resilience Test)"]
-        W7["7. GapAnalyzer & MinimumChangeFinder"]
-        W8["8. ActionPlanGenerator (5-Step Checklist)"]
+    subgraph Council_And_Planner ["Walkers & Bounded AI Planner (services/planner.jac)"]
+        P1["PlannerDecision by _llm (4 Allowlisted Actions + Rules Fallback)"]
+        W1["walker BranchSearchWalker (Isolated Branch State, Cycle-Safe)"]
+        W2["walker LensWalker (Aspiration | Fiscal | Gatekeeper | Bridge)"]
+        C1["Council Deliberation & A/L 2nd Shy vs TVEC Trade-off Matrix"]
 
-        W1 --> W2 --> W3 --> W4 --> W5 --> W6 --> W7 --> W8
+        P1 --> W1 --> W2 --> C1
     end
 
-    UI --> Server
-    CLI --> Council
-    Server --> Council
-    Council --> Council_Of_Walkers
-    Council_Of_Walkers -.->|"Traverse & Deliberate on Blackboard"| Spatial_Graph
+    UI --> Server --> API
+    CLI --> API
+    API --> P1
+    W1 --> Spatial_Graph
 ```
 
 ---

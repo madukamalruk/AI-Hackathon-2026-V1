@@ -119,17 +119,16 @@ def _condition(condition: dict, profile: dict, qualifications: list) -> str {
         if not matches or matches[0]["grade"] == "unknown" { return "unknown"; }
         return "pass" if matches[0]["grade"] in ["A", "B", "C", "S"] else "fail";
     }
+    actual: any = profile.get(field);
     if field == "al_passes" and "QUAL-AL-3PASSES" in qualifications {
         actual = 3;
-    } else {
-        actual = profile.get(field);
     }
     if actual is None or actual == "unknown" { return "unknown"; }
     operator = condition.get("cmp", "==");
-    if operator == ">=" { return "pass" if actual >= target else "fail"; }
-    if operator == "<=" { return "pass" if actual <= target else "fail"; }
+    if operator == ">=" { return "pass" if float(str(actual)) >= float(str(target)) else "fail"; }
+    if operator == "<=" { return "pass" if float(str(actual)) <= float(str(target)) else "fail"; }
     if operator == "==" { return "pass" if actual == target else "fail"; }
-    if operator == "in" { return "pass" if actual in target else "fail"; }
+    if operator == "in" { return "pass" if actual in (target as list) else "fail"; }
     return "unknown";
 }
 
