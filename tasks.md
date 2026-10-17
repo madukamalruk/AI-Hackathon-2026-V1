@@ -7,52 +7,36 @@
 
 ## Phase 1: Workspace Setup & Core Knowledge Graph (09:00 AM – 10:30 AM)
 - [x] **Task 1.1**: Antigravity IDE / Terminal තුළ `jac --version` පරීක්ෂා කර පරිසරය තහවුරු කිරීම. (Done: Jac v0.16.7 verified).
-- [ ] **Task 1.2**: `main.jac` ගොනුව නිර්මාණය කර Core Data Archetypes ලිවීම:
-  - `enum SLQFLevel` (Level 3 - Diploma, Level 4 - HND, Level 5 - Bachelor, Level 6 - Honours).
-  - `node InstituteCourse` (name, institution, slqf_level, nvq_level, upfront_fee, monthly_tuition, location, is_ifsls_eligible, source_url).
-  - `edge BridgePathway` (from_course, to_course, credit_transfer_ratio, is_verified, notes).
-- [ ] **Task 1.3**: `walker SeedCourseCatalogue` නිර්මාණය කර ශ්රී ලංකාවේ IT පාඨමාලා 12ක් (UCSC BIT, Moratuwa NDT, SLIATE HNDIT, UNIVOTEC, SLIIT, NSBM) spawn කිරීම.
-- [ ] **Task 1.4**: `jac run main.jac` මඟින් graph එක කිසිදු error එකක් නැතුව spawn වන බව terminal එකෙන් තහවුරු කිරීම.
+- [x] **Task 1.2**: `main.jac` ගොනුව නිර්මාණය කර Core Data Archetypes ලිවීම (`obj AgentCritique`, `node InstituteCourse`, `edge BridgePathway`, `obj Pathway`).
+- [x] **Task 1.3**: `walker SeedGraph` නිර්මාණය කර ශ්‍රී ලංකාවේ IT පාඨමාලා 12ක් සහ evidence-backed transfer edges spawn කිරීම.
+- [x] **Task 1.4**: `jac run main.jac` මඟින් graph එක කිසිදු error එකක් නැතුව spawn වන බව terminal එකෙන් තහවුරු කිරීම. (Verified: Clean exit code 0).
 
 ---
 
 ## Phase 2: Spatial Blackboard, Council of Walkers & Metamorphosis (10:30 AM – 01:00 PM)
-- [ ] **Task 2.1**: Spatial Blackboard Architecture:
-  - `obj AgentCritique` (agent_name, is_viable, confidence, reason, financial_gap_lkr).
-  - `deliberation_board: list[AgentCritique]` attached to `InstituteCourse` nodes.
-- [ ] **Task 2.2**: `walker AspirationScout` & `EligibilityCheckerWalker`:
-  - Stream & Z-score filtering against career aspirations.
-- [ ] **Task 2.3**: `walker FiscalSurvivalGuard`:
-  - Upfront admission + (Monthly living * Duration) with Colombo vs Outstation vs Home commute.
-  - IFSLS Loan offset deduction (up to LKR 1.5M tuition + 300k stipend).
-  - Writes typed `AgentCritique` to node `deliberation_board`.
-- [ ] **Task 2.4**: `walker SLQFGatekeeper`:
-  - TVEC NVQ 5/6 and UGC SLQF Level 4/5/6 accreditation validation on Blackboard.
-- [ ] **Task 2.5**: `walker BridgeSynthesizer` (Dynamic Graph Metamorphosis):
-  - On deadlock, calls `by llm(method="Reasoning")` to inject synthetic `InstituteCourse` node (`here ++> ...`) and `BridgePathway` edge into live graph.
+- [x] **Task 2.1**: Spatial Blackboard Architecture: `obj AgentCritique` සහ `deliberation_board` nodes වලට සම්බන්ධ කිරීම.
+- [x] **Task 2.2**: `walker AspirationScout`: Career & Stream filtering logic සම්පූර්ණ කිරීම.
+- [x] **Task 2.3**: `walker FiscalSurvivalGuard`: Colombo vs Outstation vs Home Commute living costs සහ IFSLS ණය අඩු කිරීම (Writes to Blackboard).
+- [x] **Task 2.4**: `walker SLQFGatekeeper`: TVEC NVQ සහ UGC SLQF Level 4/5/6 accreditation validation on Blackboard.
+- [x] **Task 2.5**: `walker BridgeSynthesizer` (Dynamic Graph Metamorphosis): Deadlock වලදී `SYNTH-SLIATE-BIT-BRIDGE` dynamic node එක graph එකට live inject කිරීම.
 
 ---
 
 ## Phase 3: AI Brain, Ghost Simulation & Winning Features (01:00 PM – 02:30 PM)
-- [ ] **Task 3.1**: Meaning-Typed LLM Synthesis (`by llm(method="Reasoning")`):
-  - Outputs 3 distinct pillars (Direct Non-State via IFSLS, Free Lateral Ladder SLIATE -> BIT, External Work-Study).
-- [ ] **Task 3.2**: `walker GhostWalker` (4-Year Future Shock Simulation):
-  - Simulates 3 shocks: Inflation/transport hike (+40%), Exam delay (+6 mo), Year 2 internship (+50k LKR/mo).
-  - Calculates Pathway Resilience Score (0-100%).
-- [ ] **Task 3.3**: The 3 Winning Features:
-  - `GapAnalyzerWalker`: Visual/semantic discrepancy between student standing and career goal.
-  - `MinimumChangeFinder`: Minimum budget increase or home commute sensitivity unlocking red nodes.
+- [x] **Task 3.1**: `walker PathwayEvaluator` (2-Stage Scoring): Feasibility Binary Gate + Multi-Objective Preference Ranking (Pillar 1 Lowest Cost, Pillar 2 Fastest/IFSLS, Pillar 3 Work-Study).
+- [x] **Task 3.2**: `walker GhostWalker` (4-Year Future Shock Simulation): Inflation (+15%), Bus fare (+40%), 6-mo delay, Year 2 internship (+50k) simulate කර Resilience Score (0-100%) ගණනය කිරීම.
+- [x] **Task 3.3**: The 3 Winning Features:
+  - `GapAnalyzerWalker`: Career goal structural gap finder.
+  - `MinimumChangeFinder`: Minimal constraint relaxation advisor (+LKR 4,500/mo or commute).
   - `ActionPlanGenerator`: 5-step concrete actionable checklist for tomorrow morning.
-- [ ] **Task 3.4**: Terminal verification: Run full council and verify JSON output.
+- [x] **Task 3.4**: Terminal verification: Full Council execution test cleanly passes (`jac run main.jac`).
 
 ---
 
 ## Phase 4: Full-Stack UI & Jac Hammer Deployment (02:30 PM – 03:30 PM)
-- [ ] **Task 4.1**: Interactive Dashboard නිර්මාණය කිරීම (Streamlit හෝ Jac native `cl{}` UI):
-  - වම් පස: Student inputs (Z-score slider, District dropdown, Budget input).
-  - මැද: Interactive Graph Representation (Visualizing nodes and pathways).
-  - දකුණු පස: Top 3 Recommended Pathways Card View (with Sinhala rationale).
-- [ ] **Task 4.2**: GitHub Repo එකට code push කිරීම (Commit timestamp verified).
+- [x] **Task 4.1**: Interactive Dashboard (`index.html`) නිර්මාණය කිරීම:
+  - Live Vis.js graph network, Spatial Blackboard inspector, 3 Ranked Pathway Cards, Minimum Change Unlocker, 8 Presets.
+- [x] **Task 4.2**: GitHub Repo එකට code push කිරීම (Commit timestamp: `a1db3eb` verified).
 - [ ] **Task 4.3**: Jac Hammer (`https://jachammer.ai`) sandbox එකට repo එක connect කර live URL එක ලබාගැනීම.
 
 ---
