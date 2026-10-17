@@ -3,12 +3,10 @@ name = "unipath-lk"
 version = "0.2.0"
 description = "Evidence-aware education pathways for Sri Lankan post-A/L students across all fields"
 entry-point = "main.jac"
-jac-version = "0.16.7"
-requires-python = ">=3.12,<3.13"
+requires-python = ">=3.12"
 
 [dependencies]
-jaclang = "==0.16.7"
-byllm = "==0.6.19"
+byllm = ">=0.6.19"
 
 [dependencies.npm]
 react = "^18.2.0"
