@@ -92,7 +92,7 @@ obj Pathway {
         source_evidence: str = "UGC / TVEC Verified",
         resilience_score: float = 0.0,
         shock_survival_notes: list[str] = [],
-        tradeoff_note_sinhala: str = "";
+        tradeoff_note: str = "";
 }
 
 # ==============================================================================
@@ -701,7 +701,7 @@ walker PathwayEvaluator {
                     "High resistance to inflation due to zero state tuition",
                     "Allows part-time industry apprenticeship in Year 2"
                 ],
-                tradeoff_note_sinhala="අඩුම වියදම සහිත රජයේ පිළිගත් මාර්ගය. උපාධිය සම්පූර්ණ කිරීමට රු. ලක්ෂ 3.2ක් පමණක් වැයවේ."
+                tradeoff_note="Lowest total cost accredited pathway. Combines a tuition-free state diploma with an external degree for LKR 320,000 total."
             );
             self.generated_pathways.append(p1);
         }
@@ -731,7 +731,7 @@ walker PathwayEvaluator {
                     "Tuition interest 100% paid by treasury",
                     "Living expenses in Colombo vulnerable to urban boarding inflation"
                 ],
-                tradeoff_note_sinhala="ඉක්මනින්ම Honours උපාධිය සම්පූර්ණ කළ හැකි මාර්ගය. රජයේ ලක්ෂ 18ක පොලී රහිත ණය හිමිවේ."
+                tradeoff_note="Direct 4-year Honours cohort pathway backed by up to LKR 1.8M government interest-free loan subsidy."
             );
             self.generated_pathways.append(p2);
         }
@@ -761,7 +761,7 @@ walker PathwayEvaluator {
                     "Ideal for students with low A/L passes",
                     "Provides 100% vocational industry training"
                 ],
-                tradeoff_note_sinhala="A/L ලකුණු අඩු සිසුන්ට NVQ හරහා නොමිලේම රජයේ ඉංජිනේරු තාක්ෂණවේදී උපාධියට පිවිසීමේ මාවත."
+                tradeoff_note="Accessible vocational progression ladder into a tuition-free state B.Tech Honours degree with industry training."
             );
             self.generated_pathways.append(p3);
         }
@@ -843,14 +843,14 @@ walker MinimumChangeFinder {
                 "current_status": "Rejected due to Colombo boarding cost shortfall",
                 "minimal_change_required": "Switch accommodation from Colombo boarding to Home Commute (or increase budget by +LKR 4,500/month)",
                 "unlocked_node": "SLIIT-SE-HONOURS",
-                "impact_sinhala": "කොළඹ නවාතැන් ගන්නවා වෙනුවට නිවසේ සිට ගමන් කළහොත් මාසිකව රු. 24,000ක් ඉතිරි වී මෙම උපාධිය Unlock වේ!"
+                "impact_summary": "Commuting from home eliminates LKR 24,000/month in urban hostel fees and immediately unlocks this degree."
             },
             {
                 "target_option": "UCSC BIT External Degree Full-Time",
                 "current_status": "Viable",
-                "minimal_change_required": "No change needed — already 100% unlocked under current budget",
+                "minimal_change_required": "No change needed - already 100% feasible under current budget",
                 "unlocked_node": "UCSC-BIT-EXT",
-                "impact_sinhala": "දැනට පවතින බජට් එකෙන්ම හෙට උදේ ලියාපදිංචි විය හැක."
+                "impact_summary": "Eligible for immediate registration within current monthly family allowance."
             }
         ];
     }

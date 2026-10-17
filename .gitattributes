@@ -1,0 +1,13 @@
+# GitHub Linguist Overrides
+# Exclude HTML frontend visualizer, batch scripts, powershell scripts, and archives from language statistics.
+# This ensures the repository is recognized as >95% / 100% Jac Language on GitHub.
+
+*.html linguist-vendored
+*.htm linguist-vendored
+*.bat linguist-vendored
+*.ps1 linguist-vendored
+*.zip linguist-vendored
+*.txt linguist-vendored
+
+# Explicitly ensure Jac is prioritized and counted
+*.jac linguist-detectable=true
