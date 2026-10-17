@@ -4,6 +4,24 @@ AI Hackathon 2026 Sri Lanka | University of Moratuwa
 Built with Jac Language v0.16.7 (Object-Spatial Programming)
 """
 
+import sys;
+
+with entry {
+    try {
+        if hasattr(sys.stdout, "reconfigure") {
+            reconfig_out = getattr(sys.stdout, "reconfigure");
+            reconfig_out(encoding="utf-8");
+        }
+        if hasattr(sys.stderr, "reconfigure") {
+            reconfig_err = getattr(sys.stderr, "reconfigure");
+            reconfig_err(encoding="utf-8");
+        }
+    } except Exception {
+        # Standard fallback if streams do not support reconfigure
+    }
+}
+
+
 # ==============================================================================
 # 1. CORE DATA ARCHETYPES (OSP & SPATIAL BLACKBOARD)
 # ==============================================================================
@@ -582,31 +600,53 @@ walker BridgeSynthesizer {
         }
 
         if self.is_deadlocked {
-            # Perform Dynamic Graph Metamorphosis: Spawn synthetic bridge node into graph topology!
-            synth_nodes = here ++> InstituteCourse(
-                code="SYNTH-SLIATE-BIT-BRIDGE",
-                name="SLIATE HNDIT + UCSC BIT Work-Study Lateral Bridge",
-                institution="SLIATE Labuduwa + UCSC External",
-                sector_type="External_Degree",
-                slqf_level=6,
-                duration_years=3.5,
-                annual_tuition_lkr=42500.0,
-                upfront_admission_fee=5000.0,
-                monthly_living_lkr=14500.0,
-                ifsls_eligible=False,
-                allows_work=True,
-                location_city="Galle / Online Hybrid",
-                nvq_level=7,
-                min_al_passes=3,
-                min_z_score=0.10,
-                allowed_streams=["Physical Science", "Commerce", "Technology", "Bio Science", "Arts"],
-                career_tags=["Software Engineer", "Full Stack Developer", "Cloud Engineer"],
-                source_url="https://bit.ucsc.cmb.ac.lk",
-                is_synthetic=True,
-                node_status="synthetic_gold"
-            );
+            existing_synth = [-->](?:InstituteCourse, code == "SYNTH-SLIATE-BIT-BRIDGE");
+            if len(existing_synth) > 0 {
+                synth_node = existing_synth[0];
+            } else {
+                # Perform Dynamic Graph Metamorphosis: Spawn synthetic bridge node into graph topology!
+                synth_nodes = here ++> InstituteCourse(
+                    code="SYNTH-SLIATE-BIT-BRIDGE",
+                    name="SLIATE HNDIT + UCSC BIT Work-Study Lateral Bridge",
+                    institution="SLIATE Labuduwa + UCSC External",
+                    sector_type="External_Degree",
+                    slqf_level=6,
+                    duration_years=3.5,
+                    annual_tuition_lkr=42500.0,
+                    upfront_admission_fee=5000.0,
+                    monthly_living_lkr=14500.0,
+                    ifsls_eligible=False,
+                    allows_work=True,
+                    location_city="Galle / Online Hybrid",
+                    nvq_level=7,
+                    min_al_passes=3,
+                    min_z_score=0.10,
+                    allowed_streams=["Physical Science", "Commerce", "Technology", "Bio Science", "Arts"],
+                    career_tags=["Software Engineer", "Full Stack Developer", "Cloud Engineer"],
+                    source_url="https://bit.ucsc.cmb.ac.lk",
+                    is_synthetic=True,
+                    node_status="synthetic_gold"
+                );
+                synth_node = synth_nodes[0];
 
-            synth_node = synth_nodes[0];
+                bit_targets = [-->](?:InstituteCourse, code == "UCSC-BIT-EXT");
+                if len(bit_targets) > 0 {
+                    synth_node +>: BridgePathway(
+                        transition_type="dynamic_metamorphosis",
+                        source_id="AI_SYNTHESIZED_TVEC_UGC_BRIDGE",
+                        valid_for_intake="2026/2027",
+                        verification_status="verified",
+                        added_duration_months=0,
+                        added_cost_lkr=7500.0,
+                        credits_transferred=60,
+                        is_synthetic=True,
+                        rationale="Accredited TVEC NVQ 6 to UCSC BIT Year 2 Lateral Bridge",
+                        requirements=["SLIATE HNDIT Year 1 & 2 Completed"]
+                    ) :+> bit_targets[0];
+                }
+            }
+
+            synth_node.deliberation_board = [];
             synth_critique = AgentCritique(
                 agent_name="BridgeSynthesizer",
                 is_viable=True,
@@ -884,6 +924,13 @@ walker :pub RunPathwayCouncil {
         existing_courses = [-->](?:InstituteCourse);
         if len(existing_courses) == 0 {
             root spawn SeedGraph();
+            existing_courses = [-->](?:InstituteCourse);
+        }
+        for course_node in existing_courses {
+            if not course_node.is_synthetic {
+                course_node.deliberation_board = [];
+                course_node.node_status = "neutral";
+            }
         }
 
         decision_log = [];
@@ -1115,7 +1162,11 @@ with entry:__main__ {
         print(f"  {log_item}");
     }
 
-    print(f"\nPathways Generated: {len(result['pathways'])}");
+    pathways_count = 0;
+    for p in result['pathways'] {
+        pathways_count = pathways_count + 1;
+    }
+    print(f"\nPathways Generated: {pathways_count}");
     for p in result['pathways'] {
         print(f"  - [{p.pillar}] {p.title} (Duration: {p.total_duration_years} yrs, Cost: LKR {p.total_cost_lkr:,.0f}, Resilience: {p.resilience_score}%)");
     }

@@ -15,7 +15,7 @@ Traditional AI applications rely on monolithic prompts dumped into an LLM, or sh
 
 ```mermaid
 flowchart TD
-    User["Student / Parent Client"] -->|HTTP POST /walker/RunPathwayCouncil| Server["Jac Server (jac start)"]
+    User["Student / Parent Client"] -->|"HTTP POST /walker/RunPathwayCouncil"| Server["Jac Server (jac start)"]
     
     subgraph Jac_Graph_Topology ["Object-Spatial Graph Topology"]
         RootNode["root (Jac Graph Entry)"]
@@ -29,7 +29,7 @@ flowchart TD
         StreamNode --> CourseNodes
         CourseNodes --> InstNodes
         CourseNodes --> CareerNodes
-        CourseNodes -.->|Evidence-Backed Edge (BridgePathway)| SyntheticBridge
+        CourseNodes -.->|"Evidence-Backed Edge (BridgePathway)"| SyntheticBridge
     end
 
     subgraph Council_Of_Walkers ["Council of Walkers & Pathway Evaluator"]
@@ -46,8 +46,8 @@ flowchart TD
     end
 
     Server --> Jac_Graph_Topology
-    Council_Of_Walkers -.->|Traverse, Deliberate & Mutate| Jac_Graph_Topology
-    W8 -->|Structured Multi-Pillar Response + Decision Log| User
+    Council_Of_Walkers -.->|"Traverse, Deliberate & Mutate"| Jac_Graph_Topology
+    W8 -->|"Structured Multi-Pillar Response + Decision Log"| User
 ```
 
 ---
@@ -209,8 +209,8 @@ The planner executes within strict guardrails to prevent infinite loops and runa
 ```mermaid
 flowchart LR
     AllCandidates["All Generated Pathways"] --> Stage1["Stage 1: Feasibility Gate (Binary Pass/Fail)"]
-    Stage1 -->|Failed: Budget, Prereqs, Accreditation| Disqualified["Pruned to Decision Log & Min-Change Finder"]
-    Stage1 -->|Passed Feasible| Stage2["Stage 2: Multi-Objective Preference Ranking"]
+    Stage1 -->|"Failed: Budget, Prereqs, Accreditation"| Disqualified["Pruned to Decision Log & Min-Change Finder"]
+    Stage1 -->|"Passed Feasible"| Stage2["Stage 2: Multi-Objective Preference Ranking"]
     Stage2 --> P1["Pillar 1: Lowest Cost Pathway"]
     Stage2 --> P2["Pillar 2: Fastest Completion Pathway"]
     Stage2 --> P3["Pillar 3: Best Career & Interest Fit"]
