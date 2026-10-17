@@ -617,13 +617,13 @@
             const container = document.getElementById("network-canvas");
             
             const nodes = [
-                { id: 1, label: 'Student\nProfile', color: '#38bdf8', shape: 'box', font: { color: '#000', face: 'Plus Jakarta Sans', bold: true } },
-                { id: 2, label: 'SLIATE HNDIT\n(Galle)', color: '#10b981', shape: 'ellipse', font: { color: '#fff' } },
-                { id: 3, label: 'UCSC BIT Ext\n(Colombo)', color: '#10b981', shape: 'ellipse', font: { color: '#fff' } },
-                { id: 4, label: 'UNIVOTEC B.Tech\n(Ratmalana)', color: '#10b981', shape: 'ellipse', font: { color: '#fff' } },
-                { id: 5, label: 'SLIIT Software Eng\n(Malabe)', color: (p.budget >= 38000 || p.can_commute) ? '#10b981' : '#f43f5e', shape: 'ellipse', font: { color: '#fff' } },
-                { id: 6, label: 'NSBM Computer Sci\n(Homagama)', color: (p.budget >= 38000 || p.can_commute) ? '#10b981' : '#f43f5e', shape: 'ellipse', font: { color: '#fff' } },
-                { id: 7, label: 'VTA NVQ 4 IT\n(Vocational)', color: '#10b981', shape: 'ellipse', font: { color: '#fff' } }
+                { id: 1, label: 'Student\nProfile', color: '#38bdf8', shape: 'box', margin: 12, shadow: true, font: { color: '#000', face: 'Plus Jakarta Sans', bold: true, size: 13 } },
+                { id: 2, label: 'SLIATE HNDIT\n(Galle)', color: '#10b981', shape: 'box', margin: 10, shadow: true, font: { color: '#fff', face: 'Plus Jakarta Sans', bold: true, size: 12 } },
+                { id: 3, label: 'UCSC BIT Ext\n(Colombo)', color: '#10b981', shape: 'box', margin: 10, shadow: true, font: { color: '#fff', face: 'Plus Jakarta Sans', bold: true, size: 12 } },
+                { id: 4, label: 'UNIVOTEC B.Tech\n(Ratmalana)', color: '#10b981', shape: 'box', margin: 10, shadow: true, font: { color: '#fff', face: 'Plus Jakarta Sans', bold: true, size: 12 } },
+                { id: 5, label: 'SLIIT Software Eng\n(Malabe)', color: (p.budget >= 38000 || p.can_commute) ? '#10b981' : '#f43f5e', shape: 'box', margin: 10, shadow: true, font: { color: '#fff', face: 'Plus Jakarta Sans', bold: true, size: 12 } },
+                { id: 6, label: 'NSBM Computer Sci\n(Homagama)', color: (p.budget >= 38000 || p.can_commute) ? '#10b981' : '#f43f5e', shape: 'box', margin: 10, shadow: true, font: { color: '#fff', face: 'Plus Jakarta Sans', bold: true, size: 12 } },
+                { id: 7, label: 'VTA NVQ 4 IT\n(Vocational)', color: '#10b981', shape: 'box', margin: 10, shadow: true, font: { color: '#fff', face: 'Plus Jakarta Sans', bold: true, size: 12 } }
             ];
 
             if (isDeadlocked) {
@@ -632,33 +632,44 @@
                     label: '⚡ SYNTH-BRIDGE\nSLIATE + UCSC BIT',
                     color: '#f59e0b',
                     shape: 'box',
-                    borderWidth: 2,
-                    font: { color: '#000', face: 'Plus Jakarta Sans', bold: true }
+                    borderWidth: 3,
+                    margin: 12,
+                    shadow: true,
+                    font: { color: '#000', face: 'Plus Jakarta Sans', bold: true, size: 13 }
                 });
             }
 
             const edges = [
-                { from: 1, to: 2, label: 'Eligible', color: { color: '#475569' } },
-                { from: 1, to: 5, label: (p.budget >= 38000 || p.can_commute) ? 'Affordable' : 'Deficit', color: { color: (p.budget >= 38000 || p.can_commute) ? '#10b981' : '#f43f5e' } },
-                { from: 1, to: 6, label: (p.budget >= 38000 || p.can_commute) ? 'Affordable' : 'Deficit', color: { color: (p.budget >= 38000 || p.can_commute) ? '#10b981' : '#f43f5e' } },
-                { from: 7, to: 2, label: 'NVQ Ladder', color: { color: '#10b981' } },
-                { from: 2, to: 4, label: 'Lateral Entry (NVQ 6)', color: { color: '#10b981' } },
-                { from: 2, to: 3, label: 'Parallel BIT', color: { color: '#10b981' } }
+                { from: 1, to: 2, label: 'Eligible', color: { color: '#64748b' }, width: 2 },
+                { from: 1, to: 5, label: (p.budget >= 38000 || p.can_commute) ? 'Affordable' : 'Deficit', color: { color: (p.budget >= 38000 || p.can_commute) ? '#10b981' : '#f43f5e' }, width: 2 },
+                { from: 1, to: 6, label: (p.budget >= 38000 || p.can_commute) ? 'Affordable' : 'Deficit', color: { color: (p.budget >= 38000 || p.can_commute) ? '#10b981' : '#f43f5e' }, width: 2 },
+                { from: 7, to: 2, label: 'NVQ Ladder', color: { color: '#10b981' }, width: 2 },
+                { from: 2, to: 4, label: 'Lateral Entry (NVQ 6)', color: { color: '#10b981' }, width: 2 },
+                { from: 2, to: 3, label: 'Parallel BIT', color: { color: '#10b981' }, width: 2 }
             ];
 
             if (isDeadlocked) {
-                edges.push({ from: 1, to: 99, label: 'Dynamic Synthesis', color: { color: '#f59e0b' }, dashes: true });
-                edges.push({ from: 99, to: 3, label: '60 Credits', color: { color: '#f59e0b' } });
+                edges.push({ from: 1, to: 99, label: 'Dynamic Synthesis', color: { color: '#f59e0b' }, dashes: true, width: 3 });
+                edges.push({ from: 99, to: 3, label: '60 Credits', color: { color: '#f59e0b' }, width: 3 });
             }
 
             const data = { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) };
             const options = {
-                physics: { stabilization: true, barnesHut: { springLength: 100 } },
+                physics: { 
+                    stabilization: { iterations: 150 },
+                    barnesHut: { 
+                        springLength: 140,
+                        gravitationalConstant: -4000,
+                        springConstant: 0.04,
+                        damping: 0.09
+                    } 
+                },
                 interaction: { hover: true, tooltipDelay: 200 }
             };
 
             if (visNetwork) visNetwork.destroy();
             visNetwork = new vis.Network(container, data, options);
+            setTimeout(() => { if (visNetwork) visNetwork.fit({ animation: { duration: 400 } }); }, 200);
 
             visNetwork.on("click", function(params) {
                 if (params.nodes.length > 0) {
